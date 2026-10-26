@@ -1,0 +1,115 @@
+ .experience {
+  min-height: 100svh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 34px 20px 22px;
+  background:
+    radial-gradient(ellipse at 50% 44%, rgba(255,255,255,.82) 0%, rgba(255,255,255,0) 52%),
+    linear-gradient(135deg, #f7f1e9 0%, #eee4d9 48%, #f5eee5 100%);
+}
+.ambient { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(2px); opacity: .38; }
+.ambient-one { width: 330px; height: 330px; top: -190px; left: -100px; background: #e8cfc5; }
+.ambient-two { width: 420px; height: 420px; bottom: -280px; right: -130px; background: #d9c9b9; }
+.site-heading { text-align: center; position: relative; z-index: 1; margin-bottom: 25px; }
+.eyebrow { display: inline-flex; align-items: center; gap: 7px; color: #a97876; letter-spacing: .19em; font-size: 9px; font-weight: 700; }
+.site-heading h1 { font-family: "Playfair Display", serif; font-weight: 500; font-size: clamp(30px, 4vw, 43px); letter-spacing: -.035em; line-height: 1.1; margin: 9px 0 5px; color: #584940; }
+.site-heading h1 em { color: #a66f70; font-weight: 500; }
+.site-heading p { color: #9b897d; font-size: 12px; margin: 0; letter-spacing: .025em; }
+.book-stage { width: min(100%, 900px); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+.book-halo { position: absolute; width: 75%; height: 70%; border-radius: 50%; background: rgba(139, 107, 87, .12); filter: blur(45px); }
+.memory-book { margin: 0 auto; }
+.stf__parent { margin: 0 auto !important; }
+.paper-page {
+  background-color: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  box-shadow: inset 0 0 24px rgba(111, 82, 59, .055);
+}
+.page-grain {
+  pointer-events: none; position: absolute; inset: 0; opacity: .24;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.13'/%3E%3C/svg%3E");
+}
+.book-cover {
+  height: 100%; width: 100%; padding: 17px; color: #f9eee1;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255,255,255,.12), transparent 38%),
+    linear-gradient(145deg, #80645c, #684e49 55%, #59423f);
+  box-shadow: inset 5px 0 12px rgba(35, 22, 19, .25), inset -2px 0 3px rgba(255,255,255,.1);
+}
+.cover-border { height: 100%; border: 1px solid rgba(240, 218, 193, .56); outline: 1px solid rgba(240, 218, 193, .18); outline-offset: -7px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; text-align: center; padding: 25px; }
+.cover-sparkle { position: absolute; color: #e7cbb1; opacity: .8; }
+.sparkle-top { top: 26px; right: 27px; }
+.sparkle-bottom { bottom: 27px; left: 27px; }
+.cover-flower { color: #e6c6ad; font-size: 27px; margin-bottom: 20px; }
+.cover-kicker { font-size: 8px; letter-spacing: .25em; color: #e5cdbb; }
+.cover-border h2 { font-family: "Playfair Display", serif; font-size: clamp(38px, 5vw, 53px); font-weight: 500; line-height: 1.02; margin: 20px 0 22px; color: #fff5e9; }
+.cover-border h2 em { color: #e8c5b8; font-weight: 500; }
+.cover-rule { display: flex; align-items: center; gap: 10px; color: #e7c7b4; }
+.cover-rule span { height: 1px; width: 31px; background: rgba(231,199,180,.65); }
+.cover-border p { font-family: "Playfair Display", serif; font-style: italic; line-height: 1.55; color: #e8d6c7; font-size: 14px; margin: 20px 0 0; }
+.cover-bottom { position: absolute; bottom: 29px; letter-spacing: .2em; font-size: 7px; color: #d9bca8; }
+.content-page { padding: 48px 38px 34px; }
+.page-content { height: 100%; position: relative; display: flex; flex-direction: column; align-items: flex-start; }
+.chapter-label { color: #ad7b75; font-size: 8px; letter-spacing: .2em; font-weight: 700; }
+.page-content h2 { font: 500 clamp(27px, 3vw, 36px)/1.12 "Playfair Display", serif; letter-spacing: -.025em; color: #59483f; margin: 19px 0 16px; }
+.page-copy { color: #77665b; font: 14px/1.85 "Playfair Display", serif; margin: 0; }
+.page-note { font: 13px/1.7 "Caveat", cursive; color: #a06f70; margin-top: auto; padding-bottom: 22px; font-size: 18px; }
+.page-number { position: absolute; bottom: 0; right: 0; color: #b99b87; font-size: 13px; }
+.layout-intro .page-content { justify-content: center; }
+.layout-intro .page-note { margin-top: 30px; }
+.photo-placeholder { width: 100%; height: 210px; margin: 25px 0 12px; padding: 9px 9px 27px; background: #fffdf8; transform: rotate(-1.5deg); box-shadow: 0 5px 16px rgba(76, 55, 42, .13); position: relative; }
+.photo-placeholder img { width: 100%; height: 100%; object-fit: cover; display: block; background: #e8ded1; }
+.photo-placeholder.is-empty::before { content: "sua fotografia aqui"; position: absolute; inset: 9px 9px 27px; display: grid; place-items: center; color: #a18c7c; font: 18px "Caveat", cursive; background: repeating-linear-gradient(135deg, #eee5d9, #eee5d9 8px, #f5eee5 8px, #f5eee5 16px); }
+.photo-placeholder figcaption { position: absolute; bottom: 6px; left: 0; right: 0; text-align: center; color: #9b887a; font: 12px "Caveat", cursive; }
+.layout-photo .page-note { margin-top: 8px; }
+.handwritten-quote { font: 25px/1.45 "Caveat", cursive; color: #a06f70; margin: auto 0; padding: 15px 8px; text-align: center; }
+.timeline-placeholder { margin-top: 30px; border-left: 1px solid #d9bdb0; padding: 2px 0 2px 17px; display: grid; gap: 22px; }
+.timeline-item { display: flex; align-items: center; gap: 12px; color: #79685d; font: 13px "Playfair Display", serif; }
+.timeline-dot { width: 25px; height: 25px; border-radius: 50%; background: #efe1d8; color: #a06f70; display: grid; place-items: center; font: 10px "DM Sans", sans-serif; margin-left: -30px; }
+.layout-timeline .page-note { margin-top: auto; }
+.layout-letter .page-copy { font-size: 13px; line-height: 2; }
+.layout-letter .page-note { margin-top: 20px; }
+.back-cover { background: linear-gradient(145deg, #80645c, #59423f); color: #f2ddca; display: grid; place-items: center; }
+.back-cover-inner { display: flex; flex-direction: column; align-items: center; gap: 14px; font-family: "Playfair Display", serif; }
+.back-cover-inner span { font-style: italic; font-size: 27px; }
+.back-cover-inner small { font: 11px "Caveat", cursive; color: #e4c6b5; font-size: 17px; }
+.book-navigation { display: flex; align-items: center; gap: 22px; margin-top: 19px; position: relative; z-index: 2; }
+.nav-button { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid rgba(137, 107, 89, .25); background: rgba(255,255,255,.38); color: #80685b; border-radius: 50%; cursor: pointer; transition: .2s ease; }
+.nav-button:hover:not(:disabled) { background: #fffaf3; transform: translateY(-1px); }
+.nav-button:disabled { opacity: .35; cursor: default; }
+.page-counter { display: inline-flex; align-items: center; gap: 8px; color: #8e7b6e; font-size: 11px; letter-spacing: .08em; min-width: 58px; justify-content: center; }
+.page-counter svg { color: #ae7d78; }
+.page-counter i { font-style: normal; opacity: .5; }
+.page-hint { display: flex; align-items: center; gap: 17px; margin-top: 13px; color: #a18e81; font-size: 10px; position: relative; z-index: 1; }
+.music-toggle { border: 0; background: transparent; display: inline-flex; align-items: center; gap: 5px; color: #a27b75; font-size: 10px; cursor: pointer; padding: 5px; }
+.music-toggle.is-active { color: #8a555b; }\n.music-toggle:disabled { cursor: default; opacity: .72; }
+.ui-button { border: 0; border-radius: 999px; padding: 10px 16px; background: #80645c; color: white; cursor: pointer; }
+.loading-screen { min-height: 100vh; display: grid; place-items: center; color: #80645c; font-family: "Playfair Display", serif; }
+
+@media (max-width: 640px) {
+  .experience { justify-content: center; padding: 23px 10px 18px; min-height: 100svh; }
+  .site-heading { margin-bottom: 17px; }
+  .site-heading h1 { font-size: 32px; }
+  .site-heading p { font-size: 11px; }
+  .book-stage { width: 100%; }
+  .content-page { padding: 34px 25px 27px; }
+  .page-content h2 { font-size: clamp(25px, 7vw, 32px); margin: 15px 0 13px; }
+  .page-copy { font-size: 13px; line-height: 1.75; }
+  .photo-placeholder { height: 185px; margin-top: 19px; }
+  .page-note { font-size: 17px; }
+  .book-navigation { margin-top: 14px; }
+  .page-hint { margin-top: 9px; flex-direction: column; gap: 3px; }
+}
+@media (max-height: 720px) and (min-width: 641px) {
+  .experience { padding-top: 12px; padding-bottom: 12px; }
+  .site-heading { margin-bottom: 12px; }
+  .site-heading h1 { font-size: 32px; }
+  .book-navigation { margin-top: 10px; }
+  .page-hint { margin-top: 5px; }
+}

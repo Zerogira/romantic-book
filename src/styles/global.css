@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Caveat:wght@500;600&display=swap");
+
+:root {
+  font-family: "DM Sans", sans-serif;
+  color: #55473f;
+  background: #f4eee5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --ink: #55473f;
+  --muted: #9b887b;
+  --rose: #a96e70;
+  --paper: #fbf7ef;
+  --paper-deep: #eee3d5;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { min-width: 320px; min-height: 100%; margin: 0; }
+body { min-height: 100vh; }
+button { font: inherit; }
+button:focus-visible { outline: 2px solid #a96e70; outline-offset: 4px; }
+::selection { background: #ead1cb; color: #55473f; }

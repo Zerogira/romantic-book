@@ -1,0 +1,1 @@
+// Os controles de navegação estão integrados ao App para compartilhar o estado da página.
