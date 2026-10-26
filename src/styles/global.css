@@ -3,7 +3,11 @@
 :root {
   font-family: "DM Sans", sans-serif;
   color: #55473f;
-  background: #f4eee5;
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(254, 219, 228, 0.7) 0%, rgba(255, 255, 255, 0) 50%),
+    radial-gradient(ellipse at 85% 15%, rgba(206, 230, 250, 0.65) 0%, rgba(255, 255, 255, 0) 50%),
+    radial-gradient(ellipse at 50% 85%, rgba(255, 239, 225, 0.65) 0%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(135deg, #fdf7f4 0%, #f7ebf0 35%, #ebf3f9 70%, #fdf9f4 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -14,9 +18,35 @@
   --paper-deep: #eee3d5;
 }
 
-* { box-sizing: border-box; }
-html, body, #root { min-width: 320px; min-height: 100%; margin: 0; }
-body { min-height: 100vh; }
-button { font: inherit; }
-button:focus-visible { outline: 2px solid #a96e70; outline-offset: 4px; }
-::selection { background: #ead1cb; color: #55473f; }
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(254, 219, 228, 0.7) 0%, rgba(255, 255, 255, 0) 50%),
+    radial-gradient(ellipse at 85% 15%, rgba(206, 230, 250, 0.65) 0%, rgba(255, 255, 255, 0) 50%),
+    radial-gradient(ellipse at 50% 85%, rgba(255, 239, 225, 0.65) 0%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(135deg, #fdf7f4 0%, #f7ebf0 35%, #ebf3f9 70%, #fdf9f4 100%);
+}
+
+body {
+  min-height: 100vh;
+}
+
+button {
+  font: inherit;
+}
+
+button:focus-visible {
+  outline: 2px solid #a96e70;
+  outline-offset: 4px;
+}
+
+::selection {
+  background: #fbd3dc;
+  color: #55473f;
+}

@@ -1,10 +1,12 @@
-import { useRef, useState } from "react";
-import { BookOpen, ChevronLeft, ChevronRight, Heart, Music2 } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import { Heart, Music2, VolumeX, ArrowLeft } from "lucide-react";
 import HTMLFlipBook from "react-pageflip";
 import type { PageData } from "./data/bookContent";
 import { bookPages } from "./data/bookContent";
 import { BookPage } from "./components/book/BookPage";
-import { CoverPage } from "./components/book/CoverPage";\nimport { BackCover } from "./components/book/BackCover";
+import { CoverPage } from "./components/book/CoverPage";
+import { BackCover } from "./components/book/BackCover";
+import { LandingScreen } from "./components/ui/LandingScreen";
 import "./styles/book.css";
 
 type FlipBookHandle = {
@@ -15,98 +17,115 @@ type FlipBookHandle = {
   };
 };
 
-export default function App() {
-  const bookRef = useRef<FlipBookHandle | null>(null);
-  const [currentPage, setCurrentPage] = useState(0);
+function MusicToggle() {
   const [musicEnabled, setMusicEnabled] = useState(false);
 
-  const totalPages = bookPages.length + 2;
-  const goNext = () => bookRef.current?.pageFlip().flipNext();
-  const goPrevious = () => bookRef.current?.pageFlip().flipPrev();
+  return (
+    <button
+      type="button"
+      className={`music-toggle ${musicEnabled ? "is-active" : ""}`}
+      onClick={() => setMusicEnabled((enabled) => !enabled)}
+      title="Música será configurada com a sua canção favorita"
+      aria-label="Alternar música"
+    >
+      {musicEnabled ? <Music2 size={15} /> : <VolumeX size={15} />}
+      <span>{musicEnabled ? "Música ligada" : "Música em breve"}</span>
+    </button>
+  );
+}
 
-  const handleFlip = (event: { data: number }) => {
-    setCurrentPage(event.data);
-  };
+export default function App() {
+  const [isBookOpen, setIsBookOpen] = useState(false);
+  const bookRef = useRef<FlipBookHandle | null>(null);
+
+  // Páginas estáveis memoizadas
+  const renderedPages = useMemo(
+    () => [
+      <CoverPage key="page-cover" />,
+      ...bookPages.map((page: PageData) => (
+        <BookPage key={page.id} page={page} />
+      )),
+      <BackCover key="page-back-cover" />,
+    ],
+    []
+  );
 
   return (
-    <main className="experience">
-      <div className="ambient ambient-one" />
-      <div className="ambient ambient-two" />
+    <>
+      {!isBookOpen ? (
+        <LandingScreen onOpen={() => setIsBookOpen(true)} />
+      ) : (
+        <main className="experience fade-in-book">
+          <div className="ambient ambient-one" />
+          <div className="ambient ambient-two" />
 
-      <header className="site-heading">
-        <span className="eyebrow"><Heart size={13} fill="currentColor" /> UMA HISTÓRIA NOSSA</span>
-        <h1>365 dias <em>de nós</em></h1>
-        <p>Um ano de lembranças, descobertas e amor.</p>
-      </header>
+          {/* Barra Superior com botão Voltar e Título */}
+          <header className="book-top-bar">
+            <button
+              type="button"
+              className="return-btn"
+              onClick={() => setIsBookOpen(false)}
+              aria-label="Voltar para a tela inicial"
+            >
+              <ArrowLeft size={16} />
+              <span>Início</span>
+            </button>
 
-      <section className="book-stage" aria-label="Livro de memórias">
-        <div className="book-halo" />
-        <HTMLFlipBook
-          ref={bookRef as never}
-          width={430}
-          height={570}
-          size="stretch"
-          minWidth={280}
-          maxWidth={560}
-          minHeight={370}
-          maxHeight={740}
-          maxShadowOpacity={0.22}
-          showCover
-          mobileScrollSupport
-          drawShadow
-          flippingTime={850}
-          usePortrait
-          startPage={0}
-          onFlip={handleFlip}
-          className="memory-book"
-          style={{}}
-          startZIndex={10}
-          autoSize
-          clickEventForward
-          useMouseEvents
-          swipeDistance={28}
-          showPageCorners
-          disableFlipByClick={false}
-        >
-          <CoverPage />
-          {bookPages.map((page: PageData) => (
-            <BookPage key={page.id} page={page} />
-          ))}
-          <div className="paper-page back-cover">
-            <div className="back-cover-inner">
-              <Heart size={25} strokeWidth={1.2} />
-              <span>continua...</span>
-              <small>com amor, sempre.</small>
+            <div className="site-heading">
+              <span className="eyebrow">
+                <Heart size={13} fill="currentColor" /> UMA HISTÓRIA NOSSA <Heart size={13} fill="currentColor" />
+              </span>
+              <h1>
+                365 dias <em>de nós</em>
+              </h1>
+              <p>Um ano de lembranças, descobertas e amor.</p>
             </div>
-          </div>
-        </HTMLFlipBook>
-      </section>
 
-      <nav className="book-navigation" aria-label="Controles do livro">
-        <button className="nav-button" onClick={goPrevious} disabled={currentPage === 0} aria-label="Página anterior">
-          <ChevronLeft size={20} />
-        </button>
-        <span className="page-counter">
-          <BookOpen size={14} />
-          {Math.min(currentPage + 1, totalPages)} <i>/</i> {totalPages}
-        </span>
-        <button className="nav-button" onClick={goNext} disabled={currentPage >= totalPages - 1} aria-label="Próxima página">
-          <ChevronRight size={20} />
-        </button>
-      </nav>
+            <div className="top-bar-placeholder" />
+          </header>
 
-      <footer className="page-hint">
-        <span>Use as setas ou arraste a página para continuar</span>
-        <button
-          className={`music-toggle ${musicEnabled ? "is-active" : ""}`}
-          onClick={() => setMusicEnabled((enabled) => !enabled)}
-          title="Música será configurada em uma próxima etapa"
-          aria-label="Alternar música (em breve)"
-        >
-          {musicEnabled ? <Music2 size={15} /> : <VolumeX size={15} />}
-          <span>Música em breve</span>
-        </button>
-      </footer>
-    </main>
+          {/* Palco do Livro */}
+          <section className="book-stage" aria-label="Livro de memórias">
+            <div className="book-container">
+              <HTMLFlipBook
+                ref={bookRef as never}
+                width={420}
+                height={560}
+                size="stretch"
+                minWidth={280}
+                maxWidth={540}
+                minHeight={370}
+                maxHeight={720}
+                maxShadowOpacity={0.12}
+                showCover
+                mobileScrollSupport
+                drawShadow
+                flippingTime={700}
+                usePortrait
+                startPage={0}
+                className="memory-book"
+                style={{}}
+                startZIndex={10}
+                autoSize
+                clickEventForward
+                useMouseEvents
+                swipeDistance={28}
+                showPageCorners={false}
+                disableFlipByClick={false}
+                renderOnlyPageLengthChange
+              >
+                {renderedPages}
+              </HTMLFlipBook>
+            </div>
+          </section>
+
+          {/* Dicas e controles auxiliares */}
+          <footer className="page-hint">
+            <span>Clique na página ou arraste para folhear</span>
+            <MusicToggle />
+          </footer>
+        </main>
+      )}
+    </>
   );
 }
