@@ -30,6 +30,7 @@ type FlipBookHandle = {
     flipPrev: () => void;
     turnToPage: (page: number) => void;
     getCurrentPageIndex: () => number;
+    getSettings?: () => { flippingTime: number };
   };
 };
 
@@ -157,7 +158,9 @@ export default function App() {
   // Deslocamos o livro meia página para o centro, como um livro fechado sobre a mesa.
   const shiftRef = useRef<HTMLDivElement | null>(null);
   const [shiftPx, setShiftPx] = useState(0);
-  const [closed, setClosed] = useState(false);
+  const [rewinding, setRewinding] = useState(false); // true enquanto o livro folheia de volta até a capa
+  const rewindingRef = useRef(false);
+  const rewindTimersRef = useRef<number[]>([]);
   const spreadRef = useRef(false);
   const indexRef = useRef(0);
   const lastFlipRef = useRef(0); // quando o livro começou a virar sozinho (para o gesto de reserva)
@@ -171,13 +174,61 @@ export default function App() {
     setShiftPx(spreadRef.current ? (atCover ? -fullWidth / 4 : atBack ? fullWidth / 4 : 0) : 0);
   }, [lastIndex]);
 
+  // ---- Fim do livro: folheia rápido de volta até a capa (livro fechado) ----
+  const clearRewindTimers = () => {
+    rewindTimersRef.current.forEach((id) => window.clearTimeout(id));
+    rewindTimersRef.current = [];
+  };
+
+  const startRewind = () => {
+    const flip = bookRef.current?.pageFlip();
+    if (!flip || indexRef.current !== lastIndex) return; // ela já saiu da contracapa
+    rewindingRef.current = true;
+    setRewinding(true);
+    sfx.riffle();
+
+    // Viradas curtas e seguidas. Cada nova virada encerra a anterior na hora, o que dá o efeito de folhear.
+    const settings = flip.getSettings?.();
+    const originalTime = settings?.flippingTime;
+    if (settings) settings.flippingTime = 260;
+
+    const finish = () => {
+      clearRewindTimers();
+      if (settings && originalTime !== undefined) settings.flippingTime = originalTime;
+      rewindingRef.current = false;
+      setRewinding(false);
+      sfx.close(); // batida suave do livro se fechando
+    };
+
+    let guard = 0;
+    const step = () => {
+      let index = 0;
+      try {
+        index = flip.getCurrentPageIndex();
+      } catch {
+        finish();
+        return;
+      }
+      if (index <= 0 || guard++ > 25) {
+        // Chegou na capa (ou limite de segurança): deixa a última virada terminar
+        rewindTimersRef.current.push(window.setTimeout(finish, 500));
+        return;
+      }
+      flip.flipPrev();
+      rewindTimersRef.current.push(window.setTimeout(step, 150));
+    };
+    step();
+  };
+
   const handleFlip = (e: { data: number }) => {
     indexRef.current = e.data;
     setActivePage(e.data);
-    const atBack = e.data === lastIndex;
-    setClosed(atBack);
-    if (atBack) sfx.close();
     applyShift();
+    // Chegou na contracapa: depois de um instante para ver, o livro se fecha folheando de volta à capa
+    if (e.data === lastIndex && !rewindingRef.current) {
+      clearRewindTimers();
+      rewindTimersRef.current.push(window.setTimeout(startRewind, 1100));
+    }
   };
 
   const handleOrientation = (e: { data: { mode: string } }) => {
@@ -207,7 +258,7 @@ export default function App() {
   const handleTouchEnd = (e: React.TouchEvent) => {
     const start = touchRef.current;
     touchRef.current = null;
-    if (!start || e.changedTouches.length === 0) return;
+    if (!start || e.changedTouches.length === 0 || rewindingRef.current) return;
     const touch = e.changedTouches[0];
     const dx = touch.clientX - start.x;
     const dy = touch.clientY - start.y;
@@ -236,10 +287,12 @@ export default function App() {
     } catch {
       // ignora
     }
+    clearRewindTimers();
+    rewindingRef.current = false;
+    setRewinding(false);
     indexRef.current = 0;
     setActivePage(0);
     setShiftPx(0);
-    setClosed(false);
     setIsBookOpen(false);
     setShowLanding(true);
   };
@@ -289,7 +342,7 @@ export default function App() {
           {/* Palco do Livro */}
           <section className="book-stage" aria-label="Livro de memórias">
             <div
-              className="book-container"
+              className={`book-container ${rewinding ? "is-rewinding" : ""}`}
               ref={containerRef}
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
@@ -303,11 +356,8 @@ export default function App() {
                 <motion.div
                   ref={shiftRef}
                   className="book-shift"
-                  animate={{ x: shiftPx, scale: closed ? [1, 0.965, 1] : 1 }}
-                  transition={{
-                    x: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
-                    scale: { duration: 0.9, times: [0, 0.45, 1], ease: "easeInOut" },
-                  }}
+                  animate={{ x: shiftPx }}
+                  transition={{ x: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }}
                 >
                   <ActivePageContext.Provider value={activePageValue}>
                     <HTMLFlipBook
@@ -320,7 +370,8 @@ export default function App() {
                       onChangeState={(e: { data: string }) => {
                         if (e.data === "read") return;
                         lastFlipRef.current = Date.now();
-                        if (e.data === "flipping") sfx.pageTurn(); // começa a virar: som de papel
+                        // Começa a virar: som de papel (no folhear de volta, o som é um só, tocado no início)
+        if (e.data === "flipping" && !rewindingRef.current) sfx.pageTurn();
                       }}
                       width={bookWidthProp}
                       height={bookHeightProp}

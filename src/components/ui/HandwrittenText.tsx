@@ -1,24 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePrefersReducedMotion } from "../../lib/motion";
 
 type Props = {
   text: string;
-  /** Começa a escrever quando vira true (ex.: a página ficou visível). */
+  /** Começa a escrever na primeira vez que vira true (ex.: a página ficou visível). */
   active: boolean;
 };
 
 /**
- * Texto que "se escreve sozinho". Escreve uma única vez; depois mostra o texto inteiro.
- * O restante fica invisível (mas ocupa espaço), para a página não mudar de tamanho.
+ * Texto que "se escreve sozinho". Começa quando a página aparece pela primeira vez e
+ * CONTINUA escrevendo em segundo plano, mesmo que a pessoa vire a página antes de terminar:
+ * ao voltar, o texto já está completo (ou quase). O restante fica invisível, mas ocupa
+ * espaço, para a página não mudar de tamanho.
  */
 export function HandwrittenText({ text, active }: Props) {
   const reduced = usePrefersReducedMotion();
   const [count, setCount] = useState(0);
-  const startedRef = useRef(false);
+  // Depois da primeira vez, "started" não volta a false: a escrita não depende mais de a página estar visível
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    if (!active || startedRef.current) return;
-    startedRef.current = true;
+    if (active) setStarted(true);
+  }, [active]);
+
+  useEffect(() => {
+    if (!started) return;
     if (reduced) {
       setCount(text.length);
       return;
@@ -34,14 +40,14 @@ export function HandwrittenText({ text, active }: Props) {
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [active, reduced, text]);
+  }, [started, reduced, text]);
 
   const done = count >= text.length;
 
   return (
     <span className="handwritten" aria-label={text}>
       <span aria-hidden="true">{text.slice(0, count)}</span>
-      {!done && active && <span className="handwritten-caret" aria-hidden="true" />}
+      {!done && started && <span className="handwritten-caret" aria-hidden="true" />}
       <span className="handwritten-rest" aria-hidden="true">
         {text.slice(count)}
       </span>

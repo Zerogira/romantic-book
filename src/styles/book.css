@@ -1643,3 +1643,8 @@
     animation: none;
   }
 }
+
+/* Enquanto o livro folheia sozinho de volta à capa, ignora toques */
+.book-container.is-rewinding {
+  pointer-events: none;
+}
