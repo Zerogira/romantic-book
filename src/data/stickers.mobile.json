@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cat-blue",
+    "type": "cat-blue",
+    "label": "Gatinho Azul",
+    "x": 84,
+    "y": 8,
+    "rotation": 6,
+    "scale": 0.8
+  },
+  {
+    "id": "stars-cluster",
+    "type": "stars-cluster",
+    "label": "Estrelinhas e Corações",
+    "x": 20,
+    "y": 9,
+    "rotation": 0
+  },
+  {
+    "id": "cat-pink",
+    "type": "cat-pink",
+    "label": "Gatinho Rosa",
+    "x": 14,
+    "y": 93,
+    "rotation": -4,
+    "scale": 0.8
+  },
+  {
+    "id": "polaroid-right",
+    "type": "polaroid",
+    "label": "Polaroid Direita",
+    "x": 84,
+    "y": 93,
+    "rotation": 6,
+    "caption": "para sempre nós ✨",
+    "scale": 0.55
+  }
+]

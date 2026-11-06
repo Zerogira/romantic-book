@@ -3,7 +3,8 @@
    ========================================================= */
 
 .landing-wrapper {
-  min-height: 100svh;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,12 +17,6 @@
     radial-gradient(ellipse at 50% 85%, rgba(255, 239, 225, 0.65) 0%, rgba(255, 255, 255, 0) 60%),
     linear-gradient(135deg, #fdf7f4 0%, #f7ebf0 35%, #ebf3f9 70%, #fdf9f4 100%);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.landing-wrapper.is-leaving {
-  opacity: 0;
-  transform: scale(0.96);
-  pointer-events: none;
 }
 
 .landing-ambient {
@@ -290,6 +285,7 @@
   bottom: 22px;
   left: 50%;
   transform: translateX(-50%);
+  max-width: calc(100% - 24px);
   z-index: 100;
   display: flex;
   flex-wrap: wrap;
@@ -355,10 +351,130 @@
   background: #cf687c;
 }
 
+/* Fotos dentro dos cartões da colagem */
+.collage-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Figurinha selecionada no modo edição */
+.sticker-item.is-selected {
+  outline: 2px solid #e17b8f;
+  outline-offset: 6px;
+}
+
+/* Figurinha de imagem/GIF adicionada pelo usuário */
+.gif-sticker {
+  display: block;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 10px rgba(77, 56, 45, 0.18));
+}
+
+.toolbar-btn.is-on {
+  background: #f5dfe4;
+  border-color: #e17b8f;
+}
+
+.toolbar-btn {
+  white-space: nowrap;
+}
+
+.toolbar-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.toolbar-size {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #7b4f57;
+}
+
+.toolbar-size input {
+  width: 110px;
+  accent-color: #e17b8f;
+}
+
+/* Galeria de figurinhas (modo edição) */
+.sticker-gallery {
+  position: absolute;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: min(420px, 92%);
+  max-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(225, 123, 143, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(85, 71, 63, 0.18);
+  backdrop-filter: blur(12px);
+}
+
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #684a4f;
+  margin-bottom: 8px;
+}
+
+.gallery-close {
+  background: none;
+  border: 0;
+  font-size: 18px;
+  line-height: 1;
+  color: #7b4f57;
+  cursor: pointer;
+}
+
+.gallery-empty {
+  font-size: 12px;
+  color: #9b897d;
+  margin: 8px 0;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.gallery-item {
+  aspect-ratio: 1;
+  background: #fbf0f2;
+  border: 1px solid rgba(225, 123, 143, 0.25);
+  border-radius: 10px;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-item:hover {
+  background: #f5dfe4;
+}
+
+.gallery-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
 @media (max-width: 640px) {
-  .sticker-item {
-    transform: translate(-50%, -50%) scale(0.82) !important;
-  }
   .edit-toolbar {
     width: 90%;
     border-radius: 16px;
@@ -537,7 +653,8 @@
 }
 
 .experience {
-  min-height: 100svh;
+  height: 100vh;
+  height: 100dvh;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -579,7 +696,7 @@
 }
 
 .book-top-bar {
-  width: min(100%, 940px);
+  width: min(100%, 1180px);
   display: grid;
   grid-template-columns: 90px 1fr 90px;
   align-items: center;
@@ -655,12 +772,49 @@
 
 /* Palco onde o livro repousa */
 .book-stage {
-  width: min(100%, 920px);
+  width: min(100%, 1180px);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   z-index: 1;
+  perspective: 1800px; /* profundidade para a câmera de cinema */
+}
+
+.book-camera {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  will-change: transform;
+}
+
+/* Overlay que captura o primeiro toque enquanto o livro está inclinado */
+.camera-unlock {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6%;
+}
+
+.camera-unlock span {
+  background: rgba(255, 253, 249, 0.85);
+  border: 1px solid rgba(155, 136, 123, 0.3);
+  color: #6e594e;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  box-shadow: 0 8px 22px -10px rgba(77, 56, 45, 0.35);
+  animation: floatAmbient 3s ease-in-out infinite alternate;
 }
 
 .book-halo {
@@ -1346,5 +1500,89 @@
     margin-top: 6px;
     flex-direction: column;
     gap: 4px;
+  }
+}
+/* =========================================================
+   7. CELULAR: MODO LEITURA, ÁREA SEGURA E ORIENTAÇÃO
+   ========================================================= */
+
+/* Modo leitura: o livro ocupa a tela toda, sem cabeçalho nem rodapé */
+.experience.is-reader {
+  padding: 0;
+}
+
+.experience.is-reader .book-top-bar,
+.experience.is-reader .page-hint,
+.experience.is-reader .ambient {
+  display: none;
+}
+
+.experience.is-reader .book-stage,
+.experience.is-reader .book-container {
+  width: 100%;
+}
+
+.reader-close,
+.reader-music,
+.reader-counter {
+  position: fixed;
+  z-index: 60;
+}
+
+.reader-close {
+  top: calc(env(safe-area-inset-top, 0px) + 10px);
+  left: calc(env(safe-area-inset-left, 0px) + 10px);
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(155, 136, 123, 0.3);
+  border-radius: 50%;
+  background: rgba(255, 253, 249, 0.85);
+  color: #6e594e;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.reader-music {
+  top: calc(env(safe-area-inset-top, 0px) + 10px);
+  right: calc(env(safe-area-inset-right, 0px) + 10px);
+  background: rgba(255, 253, 249, 0.85);
+  border: 1px solid rgba(155, 136, 123, 0.3);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+
+.reader-counter {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #8e7b6e;
+  background: rgba(255, 253, 249, 0.8);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+/* Aviso de celular deitado: só aparece em telas de toque baixas e largas */
+.rotate-hint {
+  display: none;
+}
+
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) {
+  .rotate-hint {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(253, 247, 244, 0.97);
+    color: #7b4f57;
+    font-size: 16px;
+    text-align: center;
+    padding: 24px;
   }
 }

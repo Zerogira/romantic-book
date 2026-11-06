@@ -5,23 +5,27 @@ import type { StickerItem } from "../../data/stickersConfig";
 type Props = {
   sticker: StickerItem;
   isEditMode: boolean;
+  isSelected: boolean;
   onPointerDown: (e: React.PointerEvent, id: string) => void;
 };
 
-export function StickerRenderer({ sticker, isEditMode, onPointerDown }: Props) {
-  const { id, type, x, y, rotation, caption } = sticker;
+export function StickerRenderer({ sticker, isEditMode, isSelected, onPointerDown }: Props) {
+  const { id, type, x, y, rotation, caption, src, scale = 1 } = sticker;
 
+  // A escala usa a propriedade CSS "scale", que se compõe com o transform
+  // (rotação/posição) e não é sobrescrita pela animação de flutuação.
   const style: React.CSSProperties = {
     left: `${x}%`,
     top: `${y}%`,
     transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
+    scale: `${scale}`,
     cursor: isEditMode ? "grab" : "default",
     touchAction: isEditMode ? "none" : "auto",
   };
 
   return (
     <div
-      className={`sticker-item sticker-${type} ${isEditMode ? "is-editing" : ""}`}
+      className={`sticker-item sticker-${type} ${isEditMode ? "is-editing" : ""} ${isSelected ? "is-selected" : ""}`}
       style={style}
       onPointerDown={(e) => onPointerDown(e, id)}
       id={`sticker-${id}`}
@@ -155,6 +159,17 @@ export function StickerRenderer({ sticker, isEditMode, onPointerDown }: Props) {
             <Heart size={10} fill="#e11d48" color="#e11d48" />
           </div>
         </div>
+      )}
+
+      {/* FIGURINHA DE IMAGEM / GIF (adicionada pelo modo edição) */}
+      {type === "gif" && src && (
+        <img
+          className="gif-sticker"
+          src={src}
+          alt=""
+          draggable={false}
+          style={{ width: "120px" }}
+        />
       )}
 
       {/* GRUPO DE ESTRELAS E CORAÇÕES */}

@@ -1,0 +1,378 @@
+/* =========================================================
+   EDITOR DE PÁGINAS (somente modo desenvolvimento)
+   ========================================================= */
+
+.pe-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(480px, 100vw);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  background: #fffdf9;
+  border-left: 1px solid rgba(155, 136, 123, 0.3);
+  box-shadow: -12px 0 30px rgba(77, 56, 45, 0.15);
+  color: #584940;
+  font-size: 13px;
+}
+
+.pe-header,
+.pe-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(155, 136, 123, 0.2);
+}
+
+.pe-footer {
+  border-top: 1px solid rgba(155, 136, 123, 0.2);
+  border-bottom: 0;
+}
+
+.pe-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.pe-pages {
+  width: 130px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  overflow-y: auto;
+  border-right: 1px solid rgba(155, 136, 123, 0.2);
+  background: #faf4ee;
+}
+
+.pe-page-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-align: left;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.pe-page-btn:hover {
+  background: #f5ebe4;
+}
+
+.pe-page-btn.is-active {
+  background: #fbf0f2;
+  border-color: #e17b8f;
+}
+
+.pe-page-num {
+  font-weight: 700;
+  color: #a66f70;
+}
+
+.pe-page-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pe-page-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.pe-form {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 14px;
+  overflow-y: auto;
+}
+
+.pe-field,
+.pe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pe-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #7b4f57;
+}
+
+.pe-form input,
+.pe-form textarea,
+.pe-form select,
+.pe-item input,
+.pe-item textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 9px;
+  border: 1px solid rgba(155, 136, 123, 0.35);
+  border-radius: 8px;
+  background: #ffffff;
+  color: inherit;
+  font: inherit;
+}
+
+.pe-form textarea,
+.pe-item textarea {
+  resize: vertical;
+}
+
+.pe-form input:focus,
+.pe-form textarea:focus,
+.pe-form select:focus,
+.pe-item input:focus,
+.pe-item textarea:focus {
+  outline: 2px solid rgba(225, 123, 143, 0.5);
+  outline-offset: 0;
+}
+
+.pe-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  border: 1px dashed rgba(155, 136, 123, 0.4);
+  border-radius: 10px;
+}
+
+.pe-photo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pe-photo-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.pe-dropzone {
+  display: block;
+  min-height: 110px;
+  border: 2px dashed rgba(225, 123, 143, 0.5);
+  border-radius: 12px;
+  background: #fffafb;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.2s ease;
+}
+
+.pe-dropzone:hover {
+  background: #fbf0f2;
+}
+
+.pe-dropzone.has-photo {
+  border-style: solid;
+}
+
+.pe-dropzone-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 110px;
+  color: #7b4f57;
+  text-align: center;
+  padding: 8px;
+}
+
+.pe-dropzone-empty small {
+  color: #9b897d;
+}
+
+.pe-dropzone-preview {
+  display: block;
+  width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+  background: #faf4ee;
+}
+
+.pe-file-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #9b897d;
+}
+
+.pe-thumb {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(155, 136, 123, 0.3);
+  background: #faf4ee;
+}
+
+.pe-thumb-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #9b897d;
+}
+
+.pe-photo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border: 1px solid rgba(225, 123, 143, 0.35);
+  border-radius: 999px;
+  background: #fbf0f2;
+  color: #7b4f57;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pe-btn:hover:not(:disabled) {
+  background: #f5dfe4;
+}
+
+.pe-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pe-btn-ghost {
+  background: transparent;
+}
+
+.pe-btn-primary {
+  background: #e17b8f;
+  border-color: #e17b8f;
+  color: #ffffff;
+}
+
+.pe-btn-primary:hover:not(:disabled) {
+  background: #cf687c;
+}
+
+.pe-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(155, 136, 123, 0.3);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #7b4f57;
+  cursor: pointer;
+}
+
+.pe-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pe-gallery {
+  border: 1px solid rgba(225, 123, 143, 0.35);
+  border-radius: 12px;
+  padding: 10px;
+  background: #ffffff;
+}
+
+.pe-gallery-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pe-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.pe-gallery-item {
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid rgba(155, 136, 123, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #faf4ee;
+  cursor: pointer;
+}
+
+.pe-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pe-gallery-item:hover {
+  outline: 2px solid #e17b8f;
+}
+
+.pe-hint {
+  color: #9b897d;
+  font-size: 12px;
+}
+
+.pe-message {
+  font-size: 12px;
+  color: #7b4f57;
+  min-height: 1em;
+}
+
+.pe-message.is-error {
+  color: #b42318;
+}
+
+@media (max-width: 640px) {
+  .pe-body {
+    flex-direction: column;
+  }
+  .pe-pages {
+    width: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-right: 0;
+    border-bottom: 1px solid rgba(155, 136, 123, 0.2);
+  }
+  .pe-page-tools {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}

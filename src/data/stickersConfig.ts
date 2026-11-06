@@ -1,64 +1,36 @@
+import stickersData from "./stickers.json";
+import stickersMobileData from "./stickers.mobile.json";
+
+export type StickerType =
+  | "cat-pink"
+  | "cat-blue"
+  | "polaroid"
+  | "sticky-note"
+  | "stars-cluster"
+  | "gif";
+
 export type StickerItem = {
   id: string;
-  type: "cat-pink" | "cat-blue" | "polaroid" | "sticky-note" | "stars-cluster";
+  type: StickerType;
   label: string;
   x: number; // Porcentagem horizontal (0 a 100%)
   y: number; // Porcentagem vertical (0 a 100%)
   rotation: number; // Rotação em graus (-45 a 45)
   caption?: string;
   image?: string;
+  src?: string; // Caminho do GIF/imagem (tipo "gif")
+  scale?: number; // Tamanho relativo (1 = padrão)
 };
 
-export const defaultStickers: StickerItem[] = [
-  {
-    id: "cat-pink",
-    type: "cat-pink",
-    label: "Gatinho Rosa",
-    x: 6,
-    y: 78,
-    rotation: -4,
-  },
-  {
-    id: "cat-blue",
-    type: "cat-blue",
-    label: "Gatinho Azul",
-    x: 88,
-    y: 8,
-    rotation: 6,
-  },
-  {
-    id: "polaroid-left",
-    type: "polaroid",
-    label: "Polaroid Esquerda",
-    x: 7,
-    y: 28,
-    rotation: -7,
-    caption: "nosso dia especial ♡",
-  },
-  {
-    id: "polaroid-right",
-    type: "polaroid",
-    label: "Polaroid Direita",
-    x: 86,
-    y: 65,
-    rotation: 6,
-    caption: "para sempre nós ✨",
-  },
-  {
-    id: "sticky-note",
-    type: "sticky-note",
-    label: "Bilhetinho de Amor",
-    x: 78,
-    y: 35,
-    rotation: -3,
-    caption: "lembrete: você é o meu lugar favorito no mundo! ♡",
-  },
-  {
-    id: "stars-cluster",
-    type: "stars-cluster",
-    label: "Estrelinhas e Corações",
-    x: 18,
-    y: 12,
-    rotation: 0,
-  },
-];
+/**
+ * Figurinhas padrão. A fonte da verdade é src/data/stickers.json:
+ * no modo edição (npm run dev) o botão "Salvar no projeto" grava esse arquivo.
+ */
+export const defaultStickers = stickersData as StickerItem[];
+
+/**
+ * Figurinhas para telas de celular (até 640px), em lista própria e menor.
+ * Fonte da verdade: src/data/stickers.mobile.json. No modo edição, abrir o site
+ * em tela estreita (emulação de celular) edita e salva esta lista.
+ */
+export const mobileStickers = stickersMobileData as StickerItem[];

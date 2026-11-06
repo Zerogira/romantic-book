@@ -1,11 +1,28 @@
-import { forwardRef, useState } from "react";
+import { createContext, forwardRef, useContext, useState } from "react";
+import { AnimatePresence, motion, type Variants } from "motion/react";
 import { Heart, Sparkles, Image as ImageIcon } from "lucide-react";
 import type { PageData } from "../../data/bookContent";
 
-type Props = { page: PageData };
+/** Índice da página que está visível no livro (atualizado pelo onFlip). */
+export const ActivePageContext = createContext<number>(0);
 
-export const BookPage = forwardRef<HTMLDivElement, Props>(({ page }, ref) => {
+type Props = { page: PageData; pageIndex: number };
+
+// Itens entram em cascata quando a página fica ativa; saem ao virar
+const listVariants: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+};
+
+export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, ref) => {
   const [revealed, setRevealed] = useState(false);
+  const activeIndex = useContext(ActivePageContext);
+  const state = activeIndex === pageIndex ? "show" : "hidden";
 
   return (
     <div
@@ -46,20 +63,33 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page }, ref) => {
         {/* Layout: Colagem de Fotos */}
         {page.layout === "collage" && (
           <div className="photo-collage">
-            <div className="collage-card card-1 is-empty">
-              <span>nossa primeira foto</span>
-            </div>
-            <div className="collage-card card-2 is-empty">
-              <span>um dia inesquecível</span>
-            </div>
+            {[0, 1].map((i) => {
+              const src = page.images?.[i];
+              return (
+                <div key={i} className={`collage-card card-${i + 1} ${src ? "" : "is-empty"}`}>
+                  {src ? (
+                    <img
+                      src={src}
+                      alt=""
+                      onError={(event) => {
+                        event.currentTarget.style.display = "none";
+                        event.currentTarget.parentElement?.classList.add("is-empty");
+                      }}
+                    />
+                  ) : (
+                    <span>{i === 0 ? "nossa primeira foto" : "um dia inesquecível"}</span>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
 
         {/* Layout: Linha do Tempo */}
         {page.layout === "timeline" && page.timelineItems && (
-          <div className="timeline-container">
+          <motion.div className="timeline-container" variants={listVariants} initial="hidden" animate={state}>
             {page.timelineItems.map((item, index) => (
-              <div className="timeline-item" key={item.date}>
+              <motion.div className="timeline-item" key={item.date} variants={itemVariants}>
                 <div className="timeline-badge">
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </div>
@@ -68,21 +98,21 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page }, ref) => {
                   <strong className="timeline-title">{item.title}</strong>
                   <p className="timeline-desc">{item.description}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
 
         {/* Layout: Pequenos Detalhes */}
         {page.layout === "details" && page.detailsList && (
-          <div className="details-grid">
+          <motion.div className="details-grid" variants={listVariants} initial="hidden" animate={state}>
             {page.detailsList.map((item) => (
-              <div className="detail-card" key={item.label}>
+              <motion.div className="detail-card" key={item.label} variants={itemVariants}>
                 <span className="detail-label">✦ {item.label}</span>
                 <p className="detail-value">{item.value}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
 
         {/* Layout: Carta Romântica Manuscrita */}
@@ -90,7 +120,7 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page }, ref) => {
           <div className="letter-wrapper">
             <div className="letter-paper">
               <p className="letter-body">
-                “Meu amor, cada dia ao seu lado é uma lembrança bonita que guardo com carinho. Obrigado por ser minha risada favorita, meu colo quentinho e meu parceiro em todos os momentos.”
+                “{page.letterBody}”
               </p>
               <div className="letter-signature">
                 <span>Com todo o meu amor,</span>
@@ -115,12 +145,21 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page }, ref) => {
               <Heart size={18} fill={revealed ? "#e11d48" : "none"} />
               <span>{revealed ? "Nossa promessa:" : "Toque para abrir a surpresa"}</span>
             </button>
-            {revealed && (
-              <div className="secret-message">
-                <p>“Prometo te escolher hoje, amanhã e em todos os próximos 365 dias que virão.”</p>
-                <small>Te amo infinitamente! ✨</small>
-              </div>
-            )}
+            <AnimatePresence>
+              {revealed && (
+                <motion.div
+                  key="secret"
+                  className="secret-message"
+                  initial={{ opacity: 0, y: 10, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <p>“{page.secretMessage}”</p>
+                  <small>Te amo infinitamente! ✨</small>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
 
