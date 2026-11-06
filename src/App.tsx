@@ -21,24 +21,8 @@ import { useIsMobile } from "./lib/device";
 import { Maximize2, X } from "lucide-react";
 import "./styles/book.css";
 
-// Tela cheia: funciona no Android/desktop; o iPhone não oferece essa API,
-// então lá o modo leitura apenas ocupa toda a área visível da página.
-function requestFullscreen() {
-  try {
-    document.documentElement.requestFullscreen?.().catch(() => {});
-    // Trava em retrato quando o navegador permitir (Android, em tela cheia)
-    (screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> })
-      .lock?.("portrait")
-      ?.catch(() => {});
-  } catch {}
-}
-
-function exitFullscreen() {
-  try {
-    if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
-    screen.orientation?.unlock?.();
-  } catch {}
-}
+import { requestFullscreen, exitFullscreen } from "./lib/fullscreen";
+import { RegistroProvider } from "./components/registro/RegistroProvider";
 
 type FlipBookHandle = {
   pageFlip: () => {
@@ -102,12 +86,12 @@ export default function App() {
   const bookWidthProp = 500;
   const bookHeightProp = reader ? Math.round(bookWidthProp * readerRatio) : 690;
 
+  // Modo leitura só muda o layout; a tela cheia é controlada pela experiência inteira
   const enterReader = () => {
     requestFullscreen();
     setReader(true);
   };
   const exitReader = () => {
-    exitFullscreen();
     setReader(false);
   };
 
@@ -131,6 +115,7 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <RegistroProvider>
       {!isBookOpen ? (
         <LandingScreen onOpen={() => setIsBookOpen(true)} />
       ) : (
@@ -145,6 +130,7 @@ export default function App() {
               className="return-btn"
               onClick={() => {
                 music.fadeOut();
+                exitFullscreen();
                 setIsBookOpen(false);
               }}
               aria-label="Voltar para a tela inicial"
@@ -171,7 +157,7 @@ export default function App() {
             <div className="book-container">
               <BookCamera
                 unlockLabel={isMobile ? "Toque para ler" : "Toque para começar"}
-                onUnlock={isMobile ? requestFullscreen : undefined}
+                startDelay={0.9}
                 onSettled={isMobile ? () => setReader(true) : undefined}
               >
               <ActivePageContext.Provider value={activePage}>
@@ -261,6 +247,7 @@ export default function App() {
       <div className="rotate-hint" role="status">
         <span>Vire o celular para ficar de pé ♡</span>
       </div>
+      </RegistroProvider>
     </MotionConfig>
   );
 }

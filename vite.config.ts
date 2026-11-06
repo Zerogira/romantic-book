@@ -15,7 +15,9 @@ const UPLOAD_DIR = path.resolve(ROOT, "public/images/memories");
 const IMAGE_EXT = /\.(gif|png|webp|jpe?g|svg)$/i;
 const PHOTO_EXT = /\.(png|webp|jpe?g|gif)$/i;
 const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
-const PAGE_LAYOUTS = ["intro", "photo", "collage", "timeline", "details", "letter", "closure"];
+const PAGE_LAYOUTS = ["intro", "photo", "collage", "timeline", "details", "letter", "closure", "registro"];
+// Pasta local que imita o Vercel Blob no desenvolvimento (fora do git)
+const DEV_REGISTRO_DIR = path.resolve(ROOT, ".dev-registro");
 
 function sendJson(res: ServerResponse, status: number, body: unknown) {
   res.statusCode = status;
@@ -124,6 +126,58 @@ function albumDevApi(): Plugin {
           const file = target === "mobile" ? STICKERS_MOBILE_JSON : STICKERS_JSON;
           fs.writeFileSync(file, JSON.stringify(parsed, null, 2) + "\n", "utf8");
           sendJson(res, 200, { ok: true, count: parsed.length });
+        } catch (err) {
+          sendJson(res, 500, { error: String(err) });
+        }
+      });
+
+      // ---- Registro do dia (imita /api/registro do Vercel, guardando em .dev-registro) ----
+      const devPhoto = path.join(DEV_REGISTRO_DIR, "foto.jpg");
+      const devMeta = path.join(DEV_REGISTRO_DIR, "meta.json");
+      const readDevRegistro = () => {
+        try {
+          if (!fs.existsSync(devPhoto) || !fs.existsSync(devMeta)) return null;
+          const meta = JSON.parse(fs.readFileSync(devMeta, "utf8")) as { takenAt: string };
+          return { url: `/__dev-registro/foto.jpg?v=${Date.parse(meta.takenAt)}`, takenAt: meta.takenAt };
+        } catch {
+          return null;
+        }
+      };
+
+      server.middlewares.use("/__dev-registro", (req, res) => {
+        try {
+          res.setHeader("Content-Type", "image/jpeg");
+          res.setHeader("Cache-Control", "no-store");
+          res.end(fs.readFileSync(devPhoto));
+        } catch {
+          res.statusCode = 404;
+          res.end();
+        }
+      });
+
+      server.middlewares.use("/api/registro", async (req, res) => {
+        try {
+          if (req.method === "GET") return sendJson(res, 200, readDevRegistro());
+          if (req.method === "DELETE") {
+            fs.rmSync(DEV_REGISTRO_DIR, { recursive: true, force: true });
+            return sendJson(res, 200, { removed: 1 });
+          }
+          if (req.method === "POST") {
+            const body = JSON.parse((await readBody(req, 2 * 1024 * 1024)).toString("utf8")) as { image?: string };
+            const match = /^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/.exec(body.image ?? "");
+            const buffer = match ? Buffer.from(match[1], "base64") : null;
+            if (!buffer || buffer.length === 0 || buffer[0] !== 0xff || buffer[1] !== 0xd8) {
+              return sendJson(res, 400, { error: "invalid_image" });
+            }
+            const existing = readDevRegistro();
+            if (existing) return sendJson(res, 409, { error: "already_exists", ...existing });
+            fs.mkdirSync(DEV_REGISTRO_DIR, { recursive: true });
+            const takenAt = new Date().toISOString();
+            fs.writeFileSync(devPhoto, buffer);
+            fs.writeFileSync(devMeta, JSON.stringify({ takenAt }));
+            return sendJson(res, 200, readDevRegistro());
+          }
+          sendJson(res, 405, { error: "method_not_allowed" });
         } catch (err) {
           sendJson(res, 500, { error: String(err) });
         }

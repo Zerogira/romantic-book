@@ -1,6 +1,14 @@
 import pagesData from "./pages.json";
 
-export type PageLayout = "intro" | "photo" | "collage" | "timeline" | "details" | "letter" | "closure";
+export type PageLayout =
+  | "intro"
+  | "photo"
+  | "collage"
+  | "timeline"
+  | "details"
+  | "letter"
+  | "closure"
+  | "registro"; // última página: foto tirada no dia (ver src/components/registro)
 
 export type PageData = {
   id: string;

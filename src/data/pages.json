@@ -71,5 +71,13 @@
     "note": "Toque no coração abaixo para ver uma mensagem especial...",
     "layout": "closure",
     "secretMessage": "Prometo te escolher hoje, amanhã e em todos os próximos 365 dias que virão."
+  },
+  {
+    "id": "registro",
+    "chapter": "09. NOSSO REGISTRO",
+    "title": "Um momento para guardar",
+    "text": "O livro está quase no fim, mas esta página ainda está em branco. Tire uma foto agora e ela fica guardada aqui, com a data de hoje.",
+    "note": "Toda vez que você abrir o livro, este momento estará aqui.",
+    "layout": "registro"
   }
 ]

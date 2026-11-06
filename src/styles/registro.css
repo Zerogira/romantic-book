@@ -1,0 +1,380 @@
+/* =========================================================
+   REGISTRO DO DIA: câmera e polaroid da última página
+   ========================================================= */
+
+/* ---------- Tela da câmera ---------- */
+
+.cam-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 56px) 16px calc(env(safe-area-inset-bottom, 0px) + 16px);
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(254, 219, 228, 0.9) 0%, rgba(255, 255, 255, 0) 55%),
+    radial-gradient(ellipse at 85% 15%, rgba(206, 230, 250, 0.85) 0%, rgba(255, 255, 255, 0) 55%),
+    linear-gradient(135deg, #fdf7f4 0%, #f7ebf0 40%, #ebf3f9 100%);
+  overflow: hidden;
+}
+
+.cam-close {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  left: 12px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(155, 136, 123, 0.3);
+  border-radius: 50%;
+  background: rgba(255, 253, 249, 0.9);
+  color: #6e594e;
+  cursor: pointer;
+}
+
+.cam-close:disabled {
+  opacity: 0.4;
+}
+
+.cam-stage {
+  width: min(100%, 420px);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.cam-polaroid {
+  position: relative;
+  width: 100%;
+  padding: 14px 14px 10px;
+  background: #fffdf9;
+  border-radius: 6px;
+  box-shadow: 0 18px 40px -12px rgba(77, 56, 45, 0.35);
+}
+
+.cam-tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 90px;
+  height: 24px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: rgba(250, 205, 214, 0.75);
+  border-radius: 2px;
+}
+
+.cam-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #3f342d;
+}
+
+.cam-video,
+.cam-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cam-video.is-mirrored {
+  transform: scaleX(-1);
+}
+
+.cam-video.is-hidden {
+  visibility: hidden;
+}
+
+/* A foto "revela" aos poucos, como uma polaroid de verdade */
+.cam-shot.is-developing {
+  animation: develop 2.4s ease-out both;
+}
+
+@keyframes develop {
+  0% { filter: brightness(2.2) saturate(0.1) blur(10px); }
+  100% { filter: none; }
+}
+
+.cam-message {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+  color: #f7ebe3;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cam-message p {
+  margin: 0;
+}
+
+.cam-count {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Playfair Display", serif;
+  font-size: 120px;
+  color: #ffffff;
+  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+
+.cam-flash {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  animation: camFlash 0.24s ease-out both;
+}
+
+@keyframes camFlash {
+  0% { opacity: 0.95; }
+  100% { opacity: 0; }
+}
+
+.cam-caption {
+  min-height: 34px;
+  padding-top: 8px;
+  text-align: center;
+  font-family: "Caveat", cursive;
+  font-size: 24px;
+  color: #7b4f57;
+}
+
+.cam-controls {
+  width: 100%;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cam-shutter {
+  width: 72px;
+  height: 72px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #e17b8f;
+  border-radius: 50%;
+  background: #fffdf9;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease;
+}
+
+.cam-shutter span {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #e17b8f;
+}
+
+.cam-shutter:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.cam-shutter:disabled {
+  opacity: 0.5;
+}
+
+.cam-icon-btn {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(155, 136, 123, 0.3);
+  border-radius: 50%;
+  background: rgba(255, 253, 249, 0.9);
+  color: #6e594e;
+  cursor: pointer;
+}
+
+.cam-icon-btn:disabled {
+  opacity: 0.4;
+}
+
+.cam-spacer {
+  width: 48px;
+}
+
+.cam-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid rgba(225, 123, 143, 0.4);
+  border-radius: 999px;
+  background: #fbf0f2;
+  color: #7b4f57;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cam-btn-primary {
+  background: #e17b8f;
+  border-color: #e17b8f;
+  color: #ffffff;
+}
+
+.cam-saving {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #7b4f57;
+  font-weight: 600;
+  animation: camPulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes camPulse {
+  from { opacity: 0.55; }
+  to { opacity: 1; }
+}
+
+.cam-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  color: #6e594e;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cam-done p {
+  margin: 0;
+}
+
+/* ---------- Última página do livro ---------- */
+
+.registro-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.registro-polaroid {
+  position: relative;
+  margin: 0;
+  width: min(62%, 220px);
+  padding: 9px 9px 6px;
+  background: #fffdf9;
+  border-radius: 3px;
+  box-shadow: 0 12px 26px -10px rgba(77, 56, 45, 0.4);
+  transform: rotate(-2deg);
+}
+
+.registro-tape {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 56px;
+  height: 16px;
+  transform: translateX(-50%) rotate(2deg);
+  background: rgba(250, 205, 214, 0.8);
+  border-radius: 2px;
+}
+
+.registro-polaroid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 2px;
+  background: #eee3d5;
+}
+
+.registro-polaroid figcaption {
+  padding-top: 6px;
+  text-align: center;
+  font-family: "Caveat", cursive;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #7b4f57;
+}
+
+.registro-empty-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1.5px dashed rgba(225, 123, 143, 0.55);
+  border-radius: 2px;
+  background: repeating-linear-gradient(45deg, #fff5f7, #fff5f7 8px, #fdeef1 8px, #fdeef1 16px);
+  color: #c9677c;
+  font-family: "Caveat", cursive;
+  font-size: 17px;
+}
+
+.registro-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #e17b8f;
+  color: #ffffff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 18px -8px rgba(225, 123, 143, 0.8);
+}
+
+.registro-cta:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.registro-note {
+  margin: 0;
+  font-size: 11px;
+  color: #9b897d;
+}
+
+.registro-link {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: #c9677c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (max-height: 620px) {
+  .cam-count {
+    font-size: 84px;
+  }
+  .cam-stage {
+    gap: 10px;
+  }
+}

@@ -13,6 +13,7 @@ const LAYOUT_LABELS: Record<PageLayout, string> = {
   details: "Pequenos detalhes",
   letter: "Carta",
   closure: "Surpresa final",
+  registro: "Registro (foto tirada no dia)",
 };
 
 type Slot = { kind: "image" } | { kind: "collage"; index: 0 | 1 };

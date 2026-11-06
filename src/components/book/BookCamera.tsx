@@ -30,13 +30,15 @@ type Props = {
   children: ReactNode;
   /** Texto do aviso sobre o livro inclinado. */
   unlockLabel?: string;
-  /** Chamado dentro do toque do usuário (útil para pedir tela cheia). */
+  /** Chamado dentro do toque do usuário. */
   onUnlock?: () => void;
   /** Chamado quando o livro terminou de se endireitar. */
   onSettled?: () => void;
+  /** Espera (segundos) antes da câmera começar, para a transição de entrada terminar. */
+  startDelay?: number;
 };
 
-export function BookCamera({ children, unlockLabel = "Toque para começar", onUnlock, onSettled }: Props) {
+export function BookCamera({ children, unlockLabel = "Toque para começar", onUnlock, onSettled, startDelay = 0 }: Props) {
   const rigRef = useRef<HTMLDivElement | null>(null);
   const settlingRef = useRef(false);
   const [resting, setResting] = useState(false);
@@ -50,7 +52,10 @@ export function BookCamera({ children, unlockLabel = "Toque para começar", onUn
 
       // Durante o movimento o hit-test do page-flip fica incorreto (o livro está
       // transformado), então bloqueamos os cliques até a câmera parar.
+      // Só começa depois do atraso: primeiro o livro aparece com o fade suave,
+      // e só então a câmera se move. immediateRender:false mantém o livro reto até lá.
       gsap.timeline({
+        delay: startDelay,
         onStart: () => {
           rig.style.pointerEvents = "none";
         },
@@ -62,9 +67,10 @@ export function BookCamera({ children, unlockLabel = "Toque para começar", onUn
         ...camera.end,
         duration: camera.moveDuration,
         ease: "power2.inOut",
+        immediateRender: false,
       });
     },
-    { scope: rigRef, dependencies: [reducedMotion] }
+    { scope: rigRef, dependencies: [reducedMotion, startDelay] }
   );
 
   // Primeiro toque: endireita o livro. O overlay continua até o fim, para o

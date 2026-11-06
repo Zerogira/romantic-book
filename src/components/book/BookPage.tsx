@@ -2,6 +2,7 @@ import { createContext, forwardRef, useContext, useState } from "react";
 import { AnimatePresence, motion, type Variants } from "motion/react";
 import { Heart, Sparkles, Image as ImageIcon } from "lucide-react";
 import type { PageData } from "../../data/bookContent";
+import { RegistroBlock } from "../registro/RegistroBlock";
 
 /** Índice da página que está visível no livro (atualizado pelo onFlip). */
 export const ActivePageContext = createContext<number>(0);
@@ -162,6 +163,9 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
             </AnimatePresence>
           </div>
         )}
+
+        {/* Layout: Registro do dia (foto tirada pela própria pessoa) */}
+        {page.layout === "registro" && <RegistroBlock />}
 
         {page.note && <p className="page-note">{page.note}</p>}
 

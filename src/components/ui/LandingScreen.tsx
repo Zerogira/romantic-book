@@ -9,6 +9,7 @@ import { StickerRenderer } from "./StickerRenderer";
 import { music } from "../../lib/audio";
 import { usePrefersReducedMotion } from "../../lib/motion";
 import { useIsMobile } from "../../lib/device";
+import { requestFullscreen } from "../../lib/fullscreen";
 
 gsap.registerPlugin(useGSAP);
 
@@ -217,6 +218,8 @@ export function LandingScreen({ onOpen }: Props) {
   // Clique do usuário: toca a música (síncrono, dentro do gesto) e roda a abertura
   const handleOpenClick = contextSafe(() => {
     if (timelineRef.current) return;
+    // Tudo que depende do toque acontece aqui, de forma síncrona: tela cheia e música
+    requestFullscreen();
     music.start();
     setIsOpening(true);
 
