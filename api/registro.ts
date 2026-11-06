@@ -9,7 +9,7 @@
  * um Blob store ao projeto). A data vem do servidor, não do relógio do celular.
  * Só o primeiro envio é aceito; para refazer é preciso apagar antes (DELETE).
  */
-import { put, list, del } from "@vercel/blob";
+import { put, list, del, get } from "@vercel/blob";
 import { timingSafeEqual } from "node:crypto";
 
 type Req = {
@@ -35,6 +35,37 @@ async function currentPhoto(): Promise<{ url: string; takenAt: string } | null> 
   if (blobs.length === 0) return null;
   const latest = [...blobs].sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime())[0];
   return { url: latest.url, takenAt: latest.uploadedAt.toISOString() };
+}
+
+/**
+ * Guarda a foto. O store do Blob pode ter sido criado como público ou privado (o painel da
+ * Vercel oferece os dois): tenta público e, se o store recusar, usa privado.
+ */
+async function putPhoto(image: Buffer): Promise<void> {
+  const path = `${PREFIX}${Date.now()}.jpg`;
+  const options = { contentType: "image/jpeg", addRandomSuffix: true };
+  try {
+    await put(path, image, { ...options, access: "public" });
+  } catch (err) {
+    console.warn("put público falhou, tentando privado:", err);
+    await put(path, image, { ...options, access: "private" });
+  }
+}
+
+/** Lê a imagem guardada, seja o store público ou privado. */
+async function readPhoto(url: string): Promise<Buffer | null> {
+  try {
+    const upstream = await fetch(url);
+    if (upstream.ok) return Buffer.from(await upstream.arrayBuffer());
+  } catch {}
+  const result = await get(url, { access: "private" });
+  if (!result || result.statusCode !== 200) return null;
+  return Buffer.from(await new Response(result.stream).arrayBuffer());
+}
+
+/** O site sempre mostra a foto por este endereço (mesmo domínio), qualquer que seja o tipo de store. */
+function publicShape(photo: { takenAt: string }) {
+  return { url: `/api/registro?img=1&v=${encodeURIComponent(photo.takenAt)}`, takenAt: photo.takenAt };
 }
 
 function isAdmin(req: Req): boolean {
@@ -77,14 +108,14 @@ export default async function handler(req: Req, res: Res) {
       // "salvar como imagem" desenhar a polaroid sem depender de CORS do armazenamento.
       if (req.query?.img) {
         if (!photo) return res.status(404).json({ error: "not_found" });
-        const upstream = await fetch(photo.url);
-        if (!upstream.ok) return res.status(502).json({ error: "upstream_failed" });
+        const bytes = await readPhoto(photo.url);
+        if (!bytes) return res.status(502).json({ error: "upstream_failed" });
         res.setHeader("Content-Type", "image/jpeg");
         res.setHeader("Cache-Control", "private, max-age=300");
-        return res.status(200).send(Buffer.from(await upstream.arrayBuffer()));
+        return res.status(200).send(bytes);
       }
 
-      return res.status(200).json(photo);
+      return res.status(200).json(photo ? publicShape(photo) : null);
     }
 
     if (req.method === "POST") {
@@ -93,17 +124,14 @@ export default async function handler(req: Req, res: Res) {
 
       const existing = await currentPhoto();
       if (existing) {
-        if (!isAdmin(req)) return res.status(409).json({ error: "already_exists", ...existing });
+        if (!isAdmin(req)) return res.status(409).json({ error: "already_exists", ...publicShape(existing) });
         const { blobs } = await list({ prefix: PREFIX });
         await del(blobs.map((b) => b.url));
       }
 
-      const blob = await put(`${PREFIX}${Date.now()}.jpg`, image, {
-        access: "public",
-        contentType: "image/jpeg",
-        addRandomSuffix: true,
-      });
-      return res.status(200).json({ url: blob.url, takenAt: new Date().toISOString() });
+      await putPhoto(image);
+      const saved = await currentPhoto();
+      return res.status(200).json(publicShape(saved ?? { takenAt: new Date().toISOString() }));
     }
 
     if (req.method === "DELETE") {

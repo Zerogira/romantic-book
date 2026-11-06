@@ -8,7 +8,7 @@
  * Guarda no Vercel Blob (mesma variável BLOB_READ_WRITE_TOKEN da foto). A data vem do
  * servidor. Só a primeira carta é aceita; para refazer é preciso apagar antes (DELETE).
  */
-import { put, list, del } from "@vercel/blob";
+import { put, list, del, get } from "@vercel/blob";
 import { timingSafeEqual } from "node:crypto";
 
 type Req = {
@@ -30,9 +30,18 @@ async function currentLetter(): Promise<{ text: string; writtenAt: string } | nu
   const { blobs } = await list({ prefix: PREFIX });
   if (blobs.length === 0) return null;
   const latest = [...blobs].sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime())[0];
-  const response = await fetch(latest.url);
-  if (!response.ok) throw new Error(`falha ao ler a carta (${response.status})`);
-  const data = (await response.json()) as { text?: unknown };
+  // Store público (fetch direto) ou privado (leitura autenticada)
+  let raw: string | null = null;
+  try {
+    const response = await fetch(latest.url);
+    if (response.ok) raw = await response.text();
+  } catch {}
+  if (raw === null) {
+    const result = await get(latest.url, { access: "private" });
+    if (!result || result.statusCode !== 200) throw new Error("falha ao ler a carta");
+    raw = await new Response(result.stream).text();
+  }
+  const data = JSON.parse(raw) as { text?: unknown };
   if (typeof data.text !== "string") return null;
   return { text: data.text, writtenAt: latest.uploadedAt.toISOString() };
 }
@@ -81,11 +90,14 @@ export default async function handler(req: Req, res: Res) {
         await del(blobs.map((b) => b.url));
       }
 
-      await put(`${PREFIX}${Date.now()}.json`, JSON.stringify({ text }), {
-        access: "public",
-        contentType: "application/json",
-        addRandomSuffix: true,
-      });
+      const path = `${PREFIX}${Date.now()}.json`;
+      const options = { contentType: "application/json", addRandomSuffix: true };
+      try {
+        await put(path, JSON.stringify({ text }), { ...options, access: "public" });
+      } catch (err) {
+        console.warn("put público falhou, tentando privado:", err);
+        await put(path, JSON.stringify({ text }), { ...options, access: "private" });
+      }
       return res.status(200).json({ text, writtenAt: new Date().toISOString() });
     }
 

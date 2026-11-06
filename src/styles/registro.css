@@ -299,6 +299,11 @@
   border-radius: 2px;
 }
 
+.registro-polaroid .zoom-trigger {
+  height: auto;
+  line-height: 0;
+}
+
 .registro-polaroid img {
   display: block;
   width: 100%;
@@ -309,6 +314,8 @@
 }
 
 .registro-polaroid figcaption {
+  position: relative;
+  z-index: 1;
   padding-top: 6px;
   text-align: center;
   font-family: "Caveat", cursive;
@@ -350,6 +357,37 @@
 }
 
 .registro-cta:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.registro-save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-top: 10px;
+  padding: 8px 16px;
+  border: 1.5px solid rgba(225, 123, 143, 0.7);
+  border-radius: 999px;
+  background: #fff7f8;
+  color: #c9677c;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.registro-save:hover:not(:disabled) {
+  background: #fdeef1;
+  transform: translateY(-1px);
+}
+
+.registro-save:disabled {
   opacity: 0.6;
   cursor: default;
 }
