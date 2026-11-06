@@ -15,12 +15,14 @@ import { timingSafeEqual } from "node:crypto";
 type Req = {
   method?: string;
   headers: Record<string, string | string[] | undefined>;
+  query?: Record<string, string | string[] | undefined>;
   body?: unknown;
 };
 
 type Res = {
   status(code: number): Res;
   json(body: unknown): void;
+  send(body: Buffer): void;
   setHeader(name: string, value: string): void;
 };
 
@@ -69,7 +71,20 @@ export default async function handler(req: Req, res: Res) {
 
   try {
     if (req.method === "GET") {
-      return res.status(200).json(await currentPhoto());
+      const photo = await currentPhoto();
+
+      // ?img=1 devolve a própria imagem, no mesmo domínio do site. Serve para o botão
+      // "salvar como imagem" desenhar a polaroid sem depender de CORS do armazenamento.
+      if (req.query?.img) {
+        if (!photo) return res.status(404).json({ error: "not_found" });
+        const upstream = await fetch(photo.url);
+        if (!upstream.ok) return res.status(502).json({ error: "upstream_failed" });
+        res.setHeader("Content-Type", "image/jpeg");
+        res.setHeader("Cache-Control", "private, max-age=300");
+        return res.status(200).send(Buffer.from(await upstream.arrayBuffer()));
+      }
+
+      return res.status(200).json(photo);
     }
 
     if (req.method === "POST") {

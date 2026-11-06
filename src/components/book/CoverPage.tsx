@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { Heart, Sparkles } from "lucide-react";
 import { bookCoverInfo } from "../../data/bookContent";
+import { TogetherCounter } from "../ui/TogetherCounter";
 
 export const CoverPage = forwardRef<HTMLDivElement>(function CoverPage(_, ref) {
   return (
@@ -23,6 +24,8 @@ export const CoverPage = forwardRef<HTMLDivElement>(function CoverPage(_, ref) {
         </div>
 
         <p>{bookCoverInfo.subtitle}</p>
+
+        <TogetherCounter />
 
         <div className="cover-bottom">{bookCoverInfo.dateText}</div>
         <Sparkles className="cover-sparkle sparkle-bottom" size={16} />

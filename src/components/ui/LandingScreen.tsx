@@ -10,6 +10,7 @@ import { music } from "../../lib/audio";
 import { usePrefersReducedMotion } from "../../lib/motion";
 import { useIsMobile } from "../../lib/device";
 import { requestFullscreen } from "../../lib/fullscreen";
+import { HEART_SHAPE } from "../../lib/hearts";
 
 gsap.registerPlugin(useGSAP);
 
@@ -39,6 +40,7 @@ function loadStickers(mobile: boolean): StickerItem[] {
 }
 
 type SaveStatus = "idle" | "saving" | "saved" | "error";
+
 
 export function LandingScreen({ onOpen }: Props) {
   const [isOpening, setIsOpening] = useState(false);
@@ -215,6 +217,42 @@ export function LandingScreen({ onOpen }: Props) {
     }
   };
 
+  // Toque numa figurinha: ela balança e solta corações
+  const handleStickerTap = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
+    if (isEditMode || timelineRef.current) return;
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+
+    // O balanço vai no filho: a figurinha em si já tem uma animação CSS de flutuar
+    const inner = el.firstElementChild;
+    if (inner && !reducedMotion) {
+      gsap.killTweensOf(inner);
+      gsap.fromTo(
+        inner,
+        { rotation: 0, scale: 1 },
+        {
+          keyframes: { rotation: [0, -12, 10, -6, 3, 0], scale: [1, 1.15, 1.1, 1.05, 1.02, 1], easeEach: "power1.inOut" },
+          duration: 0.7,
+        }
+      );
+    }
+
+    if (!reducedMotion) {
+      confetti({
+        particleCount: 9,
+        spread: 70,
+        startVelocity: 16,
+        gravity: 0.6,
+        ticks: 90,
+        scalar: 1.6,
+        shapes: [HEART_SHAPE],
+        colors: ["#e17b8f", "#f497a9", "#fcd0db"],
+        origin: { x: (rect.left + rect.width / 2) / window.innerWidth, y: (rect.top + rect.height / 2) / window.innerHeight },
+      });
+    }
+    navigator.vibrate?.(8);
+  });
+
   // Clique do usuário: toca a música (síncrono, dentro do gesto) e roda a abertura
   const handleOpenClick = contextSafe(() => {
     if (timelineRef.current) return;
@@ -284,6 +322,7 @@ export function LandingScreen({ onOpen }: Props) {
             isEditMode={isEditMode}
             isSelected={stk.id === selectedId}
             onPointerDown={handlePointerDown}
+            onTap={handleStickerTap}
           />
         ))}
       </div>

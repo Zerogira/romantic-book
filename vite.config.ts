@@ -1,4 +1,4 @@
-import { defineConfig, type Plugin } from "vite";
+import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
@@ -15,7 +15,18 @@ const UPLOAD_DIR = path.resolve(ROOT, "public/images/memories");
 const IMAGE_EXT = /\.(gif|png|webp|jpe?g|svg)$/i;
 const PHOTO_EXT = /\.(png|webp|jpe?g|gif)$/i;
 const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
-const PAGE_LAYOUTS = ["intro", "photo", "collage", "timeline", "details", "letter", "closure", "registro"];
+const PAGE_LAYOUTS = [
+  "intro",
+  "photo",
+  "collage",
+  "timeline",
+  "details",
+  "letter",
+  "closure",
+  "registro",
+  "resposta",
+  "trancada",
+];
 // Pasta local que imita o Vercel Blob no desenvolvimento (fora do git)
 const DEV_REGISTRO_DIR = path.resolve(ROOT, ".dev-registro");
 
@@ -95,7 +106,7 @@ function safeFileName(raw: string): string | null {
  * Apenas em desenvolvimento (npm run dev): endpoints que leem e gravam os dados
  * do álbum no projeto. Não existem em produção.
  */
-function albumDevApi(): Plugin {
+function albumDevApi(env: Record<string, string>): Plugin {
   return {
     name: "album-dev-api",
     apply: "serve",
@@ -157,9 +168,18 @@ function albumDevApi(): Plugin {
 
       server.middlewares.use("/api/registro", async (req, res) => {
         try {
-          if (req.method === "GET") return sendJson(res, 200, readDevRegistro());
+          if (req.method === "GET") {
+            const wantsImage = new URL(req.url ?? "", "http://localhost").searchParams.has("img");
+            if (wantsImage) {
+              if (!fs.existsSync(devPhoto)) return sendJson(res, 404, { error: "not_found" });
+              res.setHeader("Content-Type", "image/jpeg");
+              return res.end(fs.readFileSync(devPhoto));
+            }
+            return sendJson(res, 200, readDevRegistro());
+          }
           if (req.method === "DELETE") {
-            fs.rmSync(DEV_REGISTRO_DIR, { recursive: true, force: true });
+            fs.rmSync(devPhoto, { force: true });
+            fs.rmSync(devMeta, { force: true });
             return sendJson(res, 200, { removed: 1 });
           }
           if (req.method === "POST") {
@@ -181,6 +201,52 @@ function albumDevApi(): Plugin {
         } catch (err) {
           sendJson(res, 500, { error: String(err) });
         }
+      });
+
+      // ---- Carta de resposta (imita /api/carta) ----
+      const devCarta = path.join(DEV_REGISTRO_DIR, "carta.json");
+      const readDevCarta = () => {
+        try {
+          if (!fs.existsSync(devCarta)) return null;
+          return JSON.parse(fs.readFileSync(devCarta, "utf8")) as { text: string; writtenAt: string };
+        } catch {
+          return null;
+        }
+      };
+
+      server.middlewares.use("/api/carta", async (req, res) => {
+        try {
+          if (req.method === "GET") return sendJson(res, 200, readDevCarta());
+          if (req.method === "DELETE") {
+            fs.rmSync(devCarta, { force: true });
+            return sendJson(res, 200, { removed: 1 });
+          }
+          if (req.method === "POST") {
+            const body = JSON.parse((await readBody(req)).toString("utf8")) as { text?: unknown };
+            const text = typeof body.text === "string" ? body.text.trim() : "";
+            if (text.length === 0 || text.length > 1200) return sendJson(res, 400, { error: "invalid_text" });
+            const existing = readDevCarta();
+            if (existing) return sendJson(res, 409, { error: "already_exists", ...existing });
+            fs.mkdirSync(DEV_REGISTRO_DIR, { recursive: true });
+            const letter = { text, writtenAt: new Date().toISOString() };
+            fs.writeFileSync(devCarta, JSON.stringify(letter));
+            return sendJson(res, 200, letter);
+          }
+          sendJson(res, 405, { error: "method_not_allowed" });
+        } catch (err) {
+          sendJson(res, 500, { error: String(err) });
+        }
+      });
+
+      // ---- Página trancada (imita /api/trancada; usa LOCKED_* do .env.local, se houver) ----
+      server.middlewares.use("/api/trancada", (req, res) => {
+        if (req.method !== "GET") return sendJson(res, 405, { error: "method_not_allowed" });
+        const defaultUnlock = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString();
+        const unlockAtMs = Date.parse(env.LOCKED_UNLOCK_AT || defaultUnlock);
+        const nowMs = Date.now();
+        const base = { configured: true, unlockAt: new Date(unlockAtMs).toISOString(), now: new Date(nowMs).toISOString() };
+        if (nowMs < unlockAtMs) return sendJson(res, 200, { ...base, locked: true });
+        sendJson(res, 200, { ...base, locked: false, message: env.LOCKED_MESSAGE || "Mensagem de teste. Defina LOCKED_MESSAGE no .env.local." });
       });
 
       // ---- Páginas do álbum ----
@@ -229,12 +295,13 @@ function albumDevApi(): Plugin {
   };
 }
 
-export default defineConfig({
-  plugins: [react(), albumDevApi()],
+export default defineConfig(({ mode }) => ({
+  // loadEnv lê o .env.local (usado só pelos servidores de teste do modo de desenvolvimento)
+  plugins: [react(), albumDevApi(loadEnv(mode, ROOT, ""))],
   resolve: {
     dedupe: ["react", "react-dom"],
   },
   optimizeDeps: {
     include: ["react", "react-dom", "react-pageflip", "lucide-react"],
   },
-});
+}));

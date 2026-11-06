@@ -1,4 +1,4 @@
-// Apaga a foto do "registro do dia" no site publicado (para deixar tudo zerado antes do dia).
+// Apaga a foto e a carta do "registro do dia" no site publicado (para deixar tudo zerado antes do dia).
 //
 // Uso:   npm run registro:reset
 // Requer, em .env.local (que não vai para o git):
@@ -25,12 +25,18 @@ if (!key) {
   process.exit(1);
 }
 
-const res = await fetch(`${site}/api/registro`, { method: "DELETE", headers: { "x-admin-key": key } });
-const body = await res.json().catch(() => ({}));
-
-if (res.ok) {
-  console.log(`Registro apagado em ${site} (${body.removed ?? 0} arquivo(s)).`);
-} else {
-  console.error(`Falhou (${res.status}):`, body);
-  process.exit(1);
+let failed = false;
+for (const [label, path] of [
+  ["foto", "/api/registro"],
+  ["carta", "/api/carta"],
+]) {
+  const res = await fetch(`${site}${path}`, { method: "DELETE", headers: { "x-admin-key": key } });
+  const body = await res.json().catch(() => ({}));
+  if (res.ok) {
+    console.log(`${label}: apagada em ${site} (${body.removed ?? 0} arquivo(s)).`);
+  } else {
+    console.error(`${label}: falhou (${res.status}):`, body);
+    failed = true;
+  }
 }
+process.exit(failed ? 1 : 0);

@@ -14,6 +14,8 @@ const LAYOUT_LABELS: Record<PageLayout, string> = {
   letter: "Carta",
   closure: "Surpresa final",
   registro: "Registro (foto tirada no dia)",
+  resposta: "Carta de resposta (ela escreve)",
+  trancada: "Página trancada (abre em uma data)",
 };
 
 type Slot = { kind: "image" } | { kind: "collage"; index: 0 | 1 };

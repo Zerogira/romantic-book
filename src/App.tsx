@@ -16,13 +16,16 @@ const PageEditor = import.meta.env.DEV
 import { CoverPage } from "./components/book/CoverPage";
 import { BackCover } from "./components/book/BackCover";
 import { LandingScreen } from "./components/ui/LandingScreen";
-import { music, MUSIC_SRC } from "./lib/audio";
+import { music, sfx, MUSIC_SRC } from "./lib/audio";
 import { useIsMobile } from "./lib/device";
 import { Maximize2, X } from "lucide-react";
 import "./styles/book.css";
 
 import { requestFullscreen, exitFullscreen } from "./lib/fullscreen";
 import { RegistroProvider } from "./components/registro/RegistroProvider";
+import { LightboxProvider } from "./components/ui/Lightbox";
+import { CartaProvider } from "./components/carta/CartaProvider";
+import { InstallApp } from "./components/ui/InstallApp";
 
 type FlipBookHandle = {
   pageFlip: () => {
@@ -68,6 +71,8 @@ function MusicToggle() {
 export default function App() {
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [activePage, setActivePage] = useState(0);
+  const [spread, setSpread] = useState(false); // true quando o livro mostra duas páginas lado a lado
+  const activePageValue = useMemo(() => ({ index: activePage, spread }), [activePage, spread]);
   const [editingPages, setEditingPages] = useState(false);
   const [reader, setReader] = useState(false); // modo leitura (celular): livro em tela cheia
   const isMobile = useIsMobile();
@@ -115,7 +120,9 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <LightboxProvider>
       <RegistroProvider>
+      <CartaProvider>
       {!isBookOpen ? (
         <LandingScreen onOpen={() => setIsBookOpen(true)} />
       ) : (
@@ -160,12 +167,17 @@ export default function App() {
                 startDelay={0.9}
                 onSettled={isMobile ? () => setReader(true) : undefined}
               >
-              <ActivePageContext.Provider value={activePage}>
+              <ActivePageContext.Provider value={activePageValue}>
               <HTMLFlipBook
                 // Remonta ao entrar/sair do modo leitura para recalcular o tamanho do livro
                 key={reader ? "reader" : "normal"}
                 ref={bookRef as never}
                 onFlip={(e: { data: number }) => setActivePage(e.data)}
+                onInit={(e: { data: { mode: string } }) => setSpread(e.data.mode === "landscape")}
+                onUpdate={(e: { data: { mode: string } }) => setSpread(e.data.mode === "landscape")}
+                onChangeState={(e: { data: string }) => {
+                  if (e.data === "flipping") sfx.pageTurn(); // começa a virar: som de papel
+                }}
                 width={bookWidthProp}
                 height={bookHeightProp}
                 size="stretch"
@@ -223,6 +235,7 @@ export default function App() {
                 <span>Modo leitura</span>
               </button>
             )}
+            {isMobile && <InstallApp />}
             {PageEditor && (
               <button type="button" className="music-toggle" onClick={() => setEditingPages(true)}>
                 <BookOpen size={15} />
@@ -247,7 +260,9 @@ export default function App() {
       <div className="rotate-hint" role="status">
         <span>Vire o celular para ficar de pé ♡</span>
       </div>
+      </CartaProvider>
       </RegistroProvider>
+      </LightboxProvider>
     </MotionConfig>
   );
 }

@@ -79,5 +79,21 @@
     "text": "O livro está quase no fim, mas esta página ainda está em branco. Tire uma foto agora e ela fica guardada aqui, com a data de hoje.",
     "note": "Toda vez que você abrir o livro, este momento estará aqui.",
     "layout": "registro"
+  },
+  {
+    "id": "resposta",
+    "chapter": "10. SUA VEZ",
+    "title": "Uma carta sua para mim",
+    "text": "Agora quem escreve é você. Diga o que quiser: a carta fica guardada aqui, para eu ler e para você reler toda vez que abrirmos o livro.",
+    "note": "Depois de guardada, ela não pode mais ser editada.",
+    "layout": "resposta"
+  },
+  {
+    "id": "trancada",
+    "chapter": "11. PARA O ANO QUE VEM",
+    "title": "Esta página ainda está fechada",
+    "text": "Guardei uma última mensagem para o nosso próximo aniversário. Ela abre sozinha, na data certa.",
+    "note": "Volte aqui quando o cadeado abrir.",
+    "layout": "trancada"
   }
 ]

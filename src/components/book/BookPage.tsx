@@ -1,11 +1,20 @@
-import { createContext, forwardRef, useContext, useState } from "react";
-import { AnimatePresence, motion, type Variants } from "motion/react";
-import { Heart, Sparkles, Image as ImageIcon } from "lucide-react";
+import { createContext, forwardRef, useContext } from "react";
+import { motion, type Variants } from "motion/react";
+import { Sparkles, Image as ImageIcon } from "lucide-react";
 import type { PageData } from "../../data/bookContent";
 import { RegistroBlock } from "../registro/RegistroBlock";
+import { HandwrittenText } from "../ui/HandwrittenText";
+import { ZoomPhoto } from "../ui/ZoomPhoto";
+import { CartaBlock } from "../carta/CartaBlock";
+import { TrancadaBlock } from "../trancada/TrancadaBlock";
+import { SurpriseBlock } from "../surprise/SurpriseBlock";
 
-/** Índice da página que está visível no livro (atualizado pelo onFlip). */
-export const ActivePageContext = createContext<number>(0);
+/**
+ * Página visível no livro (atualizada pelo onFlip). No computador o livro mostra duas
+ * páginas lado a lado ("spread"): além da página `index`, a seguinte também está visível.
+ */
+export type ActivePage = { index: number; spread: boolean };
+export const ActivePageContext = createContext<ActivePage>({ index: 0, spread: false });
 
 type Props = { page: PageData; pageIndex: number };
 
@@ -21,9 +30,10 @@ const itemVariants: Variants = {
 };
 
 export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, ref) => {
-  const [revealed, setRevealed] = useState(false);
-  const activeIndex = useContext(ActivePageContext);
-  const state = activeIndex === pageIndex ? "show" : "hidden";
+  const active = useContext(ActivePageContext);
+  // Em duas páginas (e fora da capa), a página à direita também está visível
+  const isVisible = active.index === pageIndex || (active.spread && active.index >= 1 && active.index + 1 === pageIndex);
+  const state = isVisible ? "show" : "hidden";
 
   return (
     <div
@@ -44,16 +54,7 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
         {/* Layout: Foto Única (Polaroid) */}
         {page.layout === "photo" && (
           <figure className="photo-placeholder single-photo">
-            {page.image ? (
-              <img
-                src={page.image}
-                alt={page.imageAlt ?? "Lembrança especial"}
-                onError={(event) => {
-                  event.currentTarget.style.display = "none";
-                  event.currentTarget.parentElement?.classList.add("is-empty");
-                }}
-              />
-            ) : null}
+            {page.image ? <ZoomPhoto src={page.image} alt={page.imageAlt ?? "Lembrança especial"} /> : null}
             <figcaption>
               <ImageIcon size={14} className="caption-icon" />
               <span>onde tudo começou</span>
@@ -69,14 +70,7 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
               return (
                 <div key={i} className={`collage-card card-${i + 1} ${src ? "" : "is-empty"}`}>
                   {src ? (
-                    <img
-                      src={src}
-                      alt=""
-                      onError={(event) => {
-                        event.currentTarget.style.display = "none";
-                        event.currentTarget.parentElement?.classList.add("is-empty");
-                      }}
-                    />
+                    <ZoomPhoto src={src} alt={`Foto ${i + 1} da colagem`} />
                   ) : (
                     <span>{i === 0 ? "nossa primeira foto" : "um dia inesquecível"}</span>
                   )}
@@ -121,7 +115,7 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
           <div className="letter-wrapper">
             <div className="letter-paper">
               <p className="letter-body">
-                “{page.letterBody}”
+                <HandwrittenText text={`“${page.letterBody ?? ""}”`} active={state === "show"} />
               </p>
               <div className="letter-signature">
                 <span>Com todo o meu amor,</span>
@@ -137,35 +131,18 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
             <div className="closure-icon-box">
               <Sparkles size={24} className="sparkle-pulse" />
             </div>
-            <button
-              type="button"
-              className={`surprise-btn ${revealed ? "is-revealed" : ""}`}
-              onClick={() => setRevealed(!revealed)}
-              aria-label="Abrir surpresa especial"
-            >
-              <Heart size={18} fill={revealed ? "#e11d48" : "none"} />
-              <span>{revealed ? "Nossa promessa:" : "Toque para abrir a surpresa"}</span>
-            </button>
-            <AnimatePresence>
-              {revealed && (
-                <motion.div
-                  key="secret"
-                  className="secret-message"
-                  initial={{ opacity: 0, y: 10, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <p>“{page.secretMessage}”</p>
-                  <small>Te amo infinitamente! ✨</small>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <SurpriseBlock message={page.secretMessage ?? ""} />
           </div>
         )}
 
         {/* Layout: Registro do dia (foto tirada pela própria pessoa) */}
         {page.layout === "registro" && <RegistroBlock />}
+
+        {/* Layout: Carta de resposta (ela escreve) */}
+        {page.layout === "resposta" && <CartaBlock />}
+
+        {/* Layout: Página trancada até uma data futura */}
+        {page.layout === "trancada" && <TrancadaBlock active={state === "show"} />}
 
         {page.note && <p className="page-note">{page.note}</p>}
 

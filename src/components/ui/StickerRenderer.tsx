@@ -7,9 +7,11 @@ type Props = {
   isEditMode: boolean;
   isSelected: boolean;
   onPointerDown: (e: React.PointerEvent, id: string) => void;
+  /** Toque numa figurinha fora do modo edição (ex.: soltar corações). */
+  onTap?: (e: React.MouseEvent<HTMLDivElement>, id: string) => void;
 };
 
-export function StickerRenderer({ sticker, isEditMode, isSelected, onPointerDown }: Props) {
+export function StickerRenderer({ sticker, isEditMode, isSelected, onPointerDown, onTap }: Props) {
   const { id, type, x, y, rotation, caption, src, scale = 1 } = sticker;
 
   // A escala usa a propriedade CSS "scale", que se compõe com o transform
@@ -19,7 +21,7 @@ export function StickerRenderer({ sticker, isEditMode, isSelected, onPointerDown
     top: `${y}%`,
     transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
     scale: `${scale}`,
-    cursor: isEditMode ? "grab" : "default",
+    cursor: isEditMode ? "grab" : "pointer",
     touchAction: isEditMode ? "none" : "auto",
   };
 
@@ -28,6 +30,9 @@ export function StickerRenderer({ sticker, isEditMode, isSelected, onPointerDown
       className={`sticker-item sticker-${type} ${isEditMode ? "is-editing" : ""} ${isSelected ? "is-selected" : ""}`}
       style={style}
       onPointerDown={(e) => onPointerDown(e, id)}
+      onClick={(e) => {
+        if (!isEditMode) onTap?.(e, id);
+      }}
       id={`sticker-${id}`}
     >
       {isEditMode && <div className="sticker-badge">{sticker.label}</div>}

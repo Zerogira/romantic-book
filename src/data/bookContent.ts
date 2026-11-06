@@ -8,7 +8,9 @@ export type PageLayout =
   | "details"
   | "letter"
   | "closure"
-  | "registro"; // última página: foto tirada no dia (ver src/components/registro)
+  | "registro" // foto tirada no dia (ver src/components/registro)
+  | "resposta" // carta digitada por ela (ver src/components/carta)
+  | "trancada"; // página que só abre em uma data futura (ver src/components/trancada)
 
 export type PageData = {
   id: string;

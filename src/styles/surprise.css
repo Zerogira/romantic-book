@@ -1,0 +1,241 @@
+/* =========================================================
+   SURPRESA: envelope com selo de cera (página "capítulos")
+   ========================================================= */
+
+/* ---------- Botão na página do livro ---------- */
+
+.surprise-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px 8px 10px;
+  border: 1px solid rgba(166, 111, 112, 0.35);
+  border-radius: 999px;
+  background: #fbf0ea;
+  color: #8c5d5e;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.surprise-card:hover {
+  background: #f6e4dc;
+  transform: translateY(-1px);
+}
+
+/* Envelope miniatura (só CSS) */
+.env-mini {
+  position: relative;
+  width: 38px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  background: #f1d6cb;
+  box-shadow: 0 2px 6px rgba(77, 56, 45, 0.25);
+}
+
+.env-mini-flap {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 15px;
+  background: #e8c4b6;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 3px 3px 0 0;
+}
+
+.env-mini-seal {
+  position: absolute;
+  left: calc(50% - 8px);
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e0607a, #b3344f);
+  color: #fde9ee;
+  animation: sealBeat 1.8s ease-in-out infinite;
+}
+
+@keyframes sealBeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.14); }
+}
+
+/* ---------- Tela cheia do envelope ---------- */
+
+.env-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 550;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(254, 219, 228, 0.95) 0%, rgba(255, 255, 255, 0) 55%),
+    radial-gradient(ellipse at 85% 15%, rgba(206, 230, 250, 0.9) 0%, rgba(255, 255, 255, 0) 55%),
+    linear-gradient(135deg, #fdf7f4 0%, #f7ebf0 40%, #ebf3f9 100%);
+  overflow: hidden;
+}
+
+.env-close {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  left: 12px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(155, 136, 123, 0.3);
+  border-radius: 50%;
+  background: rgba(255, 253, 249, 0.9);
+  color: #6e594e;
+  cursor: pointer;
+}
+
+.env-scene {
+  --w: min(84vw, 340px);
+  --h: calc(var(--w) * 0.68);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  /* espaço para a carta que sobe acima do envelope */
+  margin-top: calc(var(--h) * 0.8);
+}
+
+.env-envelope {
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  filter: drop-shadow(0 18px 24px rgba(77, 56, 45, 0.28));
+}
+
+.env-back,
+.env-front,
+.env-flap {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.env-back {
+  top: 0;
+  height: 100%;
+  border-radius: 6px;
+  background: #ecd0c4;
+  z-index: 0;
+}
+
+/* Frente do envelope: tudo, menos o triângulo de cima (onde fica a aba) */
+.env-front {
+  top: 0;
+  height: 100%;
+  background: linear-gradient(180deg, #f6e1d6 0%, #f2d8cc 100%);
+  clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
+  border-radius: 6px;
+  z-index: 3;
+}
+
+/* Aba: triângulo fixo no alto, gira para trás ao abrir */
+.env-flap {
+  top: 0;
+  height: 58%;
+  background: linear-gradient(180deg, #ecd0c4 0%, #e6c3b4 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 6px 6px 0 0;
+  transform-origin: top center;
+  transform: perspective(900px) rotateX(0deg);
+  z-index: 4;
+}
+
+/* Carta dentro do envelope: sobe quando a aba abre */
+.env-letter {
+  position: absolute;
+  left: 6%;
+  top: 6%;
+  width: 88%;
+  height: 92%;
+  padding: 18px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background:
+    repeating-linear-gradient(transparent 0, transparent 27px, rgba(166, 111, 112, 0.16) 27px, rgba(166, 111, 112, 0.16) 28px),
+    #fffdf9;
+  border-radius: 4px;
+  box-shadow: 0 6px 16px -8px rgba(77, 56, 45, 0.35);
+  z-index: 2;
+}
+
+.env-letter-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #b08a8e;
+}
+
+.env-letter-text {
+  margin: 0;
+  font-family: "Caveat", cursive;
+  font-size: 23px;
+  line-height: 28px;
+  color: #a66f70;
+}
+
+.env-letter-sign {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #8c786c;
+}
+
+/* Selo de cera */
+.env-seal {
+  position: absolute;
+  left: calc(50% - 29px);
+  top: calc(58% - 29px);
+  width: 58px;
+  height: 58px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #e8667f 0%, #c0405a 55%, #9c2b44 100%);
+  color: #fde9ee;
+  box-shadow:
+    0 6px 12px rgba(120, 30, 50, 0.45),
+    inset 0 -3px 6px rgba(90, 15, 35, 0.35),
+    inset 0 3px 5px rgba(255, 190, 205, 0.35);
+  cursor: pointer;
+  animation: sealBeat 1.8s ease-in-out infinite;
+}
+
+.env-seal:disabled {
+  animation: none;
+  cursor: default;
+}
+
+.env-hint {
+  margin: 0;
+  font-family: "Caveat", cursive;
+  font-size: 22px;
+  color: #7b4f57;
+  animation: camPulse 1.4s ease-in-out infinite alternate;
+}
+
+.env-done {
+  margin-top: 4px;
+}
+
+@media (max-height: 640px) {
+  .env-scene {
+    --w: min(70vw, 280px);
+  }
+}
