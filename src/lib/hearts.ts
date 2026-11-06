@@ -1,4 +1,5 @@
 import confetti from "canvas-confetti";
+import { fireConfetti } from "./confetti";
 
 // Coração (ícone Material) usado como partícula de confete
 export const HEART_SHAPE = confetti.shapeFromPath({
@@ -7,7 +8,7 @@ export const HEART_SHAPE = confetti.shapeFromPath({
 
 /** Solta corações a partir de um ponto da tela (em pixels). */
 export function burstHearts(x: number, y: number, count = 12) {
-  confetti({
+  fireConfetti({
     particleCount: count,
     spread: 80,
     startVelocity: 18,

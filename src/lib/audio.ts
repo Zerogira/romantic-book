@@ -167,6 +167,19 @@ function synthChime(): Int16Array {
   return Int16Array.from(samples, toInt16);
 }
 
+/** Batida grave e macia, como um livro sendo fechado sobre a mesa. */
+function synthThud(): Int16Array {
+  const n = Math.floor(SFX_RATE * 0.4);
+  const samples = new Int16Array(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / SFX_RATE;
+    const body = Math.sin(2 * Math.PI * (85 - 45 * t) * t) * Math.exp(-t * 11);
+    const air = (Math.random() * 2 - 1) * Math.exp(-t * 45) * 0.25;
+    samples[i] = toInt16((body + air) * 0.9);
+  }
+  return samples;
+}
+
 const sfxHowls = new Map<string, Howl>();
 
 function playSfx(key: string, make: () => Int16Array, volume: number) {
@@ -191,6 +204,10 @@ export const sfx = {
   /** Estalo do selo de cera ao quebrar. */
   pop() {
     playSfx("pop", synthPop, 0.3);
+  },
+  /** Livro se fechando (última página). */
+  close() {
+    playSfx("close", synthThud, 0.35);
   },
   /** Sininho ao abrir a surpresa. */
   chime() {

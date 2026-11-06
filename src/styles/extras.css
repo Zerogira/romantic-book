@@ -416,3 +416,40 @@
   justify-content: flex-end;
   gap: 8px;
 }
+
+/* ---------- Dica de tela cheia no iPhone (tela inicial) ---------- */
+
+.ios-tip {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
+  z-index: 60;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 10px 14px;
+  border: 1px solid rgba(225, 123, 143, 0.3);
+  border-radius: 14px;
+  background: rgba(255, 253, 249, 0.96);
+  box-shadow: 0 8px 24px rgba(85, 71, 63, 0.18);
+  color: #6e594e;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.ios-tip button {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: #f5ebe4;
+  color: #7b4f57;
+  cursor: pointer;
+}

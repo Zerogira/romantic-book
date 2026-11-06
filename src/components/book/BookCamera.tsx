@@ -6,11 +6,15 @@ import { isMobileNow } from "../../lib/device";
 
 /*
  * "Câmera de cinema" da abertura: o livro começa inclinado para a esquerda,
- * desliza e gira até ficar inclinado para a direita, e fica assim até o
- * primeiro toque do leitor, que o endireita e libera o folhear.
+ * desliza até ficar inclinado para a direita, e fica assim até o primeiro toque do
+ * leitor, que o endireita e libera o folhear.
+ *
+ * Computador: movimento em 3D (giro no eixo Y).
+ * Celular: movimento só em 2D (deslocar, girar de leve e dar zoom). O 3D de um livro
+ * inteiro, com várias camadas e sombras, trava em muitos celulares; o 2D roda liso
+ * porque é só mover uma camada que já está pronta.
  *
  * Os valores ficam aqui para ajustar o gosto sem mexer na lógica.
- * No celular o deslocamento é menor, para o livro não sair da tela.
  */
 const CAMERA_DESKTOP = {
   start: { rotateY: -30, rotateX: 7, x: -90, scale: 0.9 },
@@ -20,14 +24,16 @@ const CAMERA_DESKTOP = {
 };
 
 const CAMERA_MOBILE = {
-  start: { rotateY: -24, rotateX: 5, x: -28, scale: 0.88 },
-  end: { rotateY: 20, rotateX: 3, x: 18, scale: 0.98 },
-  moveDuration: 2.6,
-  settleDuration: 0.9,
+  start: { rotation: -4, x: -28, y: 10, scale: 0.9 },
+  end: { rotation: 3, x: 16, y: 0, scale: 0.99 },
+  moveDuration: 2.2,
+  settleDuration: 0.8,
 };
 
 type Props = {
   children: ReactNode;
+  /** A câmera só começa quando isto vira true (o livro já fica montado, escondido, antes). */
+  play: boolean;
   /** Texto do aviso sobre o livro inclinado. */
   unlockLabel?: string;
   /** Chamado dentro do toque do usuário. */
@@ -38,7 +44,7 @@ type Props = {
   startDelay?: number;
 };
 
-export function BookCamera({ children, unlockLabel = "Toque para começar", onUnlock, onSettled, startDelay = 0 }: Props) {
+export function BookCamera({ children, play, unlockLabel = "Toque para começar", onUnlock, onSettled, startDelay = 0 }: Props) {
   const rigRef = useRef<HTMLDivElement | null>(null);
   const settlingRef = useRef(false);
   const [resting, setResting] = useState(false);
@@ -47,7 +53,12 @@ export function BookCamera({ children, unlockLabel = "Toque para começar", onUn
   const { contextSafe } = useGSAP(
     () => {
       const rig = rigRef.current;
-      if (!rig || reducedMotion) return;
+      if (!rig) return;
+      if (!play) {
+        setResting(false);
+        return;
+      }
+      if (reducedMotion) return;
       const camera = isMobileNow() ? CAMERA_MOBILE : CAMERA_DESKTOP;
 
       // Durante o movimento o hit-test do page-flip fica incorreto (o livro está
@@ -58,6 +69,7 @@ export function BookCamera({ children, unlockLabel = "Toque para começar", onUn
         delay: startDelay,
         onStart: () => {
           rig.style.pointerEvents = "none";
+          rig.style.willChange = "transform"; // camada própria só enquanto se move
         },
         onComplete: () => {
           rig.style.pointerEvents = "";
@@ -69,8 +81,14 @@ export function BookCamera({ children, unlockLabel = "Toque para começar", onUn
         ease: "power2.inOut",
         immediateRender: false,
       });
+
+      // Ao desligar (voltar ao início): limpa tudo
+      return () => {
+        rig.style.pointerEvents = "";
+        rig.style.willChange = "";
+      };
     },
-    { scope: rigRef, dependencies: [reducedMotion, startDelay] }
+    { scope: rigRef, dependencies: [play, reducedMotion, startDelay] }
   );
 
   // Primeiro toque: endireita o livro. O overlay continua até o fim, para o
@@ -84,12 +102,15 @@ export function BookCamera({ children, unlockLabel = "Toque para começar", onUn
     gsap.to(rig, {
       rotateY: 0,
       rotateX: 0,
+      rotation: 0,
       x: 0,
+      y: 0,
       scale: 1,
       duration: camera.settleDuration,
       ease: "power3.out",
       clearProps: "transform",
       onComplete: () => {
+        rig.style.willChange = "";
         settlingRef.current = false;
         setResting(false);
         onSettled?.();

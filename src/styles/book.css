@@ -23,7 +23,6 @@
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(55px);
   opacity: 0.55;
   animation: floatAmbient 12s ease-in-out infinite alternate;
 }
@@ -643,13 +642,26 @@
    2. PALCO DO LIVRO E BARRA SUPERIOR
    ========================================================= */
 
-.fade-in-book {
-  animation: bookFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+/* O livro fica montado (invisível) atrás da tela inicial e só aparece com um fade de opacidade */
+.experience.is-hidden {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
-@keyframes bookFadeIn {
-  from { opacity: 0; transform: scale(0.98); }
-  to { opacity: 1; transform: scale(1); }
+/* Desloca o livro para centralizá-lo quando está fechado (capa ou contracapa) */
+.book-shift {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.experience.is-visible {
+  opacity: 1;
+  transition: opacity 0.6s ease;
 }
 
 .experience {
@@ -673,7 +685,6 @@
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(45px);
   opacity: 0.55;
   animation: floatAmbient 12s ease-in-out infinite alternate;
 }
@@ -787,7 +798,6 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  will-change: transform;
 }
 
 /* Overlay que captura o primeiro toque enquanto o livro está inclinado */
@@ -822,8 +832,7 @@
   width: 75%;
   height: 70%;
   border-radius: 50%;
-  background: rgba(139, 107, 87, 0.1);
-  filter: blur(45px);
+  background: radial-gradient(circle, rgba(139, 107, 87, 0.12) 0%, rgba(139, 107, 87, 0) 70%);
 }
 
 .book-container {
@@ -1584,5 +1593,53 @@
     font-size: 16px;
     text-align: center;
     padding: 24px;
+  }
+}
+
+/* =========================================================
+   8. DESEMPENHO NO CELULAR
+   ========================================================= */
+
+/* Botões dentro das páginas: o clique precisa cair no <button>, não em um filho (ícone, texto, foto).
+   O livro (react-pageflip) só deixa o clique passar para o botão se o alvo for o próprio botão;
+   caso contrário ele também vira a página. */
+.stf__item button > * {
+  pointer-events: none;
+}
+
+/* Durante a abertura, pausa as animações em loop: o celular fica livre para a animação principal */
+.landing-wrapper.is-opening *,
+.landing-wrapper.is-opening *::before,
+.landing-wrapper.is-opening *::after {
+  animation: none !important;
+}
+
+@media (max-width: 640px), (pointer: coarse) {
+  /* Textura de ruído em SVG (feTurbulence) em todas as páginas é muito pesada para o celular */
+  .page-grain {
+    display: none;
+  }
+
+  /* Sombras grandes e desfoques são repintados a cada quadro ao virar a página */
+  .paper-page,
+  .stf__item.paper-page {
+    box-shadow: 0 4px 10px -4px rgba(77, 56, 45, 0.22) !important;
+  }
+
+  .reader-close,
+  .reader-music {
+    backdrop-filter: none;
+    background: rgba(255, 253, 249, 0.95);
+  }
+
+  /* Sem perspectiva 3D no palco: a câmera do celular usa só movimento 2D */
+  .book-stage {
+    perspective: none;
+  }
+
+  /* Luzes de fundo paradas (o movimento lento delas custa bateria e quadros) */
+  .landing-ambient,
+  .ambient {
+    animation: none;
   }
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
+import { isIOS, isStandalone } from "../../lib/device";
 import "../../styles/extras.css";
 
 // O Chrome (Android) avisa que o site pode ser instalado; guardamos o aviso para usar no botão.
@@ -21,20 +22,6 @@ if (typeof window !== "undefined") {
     deferredPrompt = null;
     listeners.forEach((fn) => fn());
   });
-}
-
-function isStandalone(): boolean {
-  if (typeof window === "undefined") return false;
-  return (
-    window.matchMedia?.("(display-mode: standalone)").matches ||
-    window.matchMedia?.("(display-mode: fullscreen)").matches ||
-    (navigator as Navigator & { standalone?: boolean }).standalone === true
-  );
-}
-
-function isIOS(): boolean {
-  const ua = navigator.userAgent;
-  return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 }
 
 /** Botão "Adicionar à tela inicial" e a folha com as instruções. Some quando o site já é um app. */

@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "registro:reset": "node scripts/reset-registro.mjs"
+    "registro:reset": "node scripts/registro.mjs reset",
+    "registro:status": "node scripts/registro.mjs status"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

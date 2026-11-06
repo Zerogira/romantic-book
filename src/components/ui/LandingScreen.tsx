@@ -3,7 +3,6 @@ import { Heart, Sparkles, BookOpen, Wand2, Check, RotateCcw, Copy, Plus, Trash2,
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { AnimatePresence, motion } from "motion/react";
-import confetti from "canvas-confetti";
 import { defaultStickers, mobileStickers, type StickerItem } from "../../data/stickersConfig";
 import { StickerRenderer } from "./StickerRenderer";
 import { music } from "../../lib/audio";
@@ -11,6 +10,8 @@ import { usePrefersReducedMotion } from "../../lib/motion";
 import { useIsMobile } from "../../lib/device";
 import { requestFullscreen } from "../../lib/fullscreen";
 import { HEART_SHAPE } from "../../lib/hearts";
+import { IosFullscreenTip } from "./IosFullscreenTip";
+import { fireConfetti } from "../../lib/confetti";
 
 gsap.registerPlugin(useGSAP);
 
@@ -238,7 +239,7 @@ export function LandingScreen({ onOpen }: Props) {
     }
 
     if (!reducedMotion) {
-      confetti({
+      fireConfetti({
         particleCount: 9,
         spread: 70,
         startVelocity: 16,
@@ -278,8 +279,8 @@ export function LandingScreen({ onOpen }: Props) {
       .to(stickersEls, { scale: 1.15, opacity: 0, duration: 0.7, stagger: 0.025, ease: "power2.in" }, "<0.1")
       .call(
         () =>
-          confetti({
-            particleCount: 90,
+          fireConfetti({
+            particleCount: isMobile ? 40 : 90,
             spread: 80,
             origin: { y: 0.6 },
             colors: ["#e17b8f", "#cce4f8", "#faedd8", "#ffffff"],
@@ -295,7 +296,7 @@ export function LandingScreen({ onOpen }: Props) {
   return (
     <div
       ref={containerRef}
-      className={`landing-wrapper ${isEditMode ? "edit-mode-active" : ""}`}
+      className={`landing-wrapper ${isEditMode ? "edit-mode-active" : ""} ${isOpening ? "is-opening" : ""}`}
       onPointerDown={() => {
         if (timelineRef.current) skipIntro();
       }}
@@ -483,6 +484,8 @@ export function LandingScreen({ onOpen }: Props) {
         </motion.aside>
       )}
       </AnimatePresence>
+
+      <IosFullscreenTip />
 
       {/* CARTÃO CENTRAL ROMÂNTICO */}
       <div className="envelope-card">

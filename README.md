@@ -51,7 +51,42 @@ A estrutura já reserva `public/music/`. Navegadores normalmente bloqueiam autop
 5. Output directory: `dist`.
 6. Adicione seu domínio em Settings → Domains e configure o DNS conforme as instruções do Vercel.
 
-O projeto é estático e não precisa de backend ou variáveis de ambiente.
+Cada push na branch `main` publica sozinho uma nova versão.
+
+### Armazenamento e variáveis de ambiente
+
+A foto e a carta que ela escreve no final ficam no **Vercel Blob** (Storage → Create → Blob, conectado ao projeto; isso cria `BLOB_READ_WRITE_TOKEN`). Em Settings → Environment Variables:
+
+| Variável | Para quê |
+| --- | --- |
+| `BLOB_READ_WRITE_TOKEN` | Criada ao conectar o Blob ao projeto. |
+| `ADMIN_KEY` | Senha para apagar a foto e a carta (reset). Precisa ser igual à do `.env.local`. |
+| `LOCKED_UNLOCK_AT` | Quando a página trancada abre, ex.: `2027-11-15T00:00:00-03:00`. |
+| `LOCKED_MESSAGE` | Texto da mensagem trancada (só é entregue depois da data). |
+
+Depois de mudar variáveis, faça um **Redeploy**.
+
+## Antes do grande dia: conferir e zerar
+
+Depois de testar a foto e a carta no site publicado, deixe tudo vazio para ela:
+
+```bash
+npm run registro:status   # mostra o que existe e se está pronto para o dia
+npm run registro:reset    # apaga a foto e a carta (pede para digitar SIM)
+```
+
+No Windows, dá para dar dois cliques em `ver-registro.bat` e `resetar-registro.bat` (na raiz do projeto).
+
+Os comandos leem o arquivo `.env.local` (fica só no seu computador, fora do GitHub):
+
+```text
+ADMIN_KEY=<a mesma senha cadastrada no Vercel>
+SITE_URL=https://nossoalbum.nagatins.com
+```
+
+## Testes locais (npm run dev)
+
+No modo de desenvolvimento a foto, a carta e a página trancada usam um servidor de teste local (os arquivos ficam em `.dev-registro/`, fora do GitHub). Para testar a página já aberta, coloque `LOCKED_UNLOCK_AT` (uma data no passado) e `LOCKED_MESSAGE` no `.env.local`. Os botões de edição (figurinhas e páginas) só existem nesse modo e não vão para o site publicado.
 
 ## Estrutura
 
