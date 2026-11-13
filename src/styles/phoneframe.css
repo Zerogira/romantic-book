@@ -1,0 +1,180 @@
+/* Simulador de celular (só no servidor de desenvolvimento) */
+body:has(.phone-stage) {
+  background: #14110f;
+  overflow: auto;
+}
+
+.phone-stage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  padding: 24px;
+  box-sizing: border-box;
+  color: #eee4da;
+  background: #14110f;
+  position: relative;
+  z-index: 1;
+  font-family: system-ui, sans-serif;
+}
+
+.phone-panel {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phone-panel h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.phone-note,
+.phone-size {
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0;
+  color: #c9bcae;
+}
+
+.phone-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.phone-presets button,
+.phone-reload {
+  text-align: left;
+  background: #221d1a;
+  color: inherit;
+  border: 1px solid #3a322d;
+  border-radius: 10px;
+  padding: 9px 12px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.phone-presets button strong {
+  display: block;
+  font-size: 13px;
+}
+
+.phone-presets button span {
+  display: block;
+  font-size: 11.5px;
+  color: #a99c8f;
+  margin-top: 2px;
+}
+
+.phone-presets button.is-active {
+  border-color: #e0a58f;
+  background: #33261f;
+}
+
+.phone-reload {
+  font-size: 13px;
+  text-align: center;
+}
+
+.phone-link {
+  font-size: 12px;
+  color: #e0a58f;
+}
+
+.phone-wrap {
+  flex: none;
+}
+
+.phone-body {
+  transform-origin: top left;
+  box-sizing: border-box;
+  padding: 14px;
+  background: #2b2623;
+  border-radius: 58px;
+  box-shadow: 0 0 0 2px #4a4039, 0 20px 60px rgba(0, 0, 0, 0.55);
+}
+
+.phone-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 46px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-screen iframe {
+  display: block;
+  border: 0;
+  flex: none;
+  background: #000;
+}
+
+.phone-bar {
+  flex: none;
+  background: #f2f2f4;
+  color: #111;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.phone-bar-top span {
+  position: absolute;
+  left: 38px;
+  bottom: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.phone-bar-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.phone-url {
+  width: 84%;
+  text-align: center;
+  background: #e1e1e5;
+  border-radius: 12px;
+  font-size: 13px;
+  padding: 9px 0;
+  color: #333;
+}
+
+.phone-home {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  width: 134px;
+  height: 5px;
+  margin-left: -67px;
+  border-radius: 3px;
+  background: #111;
+}
+
+.phone-island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  width: 120px;
+  height: 34px;
+  margin-left: -60px;
+  border-radius: 20px;
+  background: #000;
+}
+
+.phone-island-over {
+  z-index: 5;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .phone-stage {
+    flex-direction: column;
+  }
+}

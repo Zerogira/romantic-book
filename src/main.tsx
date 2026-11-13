@@ -35,10 +35,21 @@ async function applyDevReset() {
   }
 }
 
+// Simulador de celular: http://localhost:5173/?celular (só no servidor de desenvolvimento)
+const showPhoneFrame =
+  import.meta.env.DEV && window.self === window.top && new URLSearchParams(window.location.search).has("celular");
+const PhoneFrame = showPhoneFrame ? React.lazy(() => import("./components/dev/PhoneFrame")) : null;
+
 applyDevReset().finally(() => {
   ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-      <App />
+      {PhoneFrame ? (
+        <React.Suspense fallback={null}>
+          <PhoneFrame />
+        </React.Suspense>
+      ) : (
+        <App />
+      )}
     </React.StrictMode>,
   );
 });

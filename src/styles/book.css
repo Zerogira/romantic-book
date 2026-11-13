@@ -1937,13 +1937,13 @@
 
 @media (max-width: 640px) {
   .photo-trio-vertical .collage-card img {
-    max-height: 100px;
+    max-height: 120px;
   }
   .photo-trio-vertical .trio-row .trio-tall-2 {
     margin-top: 18px;
   }
   .photo-trio-vertical .collage-card.is-empty {
-    height: 100px;
+    height: 120px;
   }
   /* Modo leitura (tela cheia): 2 linhas de fotos ocupam o espaço que sobra na página */
   .experience.is-reader .layout-trioVertical {
@@ -1954,11 +1954,11 @@
     max-width: 49%;
   }
   .experience.is-reader .photo-trio-vertical .collage-card img {
-    max-height: calc((88vh - 330px) / 2);
-    max-height: calc((88dvh - 330px) / 2);
+    max-height: calc((88vh - 330px) * 0.6);
+    max-height: calc((88dvh - 330px) * 0.6);
   }
   .experience.is-reader .photo-trio-vertical .collage-card.is-empty {
-    height: calc((88dvh - 330px) / 2);
+    height: calc((88dvh - 330px) * 0.6);
   }
 }
 
@@ -2143,14 +2143,28 @@
     padding-right: 10px;
   }
   .experience.is-reader .collage-card.trio-h-card:not(.is-empty) {
-    max-width: 80%;
+    max-width: 90%;
+  }
+  .experience.is-reader .photo-trio-h {
+    gap: 10px;
   }
   .experience.is-reader .collage-card.trio-h-card img {
-    max-height: calc((88vh - 260px) / 3);
-    max-height: calc((88dvh - 260px) / 3);
+    max-height: calc((92vh - 235px) / 3);
+    max-height: calc((92dvh - 235px) / 3);
   }
   .experience.is-reader .collage-card.trio-h-card.is-empty {
-    height: calc((88dvh - 260px) / 3 + 6px);
+    height: calc((92dvh - 235px) / 3 + 6px);
+  }
+  /* Página sem texto e sem nota (só as 3 fotos): usa quase toda a altura da página */
+  .experience.is-reader .layout-trioHorizontal:has(.page-copy:empty):not(:has(.page-note)) .photo-trio-h {
+    gap: 14px;
+  }
+  .experience.is-reader .layout-trioHorizontal:has(.page-copy:empty):not(:has(.page-note)) .collage-card.trio-h-card img {
+    max-height: calc((96vh - 150px) / 3);
+    max-height: calc((96dvh - 150px) / 3);
+  }
+  .experience.is-reader .layout-trioHorizontal:has(.page-copy:empty):not(:has(.page-note)) .collage-card.trio-h-card:not(.is-empty) {
+    max-width: 94%;
   }
   /* Trio invertido no modo leitura: 1 deitada em cima (45% da altura livre) e 2 em pé embaixo (55%) */
   .experience.is-reader .photo-trio-invertido .trio-row .trio-tall {
