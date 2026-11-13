@@ -56,10 +56,10 @@
     "stickers": [
       {
         "id": "s-mwfbngl6",
-        "x": 79.3,
-        "y": 18,
+        "x": 33.2,
+        "y": 47.4,
         "rotation": 13,
-        "scale": 0.5,
+        "scale": 0.4,
         "type": "gif",
         "label": "4178-bubuwinterhopyellow.gif",
         "src": "/images/figurinhas/4178-bubuwinterhopyellow.gif"
@@ -133,6 +133,18 @@
       {
         "label": "Seu jeito único",
         "value": "Seu sorriso tímido, suas bochechas vermelhas, sua voz meiga, sua cosquinha no umbigo, seus memes de gatinhos, todo seu jeitinho."
+      }
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfdsewz",
+        "x": 50.3,
+        "y": 74.7,
+        "rotation": 0,
+        "scale": 1,
+        "type": "gif",
+        "label": "giphy-GYikUbu3p5UdyBhe4r.gif",
+        "src": "/images/figurinhas/giphy-GYikUbu3p5UdyBhe4r.gif"
       }
     ]
   },
@@ -236,20 +248,20 @@
     "stickers": [
       {
         "id": "s-mwfbuh4w",
-        "x": 21.5,
-        "y": 69.1,
+        "x": 20.3,
+        "y": 75.5,
         "rotation": 0,
-        "scale": 0.8,
+        "scale": 0.6,
         "type": "gif",
         "label": "6640-bubuicecream.png",
         "src": "/images/figurinhas/6640-bubuicecream.png"
       },
       {
         "id": "s-mwfbuty0",
-        "x": 73.9,
-        "y": 69,
+        "x": 76.1,
+        "y": 75.8,
         "rotation": 0,
-        "scale": 1.25,
+        "scale": 0.9,
         "type": "gif",
         "label": "giphy-casal-01-RuI6fGwzkSHvFjHP6T.gif",
         "src": "/images/figurinhas/giphy-casal-01-RuI6fGwzkSHvFjHP6T.gif"
@@ -458,13 +470,23 @@
     "stickers": [
       {
         "id": "s-mwfcv846",
-        "x": 35.3,
-        "y": 71.7,
+        "x": 29.5,
+        "y": 75.9,
         "rotation": 0,
         "scale": 1,
         "type": "gif",
         "label": "giphy-WPtzVOKMymmZrJv8fO.gif",
         "src": "/images/figurinhas/giphy-WPtzVOKMymmZrJv8fO.gif"
+      },
+      {
+        "id": "s-mwfe0z4w",
+        "x": 76.1,
+        "y": 78.1,
+        "rotation": 0,
+        "scale": 1,
+        "type": "gif",
+        "label": "giphy-ckAhX7LBZrhst2mG2j.gif",
+        "src": "/images/figurinhas/giphy-ckAhX7LBZrhst2mG2j.gif"
       }
     ]
   },
@@ -524,10 +546,10 @@
     "stickers": [
       {
         "id": "s-mwfd107g",
-        "x": 77.1,
-        "y": 18.7,
+        "x": 84.1,
+        "y": 20.5,
         "rotation": 0,
-        "scale": 0.6,
+        "scale": 0.45,
         "type": "gif",
         "label": "giphy-casal-18-iU9lOdyGgVXgeiWSW1.gif",
         "src": "/images/figurinhas/giphy-casal-18-iU9lOdyGgVXgeiWSW1.gif"

@@ -1,4 +1,4 @@
-import { forwardRef, useContext, useRef } from "react";
+import { forwardRef, useContext, useEffect, useRef } from "react";
 import { motion, type Variants } from "motion/react";
 import { Sparkles, Image as ImageIcon } from "lucide-react";
 import type { PageData } from "../../data/bookContent";
@@ -36,6 +36,45 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
   const isVisible = active.index === pageIndex || (active.spread && active.index >= 1 && active.index + 1 === pageIndex);
   const state = isVisible ? "show" : "hidden";
   const letterRef = useRef<HTMLDivElement | null>(null); // caixa da carta (layout "letter"), que rola por dentro
+
+  // Rolar a carta com o dedo não pode virar a página: o livro (e o gesto de reserva do App)
+  // decidem virar pelo movimento do dedo ao soltar, e o dedo costuma escorregar para o lado
+  // enquanto sobe. Se o gesto começou na vertical, o livro não fica sabendo dele. Deslizes
+  // para os lados dentro da carta continuam virando a página.
+  useEffect(() => {
+    const box = letterRef.current;
+    if (!box) return;
+    let start: { x: number; y: number } | null = null;
+    let vertical = false;
+    const onStart = (e: TouchEvent) => {
+      const t = e.touches[0];
+      start = t ? { x: t.clientX, y: t.clientY } : null;
+      vertical = false;
+    };
+    const onMove = (e: TouchEvent) => {
+      const t = e.touches[0];
+      if (!start || !t) return;
+      if (!vertical && Math.abs(t.clientY - start.y) > 8 && Math.abs(t.clientY - start.y) >= Math.abs(t.clientX - start.x)) {
+        vertical = true;
+      }
+      if (vertical) e.stopPropagation();
+    };
+    const onEnd = (e: TouchEvent) => {
+      if (vertical) e.stopPropagation();
+      start = null;
+      vertical = false;
+    };
+    box.addEventListener("touchstart", onStart, { passive: true });
+    box.addEventListener("touchmove", onMove, { passive: true });
+    box.addEventListener("touchend", onEnd, { passive: true });
+    box.addEventListener("touchcancel", onEnd, { passive: true });
+    return () => {
+      box.removeEventListener("touchstart", onStart);
+      box.removeEventListener("touchmove", onMove);
+      box.removeEventListener("touchend", onEnd);
+      box.removeEventListener("touchcancel", onEnd);
+    };
+  }, [page.layout]);
 
   return (
     <PageIndexContext.Provider value={pageIndex}>

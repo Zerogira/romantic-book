@@ -36,8 +36,8 @@ export function HandwrittenText({ text, active, followScroll }: Props) {
       setCount(text.length);
       return;
     }
-    // Duração total entre 2,5 s e 9 s, conforme o tamanho do texto
-    const total = Math.min(9000, Math.max(2500, text.length * 45));
+    // Duração total entre 4 s e 30 s, conforme o tamanho do texto (~32 ms por letra: escrita calma)
+    const total = Math.min(30000, Math.max(4000, text.length * 32));
     const startedAt = performance.now();
     let frame = 0;
     const tick = (now: number) => {
