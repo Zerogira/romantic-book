@@ -19,8 +19,8 @@
     "id": "polaroid-left",
     "type": "polaroid",
     "label": "Polaroid Esquerda",
-    "x": 7,
-    "y": 35,
+    "x": 23,
+    "y": 47,
     "rotation": -7,
     "caption": "nosso dia especial ♡"
   },
@@ -37,8 +37,8 @@
     "id": "sticky-note",
     "type": "sticky-note",
     "label": "Bilhetinho de Amor",
-    "x": 87,
-    "y": 35,
+    "x": 74,
+    "y": 48,
     "rotation": -3,
     "caption": "lembrete: você é o meu lugar favorito no mundo! ♡",
     "scale": 1.1

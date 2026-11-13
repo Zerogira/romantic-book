@@ -12,6 +12,7 @@ import { requestFullscreen } from "../../lib/fullscreen";
 import { HEART_SHAPE } from "../../lib/hearts";
 import { IosFullscreenTip } from "./IosFullscreenTip";
 import { fireConfetti } from "../../lib/confetti";
+import { fetchStickerAssets } from "../../lib/stickerAssets";
 
 gsap.registerPlugin(useGSAP);
 
@@ -91,9 +92,8 @@ export function LandingScreen({ onOpen }: Props) {
   // Carrega a galeria de figurinhas na primeira vez que ela é aberta
   useEffect(() => {
     if (!galleryOpen || !CAN_EDIT_PROJECT || assets.length > 0) return;
-    fetch("/__stickers/assets")
-      .then((r) => r.json())
-      .then((list: string[]) => setAssets(list))
+    fetchStickerAssets()
+      .then((list) => setAssets(list))
       .catch((err) => console.warn("Não foi possível listar as figurinhas:", err));
   }, [galleryOpen, assets.length]);
 
@@ -504,7 +504,7 @@ export function LandingScreen({ onOpen }: Props) {
         </h1>
 
         <p className="card-subtitle">
-          Uma pequena história sobre duas pessoas que escolheram caminhar juntas.
+          Uma história sobre duas pessoas que escolheram caminhar juntas.
         </p>
 
         <div className="card-divider">

@@ -1,9 +1,9 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, BookOpen, Heart, Maximize2, Music2, VolumeX, X } from "lucide-react";
+import { ArrowLeft, BookOpen, Heart, Maximize2, X } from "lucide-react";
 import HTMLFlipBook from "react-pageflip";
 import { MotionConfig, motion } from "motion/react";
 import type { PageData } from "./data/bookContent";
-import { bookPages } from "./data/bookContent";
+import { bookPages, replaceBookPages } from "./data/bookContent";
 import { BookPage, ActivePageContext } from "./components/book/BookPage";
 import { BookCamera } from "./components/book/BookCamera";
 import { CoverPage } from "./components/book/CoverPage";
@@ -13,7 +13,8 @@ import { RegistroProvider } from "./components/registro/RegistroProvider";
 import { LightboxProvider } from "./components/ui/Lightbox";
 import { CartaProvider } from "./components/carta/CartaProvider";
 import { InstallApp } from "./components/ui/InstallApp";
-import { music, sfx, MUSIC_SRC } from "./lib/audio";
+import { OuterStickers } from "./components/ui/OuterStickers";
+import { music, sfx } from "./lib/audio";
 import { useIsMobile } from "./lib/device";
 import { usePrefersReducedMotion } from "./lib/motion";
 import { requestFullscreen, exitFullscreen } from "./lib/fullscreen";
@@ -34,39 +35,6 @@ type FlipBookHandle = {
   };
 };
 
-function MusicToggle() {
-  const [muted, setMuted] = useState(() => music.isMuted());
-  const available = music.isAvailable();
-  const playing = available && !muted;
-
-  const toggle = () => {
-    if (muted) {
-      // Clique do usuário: pode iniciar o áudio com segurança
-      music.setMuted(false);
-      setMuted(false);
-      music.start();
-    } else {
-      music.setMuted(true);
-      setMuted(true);
-    }
-  };
-
-  return (
-    <button
-      type="button"
-      className={`music-toggle ${playing ? "is-active" : ""}`}
-      onClick={toggle}
-      title={available ? "Ligar ou pausar a música" : `Coloque o arquivo em ${MUSIC_SRC}`}
-      aria-label="Alternar música"
-    >
-      {playing ? <Music2 size={15} /> : <VolumeX size={15} />}
-      <span>
-        {!available ? "Música em breve" : muted ? "Música pausada" : "Música ligada"}
-      </span>
-    </button>
-  );
-}
-
 export default function App() {
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [showLanding, setShowLanding] = useState(true);
@@ -77,11 +45,16 @@ export default function App() {
   const [spread, setSpread] = useState(false); // true quando o livro mostra duas páginas lado a lado
   const activePageValue = useMemo(() => ({ index: activePage, spread }), [activePage, spread]);
   const [editingPages, setEditingPages] = useState(false);
+  const editingPagesRef = useRef(false);
+  editingPagesRef.current = editingPages;
   const [reader, setReader] = useState(false); // modo leitura (celular): livro maior, sem cabeçalho
   const isMobile = useIsMobile();
   const prefersReducedMotion = usePrefersReducedMotion(); // mesma regra do resto do site (e do ?motion=1 em testes)
   const bookRef = useRef<FlipBookHandle | null>(null);
   const showBook = bookMounted || isBookOpen;
+
+  // Muda só ao aplicar edições no editor (dev): o livro é remontado na mesma página
+  const [pagesVersion, setPagesVersion] = useState(0);
 
   // Páginas estáveis memoizadas
   const renderedPages = useMemo(
@@ -93,7 +66,7 @@ export default function App() {
       )),
       <BackCover key="page-back-cover" />,
     ],
-    []
+    [pagesVersion]
   );
   const lastIndex = renderedPages.length - 1;
 
@@ -225,7 +198,7 @@ export default function App() {
     setActivePage(e.data);
     applyShift();
     // Chegou na contracapa: depois de um instante para ver, o livro se fecha folheando de volta à capa
-    if (e.data === lastIndex && !rewindingRef.current) {
+    if (e.data === lastIndex && !rewindingRef.current && !editingPagesRef.current) {
       clearRewindTimers();
       rewindTimersRef.current.push(window.setTimeout(startRewind, 1100));
     }
@@ -278,6 +251,18 @@ export default function App() {
     }, 170);
   };
 
+  // Editor de páginas: ao escolher uma página na lista, o livro abre nela (para editar ali mesmo)
+  const goToPage = (pageIndex: number) => {
+    try {
+      bookRef.current?.pageFlip().turnToPage(pageIndex);
+    } catch {
+      return;
+    }
+    indexRef.current = pageIndex;
+    setActivePage(pageIndex);
+    applyShift();
+  };
+
   // ---- Voltar para a tela inicial ----
   const goHome = () => {
     music.fadeOut();
@@ -319,12 +304,24 @@ export default function App() {
           <div className="ambient ambient-one" />
           <div className="ambient ambient-two" />
 
+          {/* Figurinhas ao redor do livro: por página, só no computador */}
+          {!isMobile && !reader && <OuterStickers active={activePageValue} />}
+
           {/* Barra Superior com botão Voltar e Título */}
           <header className="book-top-bar">
-            <button type="button" className="return-btn" onClick={goHome} aria-label="Voltar para a tela inicial">
-              <ArrowLeft size={16} />
-              <span>Início</span>
-            </button>
+            <div className="top-bar-left">
+              <button type="button" className="return-btn" onClick={goHome} aria-label="Voltar para a tela inicial">
+                <ArrowLeft size={16} />
+                <span>Início</span>
+              </button>
+              {/* Só no servidor de desenvolvimento: fica junto dos botões da lateral esquerda */}
+              {PageEditor && (
+                <button type="button" className="return-btn" onClick={() => setEditingPages(true)}>
+                  <BookOpen size={16} />
+                  <span>Editar páginas</span>
+                </button>
+              )}
+            </div>
 
             <div className="site-heading">
               <span className="eyebrow">
@@ -342,7 +339,7 @@ export default function App() {
           {/* Palco do Livro */}
           <section className="book-stage" aria-label="Livro de memórias">
             <div
-              className={`book-container ${rewinding ? "is-rewinding" : ""}`}
+              className={`book-container ${rewinding ? "is-rewinding" : ""} ${editingPages ? "is-editing" : ""}`}
               ref={containerRef}
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
@@ -350,7 +347,7 @@ export default function App() {
               <BookCamera
                 play={isBookOpen}
                 unlockLabel={isMobile ? "Toque para ler" : "Toque para começar"}
-                startDelay={0.8}
+                startDelay={0.35}
                 onSettled={isMobile ? () => setReader(true) : undefined}
               >
                 <motion.div
@@ -362,7 +359,7 @@ export default function App() {
                   <ActivePageContext.Provider value={activePageValue}>
                     <HTMLFlipBook
                       // Remonta ao entrar/sair do modo leitura para recalcular o tamanho do livro
-                      key={reader ? "reader" : "normal"}
+                      key={`${reader ? "reader" : "normal"}-${pagesVersion}`}
                       ref={bookRef as never}
                       onFlip={handleFlip}
                       onInit={handleOrientation}
@@ -412,9 +409,6 @@ export default function App() {
               <button type="button" className="reader-close" onClick={exitReader} aria-label="Sair do modo leitura">
                 <X size={18} />
               </button>
-              <div className="reader-music">
-                <MusicToggle />
-              </div>
               <span className="reader-counter" aria-live="polite">
                 {Math.min(activePage + 1, renderedPages.length)} / {renderedPages.length}
               </span>
@@ -424,7 +418,6 @@ export default function App() {
           {/* Dicas e controles auxiliares */}
           <footer className="page-hint">
             <span>{isMobile ? "Toque nas bordas ou deslize para virar a página" : "Clique na página ou arraste para folhear"}</span>
-            <MusicToggle />
             {isMobile && (
               <button type="button" className="music-toggle" onClick={enterReader}>
                 <Maximize2 size={15} />
@@ -432,20 +425,20 @@ export default function App() {
               </button>
             )}
             {isMobile && <InstallApp />}
-            {PageEditor && (
-              <button type="button" className="music-toggle" onClick={() => setEditingPages(true)}>
-                <BookOpen size={15} />
-                <span>Editar páginas</span>
-              </button>
-            )}
           </footer>
 
           {PageEditor && editingPages && (
             <Suspense fallback={null}>
               <PageEditor
                 pages={bookPages}
+                initialPage={Math.max(0, Math.min(bookPages.length - 1, activePage - 1))}
+                onGoToPage={goToPage}
                 onClose={() => setEditingPages(false)}
                 onSaved={() => window.location.reload()}
+                onApply={(pages) => {
+                  replaceBookPages(pages);
+                  setPagesVersion((v) => v + 1);
+                }}
               />
             </Suspense>
           )}

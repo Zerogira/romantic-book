@@ -1,4 +1,4 @@
-import { createContext, forwardRef, useContext } from "react";
+import { forwardRef, useContext } from "react";
 import { motion, type Variants } from "motion/react";
 import { Sparkles, Image as ImageIcon } from "lucide-react";
 import type { PageData } from "../../data/bookContent";
@@ -8,13 +8,13 @@ import { ZoomPhoto } from "../ui/ZoomPhoto";
 import { CartaBlock } from "../carta/CartaBlock";
 import { TrancadaBlock } from "../trancada/TrancadaBlock";
 import { SurpriseBlock } from "../surprise/SurpriseBlock";
+import { StickerLayer } from "../ui/StickerLayer";
+import { stickersOf, useStickerEdit } from "../../lib/stickerEdit";
 
-/**
- * Página visível no livro (atualizada pelo onFlip). No computador o livro mostra duas
- * páginas lado a lado ("spread"): além da página `index`, a seguinte também está visível.
- */
-export type ActivePage = { index: number; spread: boolean };
-export const ActivePageContext = createContext<ActivePage>({ index: 0, spread: false });
+import { ActivePageContext, PageIndexContext } from "./pageContext";
+
+export { ActivePageContext };
+export type { ActivePage } from "./pageContext";
 
 type Props = { page: PageData; pageIndex: number };
 
@@ -31,11 +31,13 @@ const itemVariants: Variants = {
 
 export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, ref) => {
   const active = useContext(ActivePageContext);
+  const edit = useStickerEdit();
   // Em duas páginas (e fora da capa), a página à direita também está visível
   const isVisible = active.index === pageIndex || (active.spread && active.index >= 1 && active.index + 1 === pageIndex);
   const state = isVisible ? "show" : "hidden";
 
   return (
+    <PageIndexContext.Provider value={pageIndex}>
     <div
       className={`paper-page content-page layout-${page.layout}`}
       ref={ref}
@@ -74,6 +76,120 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
                   ) : (
                     <span>{i === 0 ? "nossa primeira foto" : "um dia inesquecível"}</span>
                   )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Layout: Trio de fotos (2 verticais em cima, 1 horizontal embaixo) */}
+        {page.layout === "trio" && (
+          <div className="photo-trio">
+            <div className="trio-row">
+              {[0, 1].map((i) => {
+                const src = page.images?.[i];
+                return (
+                  <div key={i} className={`collage-card trio-tall trio-tall-${i + 1} ${src ? "" : "is-empty"}`}>
+                    {src ? <ZoomPhoto src={src} alt={`Foto ${i + 1}`} /> : <span>{i === 0 ? "foto 1" : "foto 2"}</span>}
+                  </div>
+                );
+              })}
+            </div>
+            {(() => {
+              const src = page.images?.[2];
+              return (
+                <div className={`collage-card trio-wide ${src ? "" : "is-empty"}`}>
+                  {src ? <ZoomPhoto src={src} alt="Foto 3" /> : <span>foto 3</span>}
+                </div>
+              );
+            })()}
+          </div>
+        )}
+
+        {/* Layout: Trio invertido (1 horizontal em cima, 2 verticais embaixo) */}
+        {page.layout === "trioInvertido" && (
+          <div className="photo-trio photo-trio-invertido">
+            {(() => {
+              const src = page.images?.[0];
+              return (
+                <div className={`collage-card trio-wide ${src ? "" : "is-empty"}`}>
+                  {src ? <ZoomPhoto src={src} alt="Foto 1" /> : <span>foto 1</span>}
+                </div>
+              );
+            })()}
+            <div className="trio-row">
+              {[1, 2].map((i) => {
+                const src = page.images?.[i];
+                return (
+                  <div key={i} className={`collage-card trio-tall trio-tall-${i} ${src ? "" : "is-empty"}`}>
+                    {src ? <ZoomPhoto src={src} alt={`Foto ${i + 1}`} /> : <span>{i === 1 ? "foto 2" : "foto 3"}</span>}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Layout: Trio vertical (3 fotos em pé: 2 em cima, 1 embaixo) */}
+        {page.layout === "trioVertical" && (
+          <div className="photo-trio photo-trio-vertical">
+            <div className="trio-row">
+              {[0, 1].map((i) => {
+                const src = page.images?.[i];
+                return (
+                  <div key={i} className={`collage-card trio-tall trio-tall-${i + 1} ${src ? "" : "is-empty"}`}>
+                    {src ? <ZoomPhoto src={src} alt={`Foto ${i + 1}`} /> : <span>foto {i + 1}</span>}
+                  </div>
+                );
+              })}
+            </div>
+            {(() => {
+              const src = page.images?.[2];
+              return (
+                <div className={`collage-card trio-solo ${src ? "" : "is-empty"}`}>
+                  {src ? <ZoomPhoto src={src} alt="Foto 3" /> : <span>foto 3</span>}
+                </div>
+              );
+            })()}
+          </div>
+        )}
+
+        {/* Layout: Trio horizontal (3 fotos deitadas, uma sobre a outra, alternando os lados) */}
+        {page.layout === "trioHorizontal" && (
+          <div className="photo-trio-h">
+            {[0, 1, 2].map((i) => {
+              const src = page.images?.[i];
+              return (
+                <div key={i} className={`collage-card trio-h-card trio-h-${i + 1} ${src ? "" : "is-empty"}`}>
+                  {src ? <ZoomPhoto src={src} alt={`Foto ${i + 1}`} /> : <span>foto {i + 1}</span>}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Layout: Zigue-zague (3 fotos em diagonal: esquerda, direita, esquerda) */}
+        {page.layout === "zigzag" && (
+          <div className="photo-zigzag">
+            {[0, 1, 2].map((i) => {
+              const src = page.images?.[i];
+              return (
+                <div key={i} className={`collage-card zig-card zig-${i + 1} ${src ? "" : "is-empty"}`}>
+                  {src ? <ZoomPhoto src={src} alt={`Foto ${i + 1}`} /> : <span>foto {i + 1}</span>}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Layout: Quatro fotos (2 em cima, 2 embaixo) */}
+        {page.layout === "quad" && (
+          <div className="photo-quad">
+            {[0, 1, 2, 3].map((i) => {
+              const src = page.images?.[i];
+              return (
+                <div key={i} className={`collage-card quad-card quad-${i + 1} ${src ? "" : "is-empty"}`}>
+                  {src ? <ZoomPhoto src={src} alt={`Foto ${i + 1}`} /> : <span>foto {i + 1}</span>}
                 </div>
               );
             })}
@@ -150,7 +266,18 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
           {page.id === "dedicatoria" ? "♡" : "✦"}
         </span>
       </div>
+
+      {/* Figurinhas: só decoração (não recebem toque, então clicar nelas vira a página) */}
+      <StickerLayer
+        scope="inner"
+        pageId={page.id}
+        stickers={stickersOf(page, "inner", edit)}
+        editable={edit.enabled && edit.pageId === page.id}
+        selectedId={edit.selectedId}
+        baseWidth={500}
+      />
     </div>
+    </PageIndexContext.Provider>
   );
 });
 

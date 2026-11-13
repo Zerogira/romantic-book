@@ -353,9 +353,14 @@
 /* Fotos dentro dos cartões da colagem */
 .collage-card img {
   width: 100%;
-  height: 100%;
+  height: auto; /* a foto mantém a proporção original */
+  max-height: 240px;
   object-fit: cover;
   display: block;
+}
+
+.collage-card .zoom-trigger {
+  height: auto;
 }
 
 /* Figurinha selecionada no modo edição */
@@ -739,6 +744,19 @@
   transform: translateX(-2px);
 }
 
+.top-bar-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  justify-self: start;
+}
+
+.top-bar-left .return-btn {
+  justify-self: auto;
+  white-space: nowrap;
+}
+
 .top-bar-placeholder {
   width: 90px;
 }
@@ -901,14 +919,14 @@
   height: 100%;
   width: 100%;
   padding: 17px;
-  color: #f9eee1;
+  color: #3d5a72;
   background:
-    radial-gradient(ellipse at 20% 20%, rgba(255, 255, 255, 0.12), transparent 38%),
-    linear-gradient(145deg, #80645c, #684e49 55%, #59423f) !important;
+    radial-gradient(ellipse at 30% 25%, #ffffff, transparent 60%),
+    linear-gradient(145deg, #ffffff 0%, #fffdfe 45%, #fbf1f5 75%, #e9f1fa 100%) !important;
   box-shadow:
-    0 18px 45px -8px rgba(50, 32, 22, 0.32),
-    inset 5px 0 12px rgba(35, 22, 19, 0.25),
-    inset -2px 0 3px rgba(255, 255, 255, 0.1) !important;
+    0 18px 45px -8px rgba(90, 110, 140, 0.25),
+    inset 5px 0 12px rgba(120, 140, 170, 0.16),
+    inset -2px 0 3px rgba(255, 255, 255, 0.6) !important;
   overflow: hidden !important;
   box-sizing: border-box;
   backface-visibility: hidden;
@@ -918,8 +936,8 @@
 
 .cover-border {
   height: 100%;
-  border: 1px solid rgba(240, 218, 193, 0.56);
-  outline: 1px solid rgba(240, 218, 193, 0.18);
+  border: 1px solid rgba(120, 150, 185, 0.5);
+  outline: 1px solid rgba(214, 140, 160, 0.3);
   outline-offset: -7px;
   display: flex;
   flex-direction: column;
@@ -932,22 +950,24 @@
 
 .cover-sparkle {
   position: absolute;
-  color: #e7cbb1;
+  color: #d89aa9;
   opacity: 0.8;
 }
 
 .sparkle-top {
   top: 24px;
   right: 25px;
+  color: #7fa5c6;
 }
 
 .sparkle-bottom {
   bottom: 25px;
   left: 25px;
+  color: #d68ca0;
 }
 
 .cover-flower {
-  color: #e6c6ad;
+  color: #cf7f95;
   font-size: 26px;
   margin-bottom: 16px;
 }
@@ -955,7 +975,7 @@
 .cover-kicker {
   font-size: 8px;
   letter-spacing: 0.25em;
-  color: #e5cdbb;
+  color: #5b84aa;
   font-weight: 600;
 }
 
@@ -965,11 +985,11 @@
   font-weight: 500;
   line-height: 1.05;
   margin: 16px 0 18px;
-  color: #fff5e9;
+  color: #3d5a72;
 }
 
 .cover-border h2 em {
-  color: #e8c5b8;
+  color: #c77d8f;
   font-weight: 500;
 }
 
@@ -977,20 +997,20 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #e7c7b4;
+  color: #c77d8f;
 }
 
 .cover-rule span {
   height: 1px;
   width: 32px;
-  background: rgba(231, 199, 180, 0.65);
+  background: rgba(95, 132, 168, 0.6);
 }
 
 .cover-border p {
   font-family: "Playfair Display", serif;
   font-style: italic;
   line-height: 1.5;
-  color: #e8d6c7;
+  color: #55708a;
   font-size: 13px;
   margin: 16px 0 0;
   max-width: 280px;
@@ -1001,7 +1021,20 @@
   bottom: 25px;
   letter-spacing: 0.18em;
   font-size: 8px;
-  color: #d9bca8;
+  color: #c77d8f;
+}
+
+/* Contador "juntos há" dentro da capa (cores claras viraram escuras) */
+.cover-border .together-counter {
+  color: #4f7396;
+}
+
+.cover-border .together-units span {
+  background: rgba(214, 140, 160, 0.16);
+}
+
+.cover-border .together-units strong {
+  color: #3d5a72;
 }
 
 /* Conteúdo interno da página */
@@ -1121,15 +1154,14 @@
 /* 04. Nossas memórias (Colagem) */
 .photo-collage {
   width: 100%;
-  height: 200px;
-  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   margin: 18px 0 10px;
 }
 
 .collage-card {
-  position: absolute;
-  width: 68%;
-  height: 140px;
+  position: relative;
   padding: 6px 6px 20px;
   background: #fffefb;
   box-shadow: 0 4px 14px rgba(76, 55, 42, 0.12);
@@ -1140,17 +1172,22 @@
 }
 
 .collage-card.card-1 {
-  top: 0;
-  left: 0;
+  width: 46%;
+  margin-left: 2%;
   transform: rotate(-3deg);
   background: repeating-linear-gradient(135deg, #eee5d9, #eee5d9 8px, #f5eee5 8px, #f5eee5 16px);
 }
 
 .collage-card.card-2 {
-  bottom: 0;
-  right: 0;
+  width: 40%;
+  margin: 44px 2% 0 0;
   transform: rotate(2.5deg);
   background: repeating-linear-gradient(135deg, #ebdcd2, #ebdcd2 8px, #f3ece4 8px, #f3ece4 16px);
+}
+
+/* Sem foto ainda: o cartão vazio mantém um tamanho de referência */
+.collage-card.is-empty {
+  height: 150px;
 }
 
 /* 05. Linha do Tempo */
@@ -1338,8 +1375,8 @@
 /* Contracapa */
 .back-cover,
 .stf__item.back-cover {
-  background: linear-gradient(145deg, #80645c, #59423f) !important;
-  color: #f2ddca;
+  background: linear-gradient(145deg, #ffffff, #fdfbfd 60%, #eef4fb) !important;
+  color: #3d5a72;
   display: grid;
   place-items: center;
   overflow: hidden !important;
@@ -1358,7 +1395,7 @@
 }
 
 .back-sparkle {
-  color: #e5cdbb;
+  color: #7fa5c6;
   opacity: 0.8;
 }
 
@@ -1369,7 +1406,7 @@
 
 .back-cover-inner small {
   font: 17px "Caveat", cursive;
-  color: #e4c6b5;
+  color: #c77d8f;
 }
 
 /* =========================================================
@@ -1497,8 +1534,12 @@
   }
 
   .photo-placeholder,
-  .photo-collage {
-    height: 160px;
+  .collage-card img {
+    max-height: 170px;
+  }
+
+  .collage-card.card-2 {
+    margin-top: 36px;
   }
 
   .book-navigation {
@@ -1644,7 +1685,419 @@
   }
 }
 
+/* Modo edição (só no desenvolvimento): o painel do editor fica à direita e cobre
+   metade da sua largura. O livro desloca essa metade para a esquerda, para ficar
+   inteiro visível. Quando o painel está recolhido, o livro volta ao centro. */
+.book-container {
+  transition: transform 0.25s ease;
+}
+
+.book-container.is-editing {
+  transform: translateX(calc(min(480px, 100vw) / -2));
+}
+
+.experience:has(.pe-panel.is-collapsed) .book-container.is-editing {
+  transform: none;
+}
+
 /* Enquanto o livro folheia sozinho de volta à capa, ignora toques */
 .book-container.is-rewinding {
   pointer-events: none;
+}
+
+/* ---------- Trio de fotos (layout "trio") ---------- */
+/* Cada foto segue a proporção original; a altura máxima só evita que a página estoure. */
+.photo-trio {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 16px 0 10px;
+}
+
+.trio-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.collage-card.trio-tall {
+  width: 46%;
+  background: #fffefb;
+}
+
+.collage-card.trio-tall-1 {
+  margin-left: 2%;
+  transform: rotate(-3deg);
+}
+
+.collage-card.trio-tall-2 {
+  margin: 36px 2% 0 0;
+  transform: rotate(2.5deg);
+}
+
+.collage-card.trio-wide {
+  width: 84%;
+  align-self: center;
+  transform: rotate(-1deg);
+  background: #fffefb;
+}
+
+.trio-row .collage-card img {
+  max-height: 210px;
+}
+
+.collage-card.trio-wide img {
+  max-height: 150px;
+}
+
+.collage-card.is-empty.trio-tall {
+  height: 150px;
+}
+
+.collage-card.is-empty.trio-wide {
+  height: 110px;
+}
+
+.collage-card.is-empty.trio-tall-1 {
+  background: repeating-linear-gradient(135deg, #eee5d9, #eee5d9 8px, #f5eee5 8px, #f5eee5 16px);
+}
+
+.collage-card.is-empty.trio-tall-2,
+.collage-card.is-empty.trio-wide {
+  background: repeating-linear-gradient(135deg, #ebdcd2, #ebdcd2 8px, #f3ece4 8px, #f3ece4 16px);
+}
+
+@media (max-width: 640px) {
+  .trio-row .collage-card img {
+    max-height: 165px;
+  }
+
+  .collage-card.trio-wide img {
+    max-height: 120px;
+  }
+
+  .collage-card.trio-tall-2 {
+    margin-top: 28px;
+  }
+
+  .collage-card.is-empty.trio-tall {
+    height: 120px;
+  }
+
+  .collage-card.is-empty.trio-wide {
+    height: 90px;
+  }
+}
+
+/* ---------- Quarteto de fotos (layout "quad"): 2 em cima, 2 embaixo ---------- */
+.photo-quad {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 18px;
+  margin: 16px 0 10px;
+}
+
+.collage-card.quad-card {
+  width: 46%;
+  background: #fffefb;
+}
+
+.collage-card.quad-1 { margin-left: 2%; transform: rotate(-2.5deg); }
+.collage-card.quad-2 { margin-right: 2%; margin-top: 30px; transform: rotate(2deg); }
+.collage-card.quad-3 { margin-left: 2%; margin-top: 4px; transform: rotate(1.5deg); }
+.collage-card.quad-4 { margin-right: 2%; margin-top: 34px; transform: rotate(-2deg); }
+
+.photo-quad img {
+  max-height: 170px;
+}
+
+.collage-card.quad-card.is-empty {
+  height: 120px;
+}
+
+@media (max-width: 640px) {
+  .photo-quad img {
+    max-height: 130px;
+  }
+  .collage-card.quad-card.is-empty {
+    height: 100px;
+  }
+  .collage-card.quad-2,
+  .collage-card.quad-4 {
+    margin-top: 22px;
+  }
+}
+
+/* ---------- Trio invertido (layout "trioInvertido"): 1 horizontal em cima, 2 embaixo ---------- */
+.photo-trio-invertido .trio-wide {
+  align-self: center;
+  margin-bottom: 4px;
+}
+
+.photo-trio-invertido .trio-row .trio-tall-1 {
+  margin-left: 2%;
+  transform: rotate(-2.5deg);
+}
+
+.photo-trio-invertido .trio-row .trio-tall-2 {
+  margin: 30px 2% 0 0;
+  transform: rotate(2deg);
+}
+
+@media (max-width: 640px) {
+  .photo-trio-invertido .trio-row .trio-tall-2 {
+    margin-top: 22px;
+  }
+}
+
+/* ---------- Trio vertical (layout "trioVertical"): 3 fotos em pé, 2 em cima e 1 embaixo ---------- */
+/* O cartão acompanha a proporção da foto (sem cortar fotos em pé); só a altura é limitada. */
+.photo-trio-vertical {
+  container-type: inline-size;
+}
+
+.photo-trio-vertical .collage-card:not(.is-empty) {
+  width: auto;
+  max-width: 46%;
+}
+
+.photo-trio-vertical .collage-card img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(53cqw - 49px);
+}
+
+.photo-trio-vertical .trio-solo {
+  align-self: center;
+  margin-top: -2px;
+  transform: rotate(-1.5deg);
+  background: #fffefb;
+}
+
+.photo-trio-vertical .trio-row .trio-tall-2 {
+  margin-top: 26px;
+}
+
+.photo-trio-vertical .collage-card.is-empty {
+  width: 46%;
+  height: 150px;
+}
+
+.photo-trio-vertical .trio-solo.is-empty {
+  background: repeating-linear-gradient(135deg, #f0e4da, #f0e4da 8px, #f7f0e8 8px, #f7f0e8 16px);
+}
+
+@media (max-width: 640px) {
+  .photo-trio-vertical .collage-card img {
+    max-height: 100px;
+  }
+  .photo-trio-vertical .trio-row .trio-tall-2 {
+    margin-top: 18px;
+  }
+  .photo-trio-vertical .collage-card.is-empty {
+    height: 100px;
+  }
+}
+
+/* ---------- Zigue-zague (layout "zigzag"): 3 fotos em diagonal, esquerda, direita, esquerda ---------- */
+/* Duas colunas coladas no centro; cada foto ocupa 2 linhas e a vizinha começa na linha do meio,
+   então elas se encaixam em diagonal (metade da altura de uma se sobrepõe à outra) sem se tocar. */
+.photo-zigzag {
+  container-type: inline-size;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 18px;
+  row-gap: 12px;
+  margin: 14px 0 10px;
+}
+
+.collage-card.zig-card {
+  width: auto;
+  max-width: 100%;
+  align-self: start;
+  background: #fffefb;
+}
+
+.collage-card.zig-card img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(53cqw - 40px);
+}
+
+.collage-card.zig-1 {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  justify-self: end;
+  transform: rotate(-3deg);
+}
+
+.collage-card.zig-2 {
+  grid-column: 2;
+  grid-row: 2 / span 2;
+  margin-top: -10px;
+  justify-self: start;
+  transform: rotate(2.5deg);
+}
+
+.collage-card.zig-3 {
+  grid-column: 1;
+  grid-row: 3 / span 2;
+  justify-self: end;
+  transform: rotate(-2deg);
+}
+
+.collage-card.zig-card.is-empty {
+  width: 100%;
+  height: 150px;
+}
+
+.collage-card.is-empty.zig-1 {
+  background: repeating-linear-gradient(135deg, #eee5d9, #eee5d9 8px, #f5eee5 8px, #f5eee5 16px);
+}
+
+.collage-card.is-empty.zig-2 {
+  background: repeating-linear-gradient(135deg, #ebdcd2, #ebdcd2 8px, #f3ece4 8px, #f3ece4 16px);
+}
+
+.collage-card.is-empty.zig-3 {
+  background: repeating-linear-gradient(135deg, #f0e4da, #f0e4da 8px, #f7f0e8 8px, #f7f0e8 16px);
+}
+
+@media (max-width: 640px) {
+  .photo-zigzag {
+    column-gap: 12px;
+    row-gap: 6px;
+  }
+  .collage-card.zig-card img {
+    max-height: 120px;
+  }
+  .collage-card.zig-2 {
+    margin-top: -6px;
+  }
+  .collage-card.zig-card.is-empty {
+    height: 110px;
+  }
+}
+
+/* ---------- Trio horizontal (layout "trioHorizontal"): 3 fotos deitadas, alternando os lados ---------- */
+/* O cartão acompanha a proporção da foto; só a altura é limitada para as 3 caberem na página. */
+.photo-trio-h {
+  container-type: inline-size;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0 10px;
+}
+
+.collage-card.trio-h-card {
+  width: auto;
+  max-width: 66%;
+  background: #fffefb;
+}
+
+.collage-card.trio-h-card img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(35cqw - 33px);
+}
+
+.collage-card.trio-h-1 {
+  align-self: flex-start;
+  margin-left: 3%;
+  transform: rotate(-2deg);
+}
+
+.collage-card.trio-h-2 {
+  align-self: flex-end;
+  margin-right: 3%;
+  transform: rotate(2deg);
+}
+
+.collage-card.trio-h-3 {
+  align-self: flex-start;
+  margin-left: 9%;
+  transform: rotate(-1.5deg);
+}
+
+.collage-card.trio-h-card.is-empty {
+  width: 62%;
+  height: 100px;
+}
+
+.collage-card.is-empty.trio-h-1 {
+  background: repeating-linear-gradient(135deg, #eee5d9, #eee5d9 8px, #f5eee5 8px, #f5eee5 16px);
+}
+
+.collage-card.is-empty.trio-h-2 {
+  background: repeating-linear-gradient(135deg, #ebdcd2, #ebdcd2 8px, #f3ece4 8px, #f3ece4 16px);
+}
+
+.collage-card.is-empty.trio-h-3 {
+  background: repeating-linear-gradient(135deg, #f0e4da, #f0e4da 8px, #f7f0e8 8px, #f7f0e8 16px);
+}
+
+@media (max-width: 640px) {
+  .photo-trio-h {
+    gap: 4px;
+  }
+  .collage-card.trio-h-card img {
+    max-height: 72px;
+  }
+  .collage-card.trio-h-card.is-empty {
+    height: 78px;
+  }
+}
+
+/* ---------- Figurinhas das páginas ---------- */
+/* Só decoração: sem toque, então clicar numa figurinha vira a página. */
+.sticker-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sticker-layer .sticker-item {
+  pointer-events: none;
+}
+
+.sticker-layer.is-editable .sticker-item {
+  pointer-events: auto;
+}
+
+.sticker-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ao redor do livro: atrás do livro (na edição, na frente, para poder pegar) */
+.outer-stickers {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.outer-stickers.is-editing {
+  z-index: 3;
+}
+
+.sticker-layer-outer {
+  overflow: visible;
+  z-index: 0;
+}
+
+@media (max-width: 640px) {
+  .sticker-layer .sticker-item:not(.is-editing) {
+    animation: none;
+  }
 }

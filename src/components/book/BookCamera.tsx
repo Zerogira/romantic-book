@@ -54,12 +54,15 @@ export function BookCamera({ children, play, unlockLabel = "Toque para começar"
     () => {
       const rig = rigRef.current;
       if (!rig) return;
+      const camera = isMobileNow() ? CAMERA_MOBILE : CAMERA_DESKTOP;
       if (!play) {
         setResting(false);
+        // Enquanto o livro está escondido, já o deixa na pose inicial da câmera: assim, quando ele
+        // aparecer (fade), já surge inclinado e a câmera continua dali, sem "pulo" no começo.
+        if (!reducedMotion) gsap.set(rig, { ...camera.start });
         return;
       }
       if (reducedMotion) return;
-      const camera = isMobileNow() ? CAMERA_MOBILE : CAMERA_DESKTOP;
 
       // Durante o movimento o hit-test do page-flip fica incorreto (o livro está
       // transformado), então bloqueamos os cliques até a câmera parar.

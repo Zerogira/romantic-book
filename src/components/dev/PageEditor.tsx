@@ -1,6 +1,9 @@
 import { useEffect, useState, type ChangeEvent, type ReactNode } from "react";
-import { ArrowDown, ArrowUp, Plus, Save, Trash2, Upload, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, ChevronsRight, Plus, Save, Trash2, Upload, X } from "lucide-react";
 import type { PageData, PageLayout } from "../../data/bookContent";
+import type { StickerItem, StickerType } from "../../data/stickersConfig";
+import { applyStickerEdits, stickerEdit, stickersOf, useStickerEdit, type StickerScope } from "../../lib/stickerEdit";
+import { fetchStickerAssets } from "../../lib/stickerAssets";
 import "../../styles/editor.css";
 
 // Editor de páginas do álbum. Só é carregado no servidor de desenvolvimento.
@@ -9,6 +12,12 @@ const LAYOUT_LABELS: Record<PageLayout, string> = {
   intro: "Introdução (texto)",
   photo: "Foto única",
   collage: "Colagem (até 2 fotos)",
+  trio: "Trio (3 fotos: 2 em cima, 1 embaixo)",
+  quad: "Quarteto (4 fotos: 2 em cima, 2 embaixo)",
+  trioInvertido: "Trio invertido (1 em cima, 2 embaixo)",
+  trioVertical: "Trio vertical (3 fotos em pé: 2 em cima, 1 embaixo)",
+  zigzag: "Zigue-zague (3 fotos em diagonal)",
+  trioHorizontal: "Trio horizontal (3 fotos deitadas, uma sobre a outra)",
   timeline: "Linha do tempo",
   details: "Pequenos detalhes",
   letter: "Carta",
@@ -18,17 +27,40 @@ const LAYOUT_LABELS: Record<PageLayout, string> = {
   trancada: "Página trancada (abre em uma data)",
 };
 
-type Slot = { kind: "image" } | { kind: "collage"; index: 0 | 1 };
+type Slot = { kind: "image" } | { kind: "collage"; index: 0 | 1 | 2 | 3 };
+
+/** Mantém a posição de cada foto; só tira os espaços vazios do fim da lista. */
+function trimImages(images: string[]): string[] {
+  const out = [...images];
+  while (out.length && !out[out.length - 1]) out.pop();
+  return out;
+}
+
+const STICKER_PRESETS: { type: StickerType; label: string; caption?: string }[] = [
+  { type: "cat-pink", label: "Gatinho rosa" },
+  { type: "cat-blue", label: "Gatinho azul" },
+  { type: "stars-cluster", label: "Estrelinhas" },
+  { type: "sticky-note", label: "Bilhetinho", caption: "escreva aqui" },
+  { type: "polaroid", label: "Polaroid", caption: "nós dois" },
+];
 
 type Props = {
   pages: PageData[];
+  /** Página (0 = primeira página de conteúdo) que o editor abre selecionada. */
+  initialPage?: number;
+  /** Pede ao livro para abrir na página escolhida (número do livro: a capa é 0). */
+  onGoToPage?: (pageIndex: number) => void;
   onClose: () => void;
   onSaved: () => void;
+  /** Atualiza o livro com as páginas aplicadas, sem recarregar a tela nem fechar o editor. */
+  onApply: (pages: PageData[]) => void;
 };
 
-export function PageEditor({ pages, onClose, onSaved }: Props) {
+export function PageEditor({ pages, initialPage = 0, onGoToPage, onClose, onSaved, onApply }: Props) {
   const [draft, setDraft] = useState<PageData[]>(() => structuredClone(pages));
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(initialPage);
+  const [collapsed, setCollapsed] = useState(false);
+  const edit = useStickerEdit();
   const [photos, setPhotos] = useState<string[]>([]);
   const [slot, setSlot] = useState<Slot | null>(null);
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
@@ -46,6 +78,44 @@ export function PageEditor({ pages, onClose, onSaved }: Props) {
   }, []);
 
   const page = draft[selected];
+
+  // Figurinhas: o livro mostra ao vivo o que está sendo editado aqui
+  useEffect(() => {
+    stickerEdit.enable();
+    return () => stickerEdit.reset();
+  }, []);
+  useEffect(() => {
+    if (page) stickerEdit.setPage(page.id);
+  }, [page?.id]);
+
+  const scope: StickerScope = edit.scope;
+  const stickerList = page ? stickersOf(page, scope, edit) : [];
+  const selectedSticker = stickerList.find((s) => s.id === edit.selectedId);
+
+  const setStickers = (list: StickerItem[]) => {
+    stickerEdit.setList(page.id, scope, list);
+    setDirty(true);
+    setStatus("idle");
+  };
+
+  const addSticker = (item: Omit<StickerItem, "id" | "x" | "y" | "rotation">) => {
+    const id = `s-${Date.now().toString(36)}`;
+    // Dentro da página: no meio; ao redor: na margem esquerda do livro
+    const start = scope === "inner" ? { x: 50, y: 62 } : { x: 9, y: 45 };
+    setStickers([...stickerList, { id, ...start, rotation: 0, scale: 1, ...item }]);
+    stickerEdit.select(scope, id);
+  };
+
+  const patchSticker = (patch: Partial<StickerItem>) => {
+    if (!selectedSticker) return;
+    setStickers(stickerList.map((s) => (s.id === selectedSticker.id ? { ...s, ...patch } : s)));
+  };
+
+  const removeSticker = () => {
+    if (!selectedSticker) return;
+    setStickers(stickerList.filter((s) => s.id !== selectedSticker.id));
+    stickerEdit.select(scope, null);
+  };
 
   const update = (patch: Partial<PageData>) => {
     setDraft((prev) => prev.map((p, i) => (i === selected ? { ...p, ...patch } : p)));
@@ -117,9 +187,9 @@ export function PageEditor({ pages, onClose, onSaved }: Props) {
     if (target.kind === "image") {
       update({ image: src });
     } else {
-      const current: string[] = [page.images?.[0] ?? "", page.images?.[1] ?? ""];
+      const current = [0, 1, 2, 3].map((i) => page.images?.[i] ?? "");
       current[target.index] = src;
-      update({ images: current.filter(Boolean) });
+      update({ images: trimImages(current) });
     }
     setSlot(null);
   };
@@ -128,9 +198,9 @@ export function PageEditor({ pages, onClose, onSaved }: Props) {
     if (target.kind === "image") {
       update({ image: undefined });
     } else {
-      const current: string[] = [page.images?.[0] ?? "", page.images?.[1] ?? ""];
+      const current = [0, 1, 2, 3].map((i) => page.images?.[i] ?? "");
       current[target.index] = "";
-      update({ images: current.filter(Boolean) });
+      update({ images: trimImages(current) });
     }
   };
 
@@ -142,6 +212,22 @@ export function PageEditor({ pages, onClose, onSaved }: Props) {
     }
     const src = await uploadFile(file);
     if (src) assignPhoto(src, target);
+  };
+
+  // Galeria de figurinhas: a mesma fonte do "Editar Figurinhas" da área inicial
+  const [stickerGalleryOpen, setStickerGalleryOpen] = useState(false);
+  const [stickerAssets, setStickerAssets] = useState<string[]>([]);
+  useEffect(() => {
+    if (!stickerGalleryOpen || stickerAssets.length > 0) return;
+    fetchStickerAssets()
+      .then(setStickerAssets)
+      .catch(() => setMessage("Não foi possível listar as figurinhas."));
+  }, [stickerGalleryOpen, stickerAssets.length]);
+
+  const addStickerFromGallery = (src: string) => {
+    const name = src.split("/").pop() ?? "figurinha";
+    addSticker({ type: "gif", label: name, src });
+    setStickerGalleryOpen(false);
   };
 
   const onFileChosen = (e: ChangeEvent<HTMLInputElement>, target: Slot) => {
@@ -173,30 +259,47 @@ export function PageEditor({ pages, onClose, onSaved }: Props) {
   const removeDetail = (i: number) =>
     update({ detailsList: (page.detailsList ?? []).filter((_, idx) => idx !== i) });
 
-  // ---- Salvar ----
-  const save = async () => {
+  // ---- Salvar / Aplicar ----
+  // Grava o pages.json e devolve as páginas gravadas (ou null se falhar)
+  const persist = async (): Promise<PageData[] | null> => {
     setStatus("saving");
     setMessage("");
     try {
+      const toSave = applyStickerEdits(draft, stickerEdit.getState().overrides);
       const res = await fetch("/__pages/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(draft),
+        body: JSON.stringify(toSave),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Falha ao salvar");
       setStatus("saved");
       setDirty(false);
-      setMessage("Salvo no projeto! Recarregando o livro...");
-      setTimeout(onSaved, 600);
+      return toSave;
     } catch (err) {
       setStatus("error");
       setMessage(String(err));
+      return null;
     }
   };
 
+  // Salvar: grava e recarrega a página inteira (o livro começa do zero)
+  const save = async () => {
+    if (!(await persist())) return;
+    setMessage("Salvo no projeto! Recarregando o livro...");
+    setTimeout(onSaved, 600);
+  };
+
+  // Aplicar: grava e atualiza o livro ao vivo; o editor continua aberto para seguir editando
+  const apply = async () => {
+    const saved = await persist();
+    if (!saved) return;
+    onApply(saved);
+    setMessage("Aplicado no livro! Pode seguir editando.");
+  };
+
   const handleClose = () => {
-    if (dirty && !window.confirm("Há alterações não salvas. Fechar mesmo assim?")) return;
+    if ((dirty || Object.keys(stickerEdit.getState().overrides).length > 0) && !window.confirm("Há alterações não salvas. Fechar mesmo assim?")) return;
     onClose();
   };
 
@@ -257,6 +360,55 @@ export function PageEditor({ pages, onClose, onSaved }: Props) {
           <>
             {renderPhotoField("Foto 1", page.images?.[0], { kind: "collage", index: 0 })}
             {renderPhotoField("Foto 2", page.images?.[1], { kind: "collage", index: 1 })}
+          </>
+        );
+      case "trioVertical":
+        return (
+          <>
+            {renderPhotoField("Foto 1 (em cima, à esquerda)", page.images?.[0], { kind: "collage", index: 0 })}
+            {renderPhotoField("Foto 2 (em cima, à direita)", page.images?.[1], { kind: "collage", index: 1 })}
+            {renderPhotoField("Foto 3 (embaixo, no centro)", page.images?.[2], { kind: "collage", index: 2 })}
+          </>
+        );
+      case "trioHorizontal":
+        return (
+          <>
+            {renderPhotoField("Foto 1 (em cima, à esquerda)", page.images?.[0], { kind: "collage", index: 0 })}
+            {renderPhotoField("Foto 2 (no meio, à direita)", page.images?.[1], { kind: "collage", index: 1 })}
+            {renderPhotoField("Foto 3 (embaixo, à esquerda)", page.images?.[2], { kind: "collage", index: 2 })}
+          </>
+        );
+      case "zigzag":
+        return (
+          <>
+            {renderPhotoField("Foto 1 (esquerda, no alto)", page.images?.[0], { kind: "collage", index: 0 })}
+            {renderPhotoField("Foto 2 (direita, no meio)", page.images?.[1], { kind: "collage", index: 1 })}
+            {renderPhotoField("Foto 3 (esquerda, embaixo)", page.images?.[2], { kind: "collage", index: 2 })}
+          </>
+        );
+      case "trioInvertido":
+        return (
+          <>
+            {renderPhotoField("Foto 1 (em cima, horizontal)", page.images?.[0], { kind: "collage", index: 0 })}
+            {renderPhotoField("Foto 2 (embaixo, à esquerda)", page.images?.[1], { kind: "collage", index: 1 })}
+            {renderPhotoField("Foto 3 (embaixo, à direita)", page.images?.[2], { kind: "collage", index: 2 })}
+          </>
+        );
+      case "quad":
+        return (
+          <>
+            {renderPhotoField("Foto 1 (em cima, à esquerda)", page.images?.[0], { kind: "collage", index: 0 })}
+            {renderPhotoField("Foto 2 (em cima, à direita)", page.images?.[1], { kind: "collage", index: 1 })}
+            {renderPhotoField("Foto 3 (embaixo, à esquerda)", page.images?.[2], { kind: "collage", index: 2 })}
+            {renderPhotoField("Foto 4 (embaixo, à direita)", page.images?.[3], { kind: "collage", index: 3 })}
+          </>
+        );
+      case "trio":
+        return (
+          <>
+            {renderPhotoField("Foto 1 (em cima, à esquerda)", page.images?.[0], { kind: "collage", index: 0 })}
+            {renderPhotoField("Foto 2 (em cima, à direita)", page.images?.[1], { kind: "collage", index: 1 })}
+            {renderPhotoField("Foto 3 (embaixo, horizontal)", page.images?.[2], { kind: "collage", index: 2 })}
           </>
         );
       case "timeline":
@@ -326,8 +478,17 @@ export function PageEditor({ pages, onClose, onSaved }: Props) {
   };
 
   return (
-    <aside className="pe-panel" aria-label="Editor de páginas">
+    <aside className={`pe-panel ${collapsed ? "is-collapsed" : ""}`} aria-label="Editor de páginas">
       <header className="pe-header">
+        <button
+          type="button"
+          className="pe-icon-btn"
+          onClick={() => setCollapsed((v) => !v)}
+          aria-label={collapsed ? "Mostrar painel" : "Recolher painel"}
+          title={collapsed ? "Mostrar painel" : "Recolher painel (para ver o livro inteiro)"}
+        >
+          <ChevronsRight size={16} style={{ transform: collapsed ? "rotate(180deg)" : undefined }} />
+        </button>
         <strong>Editar páginas</strong>
         <button type="button" className="pe-icon-btn" onClick={handleClose} aria-label="Fechar editor">
           <X size={16} />
@@ -344,6 +505,7 @@ export function PageEditor({ pages, onClose, onSaved }: Props) {
               onClick={() => {
                 setSelected(i);
                 setSlot(null);
+                onGoToPage?.(i + 1);
               }}
             >
               <span className="pe-page-num">{i + 1}</span>
@@ -400,6 +562,102 @@ export function PageEditor({ pages, onClose, onSaved }: Props) {
 
           {renderLayoutFields()}
 
+          <section className="pe-stickers" aria-label="Figurinhas desta página">
+            <span className="pe-label">Figurinhas desta página</span>
+            <div className="pe-seg">
+              <button type="button" className={`pe-btn ${scope === "inner" ? "is-active" : ""}`} onClick={() => stickerEdit.setScope("inner")}>
+                Na página
+              </button>
+              <button type="button" className={`pe-btn ${scope === "outer" ? "is-active" : ""}`} onClick={() => stickerEdit.setScope("outer")}>
+                Ao redor do livro
+              </button>
+            </div>
+            <p className="pe-hint">
+              {scope === "inner"
+                ? "Arraste a figurinha direto na página do livro. Depois de salva, ela vira só decoração: clicar em cima dela vira a página."
+                : "Ficam em volta do livro, só no computador, e aparecem quando esta página está aberta. Se o painel cobrir o lugar, use a seta no topo para recolhê-lo."}
+            </p>
+            <div className="pe-add-row">
+              {STICKER_PRESETS.map((preset) => (
+                <button
+                  key={preset.type}
+                  type="button"
+                  className="pe-btn"
+                  onClick={() => addSticker({ type: preset.type, label: preset.label, caption: preset.caption })}
+                >
+                  <Plus size={12} /> {preset.label}
+                </button>
+              ))}
+              <button
+                type="button"
+                className={`pe-btn ${stickerGalleryOpen ? "is-active" : ""}`}
+                onClick={() => setStickerGalleryOpen((open) => !open)}
+              >
+                <Plus size={12} /> Figurinha ou imagem
+              </button>
+            </div>
+
+            {stickerGalleryOpen && (
+              <div className="pe-gallery">
+                <div className="pe-gallery-head">
+                  <span>Escolha uma figurinha</span>
+                  <button type="button" className="pe-icon-btn" onClick={() => setStickerGalleryOpen(false)} aria-label="Fechar galeria de figurinhas">
+                    <X size={14} />
+                  </button>
+                </div>
+                {stickerAssets.length === 0 && (
+                  <p className="pe-hint">Nenhuma figurinha em public/images/figurinhas.</p>
+                )}
+                <div className="pe-gallery-grid">
+                  {stickerAssets.map((src) => (
+                    <button key={src} type="button" className="pe-gallery-item" onClick={() => addStickerFromGallery(src)} title={src.split("/").pop()}>
+                      <img src={src} alt="" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {stickerList.length > 0 && (
+              <div className="pe-sticker-list">
+                {stickerList.map((s, i) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    className={`pe-btn ${s.id === edit.selectedId ? "is-active" : ""}`}
+                    onClick={() => stickerEdit.select(scope, s.id)}
+                  >
+                    {i + 1}. {s.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {selectedSticker && (
+              <div className="pe-sticker-controls">
+                <label className="pe-range-row">
+                  <span className="pe-label">Tamanho</span>
+                  <input type="range" min={0.3} max={3} step={0.05} value={selectedSticker.scale ?? 1} onChange={(e) => patchSticker({ scale: Number(e.target.value) })} />
+                  <span>{Math.round((selectedSticker.scale ?? 1) * 100)}%</span>
+                </label>
+                <label className="pe-range-row">
+                  <span className="pe-label">Giro</span>
+                  <input type="range" min={-45} max={45} step={1} value={selectedSticker.rotation} onChange={(e) => patchSticker({ rotation: Number(e.target.value) })} />
+                  <span>{selectedSticker.rotation}°</span>
+                </label>
+                {(selectedSticker.type === "sticky-note" || selectedSticker.type === "polaroid") && (
+                  <label className="pe-field">
+                    <span className="pe-label">Texto</span>
+                    <input value={selectedSticker.caption ?? ""} onChange={(e) => patchSticker({ caption: e.target.value })} />
+                  </label>
+                )}
+                <button type="button" className="pe-btn pe-btn-ghost" onClick={removeSticker}>
+                  <Trash2 size={13} /> Remover figurinha
+                </button>
+              </div>
+            )}
+          </section>
+
           {slot && (
             <div className="pe-gallery">
               <div className="pe-gallery-head">
@@ -430,6 +688,15 @@ export function PageEditor({ pages, onClose, onSaved }: Props) {
         <span className={`pe-message ${status === "error" ? "is-error" : ""}`}>
           {message || (dirty ? "Alterações não salvas" : "")}
         </span>
+        <button
+          type="button"
+          className="pe-btn"
+          onClick={apply}
+          disabled={status === "saving"}
+          title="Grava e atualiza o livro sem fechar o editor"
+        >
+          <Check size={14} /> Aplicar
+        </button>
         <button type="button" className="pe-btn pe-btn-primary" onClick={save} disabled={status === "saving"}>
           <Save size={14} /> {status === "saving" ? "Salvando..." : "Salvar no projeto"}
         </button>

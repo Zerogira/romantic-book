@@ -19,6 +19,12 @@ const PAGE_LAYOUTS = [
   "intro",
   "photo",
   "collage",
+  "trio",
+  "quad",
+  "trioInvertido",
+  "trioVertical",
+  "zigzag",
+  "trioHorizontal",
   "timeline",
   "details",
   "letter",
@@ -76,7 +82,9 @@ function isValidPage(item: unknown): boolean {
     typeof p.title === "string" &&
     typeof p.text === "string" &&
     typeof p.layout === "string" &&
-    PAGE_LAYOUTS.includes(p.layout)
+    PAGE_LAYOUTS.includes(p.layout) &&
+    (p.stickers === undefined || (Array.isArray(p.stickers) && p.stickers.every(isValidSticker))) &&
+    (p.outerStickers === undefined || (Array.isArray(p.outerStickers) && p.outerStickers.every(isValidSticker)))
   );
 }
 

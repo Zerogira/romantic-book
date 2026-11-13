@@ -376,3 +376,67 @@
     padding-top: 0;
   }
 }
+
+/* ---------- Figurinhas da página ---------- */
+.pe-stickers {
+  display: grid;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(155, 136, 123, 0.25);
+}
+
+.pe-seg {
+  display: flex;
+  gap: 6px;
+}
+
+.pe-seg .pe-btn.is-active {
+  background: #e17b8f;
+  border-color: #e17b8f;
+  color: #ffffff;
+}
+
+.pe-add-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pe-sticker-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pe-sticker-list .pe-btn.is-active {
+  background: #f5dfe4;
+  border-color: #e17b8f;
+}
+
+.pe-sticker-controls {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid rgba(155, 136, 123, 0.25);
+  border-radius: 10px;
+  background: #fffaf5;
+}
+
+.pe-sticker-controls input[type="range"] {
+  padding: 0;
+}
+
+.pe-range-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+}
+
+.pe-panel {
+  transition: transform 0.25s ease;
+}
+
+.pe-panel.is-collapsed {
+  transform: translateX(calc(100% - 44px));
+}

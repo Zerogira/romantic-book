@@ -1,71 +1,597 @@
 [
   {
     "id": "dedicatoria",
-    "chapter": "02. ANTES DE COMEÇAR",
+    "chapter": "01. ANTES DE COMEÇAR",
     "title": "A dedicatória",
-    "text": "Se eu pudesse escolher novamente, escolheria viver tudo outra vez. Cada sorriso, cada descoberta e cada pequeno momento que nos trouxe até aqui.",
-    "note": "Com todo o meu amor, para a pessoa que transformou a minha vida.",
+    "text": "Para a Soso, a melhor parte do meu ano. Cada página deste livro é um pedaço do que construímos, e eu escolheria tudo outra vez.",
+    "note": "Com todo o meu amor, para a pessoa mais importante da minha vida.",
     "layout": "intro"
   },
   {
     "id": "comeco",
-    "chapter": "03. NOSSO INÍCIO",
+    "chapter": "02. NOSSO INÍCIO",
     "title": "Onde tudo começou",
-    "text": "Toda história tem um começo. E a nossa começou de um jeito que eu nunca imaginaria que se tornaria tão especial.",
+    "text": "Toda história tem um começo. E a nossa começou com uma conversa no facebook, com meu plano de fazer você rir até finalmente ter um primeiro encontro (que foi incrível). ",
     "note": "O primeiro olhar, a primeira conversa e a certeza de que algo único estava começando.",
-    "image": "/images/memories/primeiro-encontro.jpg",
-    "imageAlt": "Primeiro registro de onde tudo começou",
-    "layout": "photo"
+    "images": [
+      "/images/memories/Image-4-.jpg",
+      "/images/memories/Image-3-.jpg"
+    ],
+    "layout": "collage",
+    "stickers": [
+      {
+        "id": "s-mwexfmc0",
+        "x": 15.9,
+        "y": 74.3,
+        "rotation": -10,
+        "scale": 0.6,
+        "type": "gif",
+        "label": "4393-bearbounce.gif",
+        "src": "/images/figurinhas/4393-bearbounce.gif"
+      },
+      {
+        "id": "s-mwf8v3kp",
+        "x": 76.8,
+        "y": 75.6,
+        "rotation": 9,
+        "scale": 0.85,
+        "type": "gif",
+        "label": "giphy-casal-03-JVZiUhhx63pYyHVU1n.gif",
+        "src": "/images/figurinhas/giphy-casal-03-JVZiUhhx63pYyHVU1n.gif"
+      }
+    ]
   },
   {
     "id": "memorias",
-    "chapter": "04. REGISTROS DE AMOR",
-    "title": "Nossas memórias",
-    "text": "São tantos momentos que seria impossível colocar todos em um único livro.",
-    "note": "Fotografias, viagens, risadas espontâneas e pequenos instantes que guardo no peito.",
-    "images": ["/images/memories/memoria-especial.jpg"],
-    "layout": "collage"
+    "chapter": "03. PRIMEIRO REGISTRO",
+    "title": "Primeiros registros",
+    "text": "Este dia foi um dos primeiro que finalmente tiramos varias fotos nossas, comemos uma pizza ótima e bebendo chopp na melhor companhia possível",
+    "note": "Foi aqui que descobri que você ama um chopp e que ri de tudo quando começa a beber",
+    "images": [
+      "/images/memories/Image-2--1.jpg",
+      "/images/memories/Image-1--1.jpg",
+      "/images/memories/Image-1.jpg"
+    ],
+    "layout": "trio"
   },
   {
     "id": "trajetoria",
-    "chapter": "05. NOSSO CAMINHO",
-    "title": "Nossa trajetória",
-    "text": "Um ano pode parecer pouco tempo, mas olha quanta coisa já vivemos juntos.",
-    "note": "365 dias de cumplicidade, aprendizado e planos construídos a dois.",
-    "layout": "timeline",
+    "chapter": "04. FOTOS NA PRAÇA",
+    "title": "Pracinha & Fofoca",
+    "text": "Primeira vez que ficamos em uma pracinha por 2 horas tirando foto, reclamando da câmera no escuro, dando risada em um banquinho aleatório.",
+    "note": "Adorei ficar de bobeira, eu disfarço mas gosto quando você grava vídeo da gente, por isso to sempre rindo.",
+    "layout": "trioInvertido",
     "timelineItems": [
-      { "date": "Mês 01", "title": "O primeiro capítulo", "description": "O início da nossa história e as primeiras borboletas no estômago." },
-      { "date": "Mês 04", "title": "Momentos inesquecíveis", "description": "Viagens, descobertas e passeios que marcaram o nosso caminho." },
-      { "date": "Mês 08", "title": "Crescendo juntos", "description": "Superando dias difíceis e celebrando cada vitória lado a lado." },
-      { "date": "365 dias", "title": "Hoje e sempre", "description": "Um ano inteiro de amor, e o sentimento de que estamos só no começo." }
+      {
+        "date": "Mês 01",
+        "title": "O primeiro capítulo",
+        "description": "O início da nossa história e as primeiras borboletas no estômago."
+      },
+      {
+        "date": "Mês 04",
+        "title": "Momentos inesquecíveis",
+        "description": "Viagens, descobertas e passeios que marcaram o nosso caminho."
+      },
+      {
+        "date": "Mês 08",
+        "title": "Crescendo juntos",
+        "description": "Superando dias difíceis e celebrando cada vitória lado a lado."
+      },
+      {
+        "date": "365 dias",
+        "title": "Hoje e sempre",
+        "description": "Um ano inteiro de amor, e o sentimento de que estamos só no começo."
+      }
+    ],
+    "images": [
+      "/images/memories/Image-10--1.jpg",
+      "/images/memories/Image-11-.jpg",
+      "/images/memories/Image-12--1.jpg"
     ]
+  },
+  {
+    "id": "pagina-1794315761471",
+    "chapter": "05. CONHECENDO SEUS PAIS",
+    "title": "PASSEIO PRO MEIO DO MATO",
+    "text": "A primeira ida na casa dos seus pais, com direito a tour pela área dos porcos, das galinhas, cachoeira, acompanhados com os dogs, muita floresta e solzinho.",
+    "layout": "quad",
+    "images": [
+      "/images/memories/Image-9-.jpg",
+      "/images/memories/Image-7-.jpg",
+      "/images/memories/Image-8-.jpg",
+      "/images/memories/Image-13-.jpg"
+    ],
+    "note": "O pratinho de comida e o 'banquete' no fim da rua rendeu boas conversas e risadas"
   },
   {
     "id": "detalhes",
     "chapter": "06. O QUE É SÓ NOSSO",
-    "title": "Os pequenos detalhes",
+    "title": "OS PEQUENOS DETALHES",
     "text": "Nem tudo que é especial precisa ser grandioso. Muitas vezes, são justamente as pequenas coisas que fazem tudo valer a pena.",
-    "note": "São os detalhes invisíveis para o mundo que tornam a nossa história perfeita.",
+    "note": "São os pequenos detalhes que me fizeram apaixonar por você, os mesmos pequenos detalhes que me mantem apaixonado diariamente.",
     "layout": "details",
     "detailsList": [
-      { "label": "Nossas manias", "value": "Aquele abraço apertado ao acordar e as mensagens de bom dia que alegram a rotina." },
-      { "label": "Piadas internas", "value": "Frases e risadas que só a gente entende, em qualquer lugar que estejamos." },
-      { "label": "Seu jeito único", "value": "O brilho nos olhos quando fala sobre o que ama e o carinho em cada gesto." },
-      { "label": "Nossa trilha sonora", "value": "Aquelas canções que sempre tocam quando estamos juntos no carro ou em casa." }
+      {
+        "label": "Jeitinho carinhoso",
+        "value": "Apelidos característicos de cada um, posição fofinha para dormir (as vezes) e carinhos no corpo."
+      },
+      {
+        "label": "Piadas internas",
+        "value": "Dancinhas esquisitas, memes, piadas proibidas, jeitinho de falar. 'Porquera veia'"
+      },
+      {
+        "label": "Seu jeito único",
+        "value": "Seu sorriso tímido, suas bochechas vermelhas, sua voz meiga, sua cosquinha no umbigo, seus memes de gatinhos, todo seu jeitinho."
+      },
+      {
+        "label": "Trilha sonora especializada",
+        "value": "Repertorio diversificado de diversas musicas, abertura de anime, rock, k-pop pra limpar a casa, musicas fofas da abb no carro."
+      },
+      {
+        "label": "Treino super focado",
+        "value": "Apesar de receber violência física na academia, adoro os momentos de ir treinar com você, ouvir musica e ver você treinado andar de moto no caminho."
+      },
+      {
+        "label": "Comida especial",
+        "value": "Passamos diversos momentos passeando e comendo, desde os lanches bons aos duvidoso, as pizzas chiques aos rodízios, dito isso a comida que mais gosto de comer é a feita por você."
+      }
     ]
   },
   {
+    "id": "pagina-1794431006863",
+    "chapter": "07. MAIS FOTO",
+    "title": "VICIO DESCOBERTO",
+    "text": "Nesse dia, nossa culinária explorou uma nova sensação: batata frita do rooftop com cheddar e um chopp delicioso.",
+    "layout": "zigzag",
+    "images": [
+      "/images/memories/Image-2--2.jpg",
+      "/images/memories/Image-1--2.jpg",
+      "/images/memories/Image-2.jpg"
+    ],
+    "note": "Um dos meus lugares favoritos para comer com você."
+  },
+  {
+    "id": "pagina-1794431017486",
+    "chapter": "08. MAIS FOTO",
+    "title": "CLEBER CHEGOU",
+    "text": "Os primeiros registros da nossa primeira adoção: Cleber araujo martins.\n",
+    "layout": "zigzag",
+    "images": [
+      "/images/memories/Image-1--3.jpg",
+      "/images/memories/Image-4--1.jpg",
+      "/images/memories/Image-2--3.jpg",
+      "/images/memories/Image-3--1.jpg"
+    ],
+    "note": "um pequeno passo para um coelho, um grande passo para nossa familia."
+  },
+  {
+    "id": "pagina-1794487849356",
+    "chapter": "09. MAIS FOTO",
+    "title": "DISCO VOADOR",
+    "text": "Deixando a abb no piloto do drone, houve essas fotos fofas que queria guardar.",
+    "layout": "trioHorizontal",
+    "images": [
+      "/images/memories/Image---2026-11-12T091606.611.jpg",
+      "/images/memories/Image---2026-11-12T091608.349.jpg",
+      "/images/memories/Image---2026-11-12T091609.510.jpg"
+    ],
+    "note": "abb no controle"
+  },
+  {
     "id": "carta",
-    "chapter": "07. COM TODA A MINHA ALMA",
+    "chapter": "10. COM TODA A MINHA ALMA",
     "title": "Uma carta para você",
     "text": "Se existe algo que eu quero que você saiba, é o quanto sou feliz por ter você na minha vida. Obrigado por dividir seus dias comigo, pela paciência, pelo apoio incondicional e por ser o meu porto seguro em qualquer momento.",
     "note": "Você é a minha melhor escolha todos os dias.",
     "layout": "letter",
-    "letterBody": "Meu amor, cada dia ao seu lado é uma lembrança bonita que guardo com carinho. Obrigado por ser minha risada favorita, meu colo quentinho e meu parceiro em todos os momentos."
+    "letterBody": "Meu amor,\n\nA cartinha dessa vez é digital, mas o sentimento segue o mesmo.\n\nQuando paro para refletir sobre os acontecimentos da minha vida nos últimos dois anos, vejo você em tudo: nas minhas memórias diárias, nos acontecimentos mais simples aos mais importantes, desde o café da manhã até a realização de um sonho, como morar com alguém em uma casa própria.\n\nAo longo desse ano, vivemos tantas coisas que, quando olho para trás, percebo o quanto construímos juntos. São pequenas conquistas, momentos especiais, descobertas e experiências que, de alguma forma, tornaram nossa história ainda mais bonita. Tenho muito orgulho de tudo o que estamos construindo e, principalmente, de poder compartilhar cada uma dessas etapas com você.\n\nCada dia ao seu lado é uma lembrança bonita que guardo com carinho. Obrigado por ser minha risada favorita, meu colo quentinho e minha parceira em todos os momentos."
+  },
+  {
+    "id": "pagina-1794483979317",
+    "chapter": "11. MAIS FOTOS",
+    "title": "CASAMENTO JOÃO",
+    "text": "O dia em que finalmente vi o meu amor usando o vestido que a tanto tempo tinha comprado.\nVocê estava tão magnifica nesse dia.",
+    "layout": "quad",
+    "images": [
+      "/images/memories/Image-13--1.jpg",
+      "/images/memories/Image-15-.jpg",
+      "/images/memories/Image-12--3.jpg",
+      "/images/memories/Image-16-.jpg"
+    ],
+    "note": "Foi um dia ótimo, tomamos uma chuvinha mas foi pra fechar com chave de ouro."
+  },
+  {
+    "id": "pagina-1794488127611",
+    "chapter": "12. MAIS FOTOS",
+    "title": "CASAMENTO JOAI II",
+    "text": "Finalmente dançamos juntos e bebemos de tudo, fizemos paiaçadas, demos risada, vi você tao feliz, um dia incrível para se recordar.",
+    "layout": "trio",
+    "images": [
+      "/images/memories/Image-14--1.jpg",
+      "/images/memories/Image-18-.jpg",
+      "/images/memories/Image-17-.jpg"
+    ],
+    "note": "Obrigado por ter ido comigo, sua presença fez toda a diferença, te amo."
+  },
+  {
+    "id": "pagina-1794483967893",
+    "chapter": "13. MAIS FOTOS",
+    "title": "PASSAPORTE",
+    "text": "Enrolamos, mas chegou o bendito.\nFoi quase uma aventura mas está nas nossas mãos.",
+    "layout": "collage",
+    "images": [
+      "/images/memories/Image-19-.jpg",
+      "/images/memories/Image-20-.jpg"
+    ],
+    "note": "Agora só falta o dindin para passearmos bastante."
+  },
+  {
+    "id": "pagina-1794507135408",
+    "chapter": "14. NOVO CAPÍTULO",
+    "title": "PASSEIO SHOP BAURU",
+    "text": "Passeamos por um shopping e cidade totalmente nova para mim, conheci a sua faculdade, você me auxiliou no copiloto, andamos bastante e principalmente comemos no outback.",
+    "layout": "trioVertical",
+    "note": "Outback está em um dos nossos lugares favoritos e mais gostosos. ",
+    "images": [
+      "/images/memories/Image-21-.jpg",
+      "/images/memories/Image-22-.jpg",
+      "/images/memories/Image-23-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794483983685",
+    "chapter": "15. MAIS FOTOS",
+    "title": "MAIS BRASA",
+    "text": "Não é repetido, é para mostrar que sempre que vamos no brasa tiramos fotinhas.",
+    "layout": "trio",
+    "note": "Buchinho sai cheio demais, mas muito feliz.",
+    "images": [
+      "/images/memories/Image-24-.jpg",
+      "/images/memories/Image-25-.jpg",
+      "/images/memories/Image-26-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794507543765",
+    "chapter": "16. MAIS FOTOS",
+    "title": "ALEATORIAS I",
+    "text": "Achei umas fotos que não tinha muito contexto, mas eu queria trazer para cá porque são os dias comuns da nossa historia e eles tem o espaço deles.",
+    "layout": "quad",
+    "note": "Tratamento de pele TOP",
+    "images": [
+      "/images/memories/Image-50-.jpg",
+      "/images/memories/aleatorio.jpg",
+      "/images/memories/aleatorio6.jpg",
+      "/images/memories/Image-95-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794507556212",
+    "chapter": "17. MAIS FOTOS",
+    "title": "BRANQUINHOS",
+    "text": "Aqui eu comecei a entender melhor que flores te entregar, mas ainda era o começo.\nVocê combina com todas as flores.",
+    "layout": "collage",
+    "note": "Você com blusa branca e saia preta está nos 3 melhores combinações. Fica lindissima.",
+    "images": [
+      "/images/memories/Image-31-.jpg",
+      "/images/memories/Image-30-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794507784532",
+    "chapter": "18. MAIS FOTOS",
+    "title": "BRANQUINHOS II",
+    "text": "Coisa mais pitica linda.",
+    "layout": "trio",
+    "images": [
+      "/images/memories/Image-33-.jpg",
+      "/images/memories/Image-29-.jpg",
+      "/images/memories/Image-32-.jpg"
+    ],
+    "note": "Bochecha vermelhinha combina tanto com você, seu cabelo esta lindo."
+  },
+  {
+    "id": "pagina-1794508036361",
+    "chapter": "19. MAIS FOTOS",
+    "title": "COMIDAA",
+    "text": "Registro das guloseimas que você adora comer. Tão bom ter você para dividir ifood e ajudar a ficar de olho nas propagandas do 99.",
+    "layout": "quad",
+    "images": [
+      "/images/memories/Image-34-.jpg",
+      "/images/memories/Image-35-.jpg",
+      "/images/memories/Image-53-.jpg",
+      "/images/memories/Image---2026-11-12T091539.815.jpg"
+    ],
+    "note": "Assim ficamos ambos de buchin chei, procurei e o que mais tem documentado é o borelli."
+  },
+  {
+    "id": "pagina-1794508170096",
+    "chapter": "20. MAIS FOTOS",
+    "title": "MAIS CASAMENTO",
+    "text": "Fomos convidados para dois casamentos no mesmo ano, vi meu amorzinho de vestido duas vezes.",
+    "layout": "zigzag",
+    "note": "Precisamos ter mais ocasiões para que você use mais esse vestido",
+    "images": [
+      "/images/memories/Image-39-.jpg",
+      "/images/memories/Image-41-.jpg",
+      "/images/memories/Image-40-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794507904330",
+    "chapter": "21. MAIS FOTOS",
+    "title": "CARPINAGEM",
+    "text": "O dia em que meu amorzinho estava inspirada e trocou a terra de todos os vasos de plantas (eu auxiliei).",
+    "layout": "collage",
+    "note": "Vibe Stardew Valley",
+    "images": [
+      "/images/memories/Image-44-.jpg",
+      "/images/memories/Image-45-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794508499902",
+    "chapter": "22. MAIS FOTOS",
+    "title": "DIA DE PRESENTES DO OBB",
+    "text": "Meu aniversario e aqui fica o meu agradecimento pelos presentinhos e mimos.\nFoi um dia ótimo e eu não chorei quando recebi o bolo. Adorei o joguinho e a caneca tenho dó de usar.",
+    "layout": "quad",
+    "note": "Alias o sabor do bolo estava ótimo, quero de novo.",
+    "images": [
+      "/images/memories/Image-46-.jpg",
+      "/images/memories/Image-48-.jpg",
+      "/images/memories/Image-47-.jpg",
+      "/images/memories/Image-49-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794508639109",
+    "chapter": "23. MAIS FOTOS",
+    "title": "SHOW COM ABB",
+    "text": "Passeamos no fórum, vimos os pula pula, quase fomos na roda gigante(muita fila), comemos um espetinho e bata delicia.",
+    "layout": "quad",
+    "note": "Ainda bem que não precisei trabalhar na festa e pude ficar com você.",
+    "images": [
+      "/images/memories/Image-57-.jpg",
+      "/images/memories/Image-58-.jpg",
+      "/images/memories/Image-60-.jpg",
+      "/images/memories/Image-59-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794508826363",
+    "chapter": "24. MAIS FOTOS",
+    "title": "ELEIÇÕES",
+    "text": "Época muito doida, abb antenada no que está acontecendo, sempre contando os podres, as fofocas.",
+    "layout": "quad",
+    "note": "O melhor de tudo foi o almoço caprichado que teve no primeiro e segundo turno hehe",
+    "images": [
+      "/images/memories/Image-56-.jpg",
+      "/images/memories/Image-55-.jpg",
+      "/images/memories/Image-7--1.jpg",
+      "/images/memories/Image-6--1.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794509008306",
+    "chapter": "25. MAIS FOTOS",
+    "title": "ANIMAIS",
+    "text": "Aqui você mostrou que não é apenas diploma de biologia, pegou na mão e explicou cada um.",
+    "layout": "zigzag",
+    "images": [
+      "/images/memories/Image-62-.jpg",
+      "/images/memories/Image-61-.jpg",
+      "/images/memories/Image-92-.jpg"
+    ],
+    "note": "Ainda bem que não não jogou em mim..."
+  },
+  {
+    "id": "pagina-1794509099642",
+    "chapter": "26. MAIS FOTOS",
+    "title": "GREEN DAY",
+    "text": "Uma das nossas melhores fotos, um sorvetinho que não é seu favorito, mas é gostosinho sim vai.\n",
+    "layout": "trioVertical",
+    "images": [
+      "/images/memories/Image-65-.jpg",
+      "/images/memories/Image-64-.jpg",
+      "/images/memories/Image-63-.jpg"
+    ],
+    "note": "Enchemos o bucho de sorvete, 10/10."
+  },
+  {
+    "id": "pagina-1794509088674",
+    "chapter": "27. MAIS FOTOS",
+    "title": "DIA DAS MULHERES",
+    "text": "Dia internacional das mulheres, uma noite de passeio e muitas fotos(culpa minha que algumas ficaram tudo tremido), um buque classico.",
+    "layout": "trioVertical",
+    "note": "Apenar de ser tradicional, rosas vermelhas combinam tanto com seu cabelo.",
+    "images": [
+      "/images/memories/Image-66-.jpg",
+      "/images/memories/Image-67-.jpg",
+      "/images/memories/Image-68-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794509709141",
+    "chapter": "28. MAIS FOTOS",
+    "title": "UM DIA COMUM",
+    "text": "O titulo era mentira, abb não estava pura nesse dia, andando de capacete pela rua, falando com as arvores e apontando pro fantasma no bosque. ",
+    "layout": "quad",
+    "note": "Coisinha mais fofa, parece que estava comemorando com a arvore.",
+    "images": [
+      "/images/memories/Image-70-.jpg",
+      "/images/memories/Image-73-.jpg",
+      "/images/memories/Image-71-.jpg",
+      "/images/memories/Image-72-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794509805924",
+    "chapter": "29. MAIS FOTOS",
+    "title": "UM CLASSICO",
+    "text": "Mais uma ida clássica ao borelli. \nUm dos melhores looks seus, você fica tãooo gata de saia, por isso adoro sair no calor com você.",
+    "layout": "collage",
+    "note": "Baitas pernas meu amor",
+    "images": [
+      "/images/memories/Image-75-.jpg",
+      "/images/memories/Image-76-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794509989515",
+    "chapter": "30. MAIS FOTOS",
+    "title": "CASA DA MÂE DA ABB",
+    "text": "",
+    "layout": "trioHorizontal",
+    "images": [
+      "/images/memories/Image-96--1.jpg",
+      "/images/memories/Image-97--1.jpg",
+      "/images/memories/Image-98--1.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794510165530",
+    "chapter": "31. MAIS FOTOS",
+    "title": "BRASA DAY",
+    "text": "Escreva aqui o texto desta página.",
+    "layout": "quad",
+    "images": [
+      "/images/memories/Image-81-.jpg",
+      "/images/memories/Image-79-.jpg",
+      "/images/memories/Image-82-.jpg",
+      "/images/memories/Image-83-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794510173601",
+    "chapter": "32. MAIS FOTOS",
+    "title": "BRASA DAY II",
+    "text": "Escreva aqui o texto desta página.",
+    "layout": "trioHorizontal",
+    "images": [
+      "/images/memories/Image-77-.jpg",
+      "/images/memories/Image-80-.jpg",
+      "/images/memories/Image-78-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794510312784",
+    "chapter": "33. MAIS FOTOS",
+    "title": "PRAÇA DAY",
+    "text": "Acho que esse foi o dia que mais tiramos fotos, escolhi 4 diferentes que eu gostei mas que não passou no aval pro storys do instagram.",
+    "layout": "quad",
+    "images": [
+      "/images/memories/Image-91-.jpg",
+      "/images/memories/Image-90-.jpg",
+      "/images/memories/Image-89-.jpg",
+      "/images/memories/Image-88-.jpg"
+    ],
+    "note": "Coisa mais linda esse sorriso seu"
+  },
+  {
+    "id": "pagina-1794510607749",
+    "chapter": "34. MAIS FOTOS",
+    "title": "PRAÇA DAY",
+    "text": "Um painel apenas do meu amorzinho bem humorada fazendo gracinha.",
+    "layout": "quad",
+    "images": [
+      "/images/memories/Image-85-.jpg",
+      "/images/memories/Image-84-.jpg",
+      "/images/memories/Image-86-.jpg",
+      "/images/memories/Image-87--1.jpg"
+    ],
+    "note": "dedo do meio para todos"
+  },
+  {
+    "id": "pagina-1794511885317",
+    "chapter": "35. MAIS FOTOS",
+    "title": "SELFIES ABB",
+    "text": "Coleção de fotos de selfie da abb que tinha no meu celular.",
+    "layout": "quad",
+    "note": "Minha bochechuda mais linda.",
+    "images": [
+      "/images/memories/Image-93-.jpg",
+      "/images/memories/Image-94-.jpg",
+      "/images/memories/Image-99-.jpg",
+      "/images/memories/Image-100-.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794511888563",
+    "chapter": "36. MAIS FOTOS",
+    "title": "FORMATURA",
+    "text": "Bebemos menos que no casamento, mas curtimos bastante a formatura do Rafael.",
+    "layout": "trio",
+    "images": [
+      "/images/memories/Image---2026-11-12T091529.205.jpg",
+      "/images/memories/Image---2026-11-12T091526.892.jpg",
+      "/images/memories/Image---2026-11-12T091526.850.jpg"
+    ],
+    "note": "Não estava bêbado o suficiente para dançar nesse dia."
+  },
+  {
+    "id": "pagina-1794512149689",
+    "chapter": "37. MAIS FOTOS",
+    "title": "FORMATURA CLARINETE",
+    "text": "Única vez que vi sua família toda reunida fora de casa,  agora entendi como isso foi raro.\nE que bom que eu pude acompanhar você.",
+    "layout": "zigzag",
+    "note": "A jantinha no chaplin foi ótima, só fofoca na mesa.",
+    "images": [
+      "/images/memories/Image---2026-11-12T091529.936.jpg",
+      "/images/memories/Image---2026-11-12T091531.320.jpg",
+      "/images/memories/Image---2026-11-12T091533.553.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794483934013",
+    "chapter": "38. MAIS FOTOS",
+    "title": "FOTOS ALEATORIAS",
+    "text": "Compilado de nossas fotinhas aleatórias.",
+    "layout": "quad",
+    "note": "muitas fotos de você.",
+    "images": [
+      "/images/memories/Image-11--1.jpg",
+      "/images/memories/Image---2026-11-12T091522.226.jpg",
+      "/images/memories/aleatorioa.jpg",
+      "/images/memories/aleatorio3.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794512498590",
+    "chapter": "39. MAIS FOTOS",
+    "title": "NOITE DE JANTAR ",
+    "text": "Mais uma coleção fofa de fotinhas nossa.\nE a pinga participando finalmente das fotos.\nFalta ter foto com os outros filhos e a família completa.",
+    "layout": "quad",
+    "note": "Estamos quase chegando no fim...",
+    "images": [
+      "/images/memories/Image---2026-11-12T091547.980.jpg",
+      "/images/memories/Image---2026-11-12T091549.573.jpg",
+      "/images/memories/Image---2026-11-12T091547.185.jpg",
+      "/images/memories/Image---2026-11-12T091550.983.jpg"
+    ]
+  },
+  {
+    "id": "pagina-1794512646141",
+    "chapter": "40. MAIS FOTOS",
+    "title": "1 ANO ATRAS..",
+    "text": "E aqui estamos, 1 ano atras eu finalmente fiz o pedido oficial, desde então minha vida segue sendo maravilhosa, com os altos e baixos, mas eu realmente quero estar ao seu lado.",
+    "layout": "collage",
+    "note": "15 de novembro virou o nosso dia. ",
+    "images": [
+      "/images/memories/Image---2026-11-12T091534.772.jpg",
+      "/images/memories/Image---2026-11-12T091536.983.jpg"
+    ]
+  },
+  {
+    "id": "registro",
+    "chapter": "41. NOSSO REGISTRO",
+    "title": "Um momento para guardar",
+    "text": "O livro está quase no fim, mas esta página ainda está em branco. Tire uma foto agora e ela fica guardada aqui, com a data de hoje.",
+    "note": "Toda vez que você abrir o livro, este momento estará aqui.",
+    "layout": "registro"
   },
   {
     "id": "capitulos",
-    "chapter": "08. O FUTURO",
+    "chapter": "42. O FUTURO",
     "title": "Ainda temos muitos capítulos",
     "text": "Esse foi apenas o primeiro capítulo. Ainda quero escrever muitos outros ao seu lado.",
     "note": "Toque no coração abaixo para ver uma mensagem especial...",
@@ -73,16 +599,8 @@
     "secretMessage": "Prometo te escolher hoje, amanhã e em todos os próximos 365 dias que virão."
   },
   {
-    "id": "registro",
-    "chapter": "09. NOSSO REGISTRO",
-    "title": "Um momento para guardar",
-    "text": "O livro está quase no fim, mas esta página ainda está em branco. Tire uma foto agora e ela fica guardada aqui, com a data de hoje.",
-    "note": "Toda vez que você abrir o livro, este momento estará aqui.",
-    "layout": "registro"
-  },
-  {
     "id": "resposta",
-    "chapter": "10. SUA VEZ",
+    "chapter": "43. SUA VEZ",
     "title": "Uma carta sua para mim",
     "text": "Agora quem escreve é você. Diga o que quiser: a carta fica guardada aqui, para eu ler e para você reler toda vez que abrirmos o livro.",
     "note": "Depois de guardada, ela não pode mais ser editada.",
@@ -90,7 +608,7 @@
   },
   {
     "id": "trancada",
-    "chapter": "11. PARA O ANO QUE VEM",
+    "chapter": "44. PARA O ANO QUE VEM",
     "title": "Esta página ainda está fechada",
     "text": "Guardei uma última mensagem para o nosso próximo aniversário. Ela abre sozinha, na data certa.",
     "note": "Volte aqui quando o cadeado abrir.",
