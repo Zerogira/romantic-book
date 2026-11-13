@@ -2137,12 +2137,35 @@
     height: 78px;
   }
   /* Modo leitura: 3 fotos empilhadas, cada uma ocupa um terço do espaço que sobra na página */
+  .experience.is-reader .layout-trioHorizontal,
+  .experience.is-reader .layout-trioInvertido {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .experience.is-reader .collage-card.trio-h-card:not(.is-empty) {
+    max-width: 80%;
+  }
   .experience.is-reader .collage-card.trio-h-card img {
-    max-height: calc((80vh - 280px) / 3);
-    max-height: calc((80dvh - 280px) / 3);
+    max-height: calc((88vh - 260px) / 3);
+    max-height: calc((88dvh - 260px) / 3);
   }
   .experience.is-reader .collage-card.trio-h-card.is-empty {
-    height: calc((80dvh - 280px) / 3 + 6px);
+    height: calc((88dvh - 260px) / 3 + 6px);
+  }
+  /* Trio invertido no modo leitura: 1 deitada em cima (45% da altura livre) e 2 em pé embaixo (55%) */
+  .experience.is-reader .photo-trio-invertido .trio-row .trio-tall {
+    width: 48%;
+  }
+  .experience.is-reader .photo-trio-invertido .trio-wide {
+    width: 92%;
+  }
+  .experience.is-reader .photo-trio-invertido .trio-wide img {
+    max-height: calc((88vh - 330px) * 0.45);
+    max-height: calc((88dvh - 330px) * 0.45);
+  }
+  .experience.is-reader .photo-trio-invertido .trio-row .collage-card img {
+    max-height: calc((88vh - 330px) * 0.55);
+    max-height: calc((88dvh - 330px) * 0.55);
   }
 }
 
