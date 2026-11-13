@@ -8,7 +8,9 @@ import "../../styles/surprise.css";
 // A tela do envelope só é baixada quando alguém a abre
 const SurpriseEnvelope = lazy(() => import("./SurpriseEnvelope"));
 
-const SEEN_KEY = "romantic_book_surprise_seen_v1";
+// Guarda no celular que o envelope já foi aberto. Ao mudar a versão, todos os aparelhos voltam ao início
+// (o reset do servidor não mexe nisso).
+const SEEN_KEY = "romantic_book_surprise_seen_v2";
 
 function readSeen(): boolean {
   try {

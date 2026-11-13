@@ -28,6 +28,9 @@ if not exist "node_modules\" (
 echo [INFO] Iniciando servidor de desenvolvimento...
 echo [INFO] Pressione Ctrl+C para encerrar o servidor.
 echo.
+echo [DICA] Simulador de celular (iPhone 15):
+echo        http://localhost:5173/?celular
+echo.
 
 call npm run dev -- --open
 
