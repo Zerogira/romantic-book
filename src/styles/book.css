@@ -1247,10 +1247,11 @@
 }
 
 /* 06. Pequenos Detalhes */
+/* Cada detalhe ocupa a linha toda; no máximo 3 por página (mais que isso, divida em outra página) */
 .details-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 12px;
   width: 100%;
   margin: 16px 0 10px;
 }
@@ -1259,21 +1260,21 @@
   background: #f7f1e7;
   border: 1px solid rgba(217, 189, 176, 0.45);
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 12px 14px;
 }
 
 .detail-label {
   display: block;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   color: #a66f70;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .detail-value {
-  font-size: 11px;
+  font-size: 12px;
   color: #6e594e;
-  line-height: 1.45;
+  line-height: 1.5;
   margin: 0;
 }
 
@@ -1297,6 +1298,8 @@
   line-height: 1.55;
   color: #6c544a;
   margin: 0 0 12px;
+  /* Respeita as quebras de linha e os parágrafos (linha em branco) do texto escrito no editor */
+  white-space: pre-line;
 }
 
 .letter-signature {
@@ -1529,8 +1532,7 @@
   }
 
   .details-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 10px;
   }
 
   .photo-placeholder,
@@ -1900,6 +1902,14 @@
   .photo-trio-vertical .collage-card.is-empty {
     height: 100px;
   }
+  /* Modo leitura (tela cheia): 2 linhas de fotos ocupam o espaço que sobra na página */
+  .experience.is-reader .photo-trio-vertical .collage-card img {
+    max-height: calc((80vh - 390px) / 2);
+    max-height: calc((80dvh - 390px) / 2);
+  }
+  .experience.is-reader .photo-trio-vertical .collage-card.is-empty {
+    height: calc((80dvh - 390px) / 2);
+  }
 }
 
 /* ---------- Zigue-zague (layout "zigzag"): 3 fotos em diagonal, esquerda, direita, esquerda ---------- */
@@ -1981,6 +1991,15 @@
   .collage-card.zig-card.is-empty {
     height: 110px;
   }
+  /* Modo leitura (tela cheia, a página fica bem mais alta): as fotos ocupam o espaço que sobra.
+     O zigue-zague empilha ~2,4 fotos na altura. No modo livro a página é mais baixa, então fica como antes. */
+  .experience.is-reader .collage-card.zig-card img {
+    max-height: calc((80vh - 260px) / 2.4);
+    max-height: calc((80dvh - 260px) / 2.4);
+  }
+  .experience.is-reader .collage-card.zig-card.is-empty {
+    height: calc((80dvh - 260px) / 2.4 + 10px);
+  }
 }
 
 /* ---------- Trio horizontal (layout "trioHorizontal"): 3 fotos deitadas, alternando os lados ---------- */
@@ -2050,6 +2069,14 @@
   }
   .collage-card.trio-h-card.is-empty {
     height: 78px;
+  }
+  /* Modo leitura: 3 fotos empilhadas, cada uma ocupa um terço do espaço que sobra na página */
+  .experience.is-reader .collage-card.trio-h-card img {
+    max-height: calc((80vh - 280px) / 3);
+    max-height: calc((80dvh - 280px) / 3);
+  }
+  .experience.is-reader .collage-card.trio-h-card.is-empty {
+    height: calc((80dvh - 280px) / 3 + 6px);
   }
 }
 

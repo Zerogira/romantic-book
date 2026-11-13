@@ -231,7 +231,8 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
           <div className="letter-wrapper">
             <div className="letter-paper">
               <p className="letter-body">
-                <HandwrittenText text={`“${page.letterBody ?? ""}”`} active={state === "show"} />
+                {/* Sem aspas: é uma carta de verdade. As quebras de linha e parágrafos vêm do texto (pre-line no CSS) */}
+                <HandwrittenText text={page.letterBody ?? ""} active={state === "show"} />
               </p>
               <div className="letter-signature">
                 <span>Com todo o meu amor,</span>
