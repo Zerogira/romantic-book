@@ -393,19 +393,9 @@
     ],
     "stickers": [
       {
-        "id": "s-mwfc7mgl",
-        "x": 71,
-        "y": 72.4,
-        "rotation": 0,
-        "scale": 1,
-        "type": "gif",
-        "label": "giphy-W2bYVDZohdPoEsZi1T.gif",
-        "src": "/images/figurinhas/giphy-W2bYVDZohdPoEsZi1T.gif"
-      },
-      {
         "id": "s-mwfcf9ez",
-        "x": 26.4,
-        "y": 72,
+        "x": 38.8,
+        "y": 66.5,
         "rotation": 0,
         "scale": 1,
         "type": "gif",
@@ -464,6 +454,18 @@
     "images": [
       "/images/memories/Image-44-.jpg",
       "/images/memories/Image-45-.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfcv846",
+        "x": 35.3,
+        "y": 71.7,
+        "rotation": 0,
+        "scale": 1,
+        "type": "gif",
+        "label": "giphy-WPtzVOKMymmZrJv8fO.gif",
+        "src": "/images/figurinhas/giphy-WPtzVOKMymmZrJv8fO.gif"
+      }
     ]
   },
   {
@@ -478,6 +480,18 @@
       "/images/memories/Image-48-.jpg",
       "/images/memories/Image-47-.jpg",
       "/images/memories/Image-49-.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfczh3o",
+        "x": 52.4,
+        "y": 50.5,
+        "rotation": -5,
+        "scale": 0.5,
+        "type": "gif",
+        "label": "23724-unyel.gif",
+        "src": "/images/figurinhas/23724-unyel.gif"
+      }
     ]
   },
   {
@@ -506,6 +520,18 @@
       "/images/memories/Image-55-.jpg",
       "/images/memories/Image-7--1.jpg",
       "/images/memories/Image-6--1.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfd107g",
+        "x": 77.1,
+        "y": 18.7,
+        "rotation": 0,
+        "scale": 0.6,
+        "type": "gif",
+        "label": "giphy-casal-18-iU9lOdyGgVXgeiWSW1.gif",
+        "src": "/images/figurinhas/giphy-casal-18-iU9lOdyGgVXgeiWSW1.gif"
+      }
     ]
   },
   {
@@ -532,7 +558,19 @@
       "/images/memories/Image-64-.jpg",
       "/images/memories/Image-63-.jpg"
     ],
-    "note": "Enchemos o bucho de sorvete, 10/10."
+    "note": "Enchemos o bucho de sorvete, 10/10.",
+    "stickers": [
+      {
+        "id": "s-mwfd27hw",
+        "x": 50.8,
+        "y": 41.9,
+        "rotation": 0,
+        "scale": 1,
+        "type": "gif",
+        "label": "giphy-casal-14-VgNk3XyaEibn5ggYQs.gif",
+        "src": "/images/figurinhas/giphy-casal-14-VgNk3XyaEibn5ggYQs.gif"
+      }
+    ]
   },
   {
     "id": "carta-2",
@@ -541,7 +579,7 @@
     "text": "Amar também é aprender a atravessar os dias difíceis sem esquecer tudo aquilo que nos faz querer ficar.",
     "note": "Que nunca nos falte carinho para lembrar por que escolhemos compartilhar a vida um com o outro.",
     "layout": "letter",
-    "letterBody": "Sei que nossa rotina nem sempre é leve. Temos nossas diferenças, discussões e momentos em que não conseguimos compreender um ao outro como gostaríamos. Ainda assim, sou muito feliz por ter você comigo e por poder compartilhar a vida real ao seu lado, não apenas os dias fáceis.\n\nAcredito que um dos maiores presentes de compartilhar a vida com alguém é justamente ter a oportunidade de aprender, amadurecer e melhorar juntos. Quero continuar aprendendo com você, entendendo nossas diferenças e reconhecendo onde podemos melhorar. Não quero que o desgaste da rotina nos faça esquecer a importância que temos um para o outro, porque nossa história merece carinho, atenção e dedicação, inclusive nos dias difíceis."
+    "letterBody": "Meu amor,\n\nSei que nossa rotina nem sempre é leve. Temos nossas diferenças, discussões e momentos em que não conseguimos compreender um ao outro como gostaríamos. Ainda assim, sou muito feliz por ter você comigo e por poder compartilhar a vida real ao seu lado, não apenas os dias fáceis.\n\nAcredito que um dos maiores presentes de compartilhar a vida com alguém é justamente ter a oportunidade de aprender, amadurecer e melhorar juntos. Quero continuar aprendendo com você, entendendo nossas diferenças e reconhecendo onde podemos melhorar. Não quero que o desgaste da rotina nos faça esquecer a importância que temos um para o outro, porque nossa história merece carinho, atenção e dedicação, inclusive nos dias difíceis."
   },
   {
     "id": "pagina-1794509088674",
@@ -554,6 +592,28 @@
       "/images/memories/Image-66-.jpg",
       "/images/memories/Image-67-.jpg",
       "/images/memories/Image-68-.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfd3g83",
+        "x": 17.9,
+        "y": 65.3,
+        "rotation": 0,
+        "scale": 0.8,
+        "type": "gif",
+        "label": "giphy-casal-27-ZWJzjThtBpWHT96sZw.gif",
+        "src": "/images/figurinhas/giphy-casal-27-ZWJzjThtBpWHT96sZw.gif"
+      },
+      {
+        "id": "s-mwfd408z",
+        "x": 75.4,
+        "y": 63.2,
+        "rotation": 0,
+        "scale": 0.75,
+        "type": "gif",
+        "label": "7600-christmaspandawink.gif",
+        "src": "/images/figurinhas/7600-christmaspandawink.gif"
+      }
     ]
   },
   {
@@ -568,6 +628,18 @@
       "/images/memories/Image-73-.jpg",
       "/images/memories/Image-71-.jpg",
       "/images/memories/Image-72-.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfd4fp7",
+        "x": 49.8,
+        "y": 48,
+        "rotation": 0,
+        "scale": 0.5,
+        "type": "gif",
+        "label": "8252-pandapiggy.gif",
+        "src": "/images/figurinhas/8252-pandapiggy.gif"
+      }
     ]
   },
   {
@@ -580,6 +652,18 @@
     "images": [
       "/images/memories/Image-75-.jpg",
       "/images/memories/Image-76-.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfd5e23",
+        "x": 27.8,
+        "y": 66.7,
+        "rotation": 7,
+        "scale": 0.9,
+        "type": "gif",
+        "label": "giphy-casal-11-UMon0fuimoAN9ueUNP.gif",
+        "src": "/images/figurinhas/giphy-casal-11-UMon0fuimoAN9ueUNP.gif"
+      }
     ]
   },
   {
@@ -592,31 +676,57 @@
       "/images/memories/Image-96--1.jpg",
       "/images/memories/Image-97--1.jpg",
       "/images/memories/Image-98--1.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfd62mi",
+        "x": 25.2,
+        "y": 48.1,
+        "rotation": 0,
+        "scale": 0.75,
+        "type": "gif",
+        "label": "giphy-casal-19-1iPs3m08LLith1QVGc.gif",
+        "src": "/images/figurinhas/giphy-casal-19-1iPs3m08LLith1QVGc.gif"
+      }
     ]
   },
   {
     "id": "pagina-1794510165530",
     "chapter": "33. MAIS FOTOS",
     "title": "BRASA DAY",
-    "text": "Escreva aqui o texto desta página.",
+    "text": "Um dos dias que mais fizemos gracinhas na praça, depois de um bom lanche tiramos um montão de fotos e fizemos os videos engraçados.",
     "layout": "quad",
     "images": [
       "/images/memories/Image-81-.jpg",
       "/images/memories/Image-79-.jpg",
       "/images/memories/Image-82-.jpg",
       "/images/memories/Image-83-.jpg"
-    ]
+    ],
+    "note": "Vi a abb com um bração fortão"
   },
   {
     "id": "pagina-1794510173601",
     "chapter": "34. MAIS FOTOS",
     "title": "BRASA DAY II",
-    "text": "Escreva aqui o texto desta página.",
+    "text": "Nossas fotinhas de perto, para poder vem bem essa suas bochechonas e esses olhos com delineado que adoro.",
     "layout": "trioHorizontal",
     "images": [
       "/images/memories/Image-77-.jpg",
       "/images/memories/Image-80-.jpg",
       "/images/memories/Image-78-.jpg"
+    ],
+    "note": "Você sempre faz cara de mau.\nEu sou mal, pare de rir >:(",
+    "stickers": [
+      {
+        "id": "s-mwfda3a9",
+        "x": 26.1,
+        "y": 53.7,
+        "rotation": 0,
+        "scale": 0.85,
+        "type": "gif",
+        "label": "giphy-MNbFbxx1Dx5k0g4Uh2.gif",
+        "src": "/images/figurinhas/giphy-MNbFbxx1Dx5k0g4Uh2.gif"
+      }
     ]
   },
   {
@@ -645,7 +755,7 @@
       "/images/memories/Image-86-.jpg",
       "/images/memories/Image-87--1.jpg"
     ],
-    "note": "dedo do meio para todos"
+    "note": "dedo do meio para todos, menos pro obb"
   },
   {
     "id": "pagina-1794511885317",
@@ -659,6 +769,18 @@
       "/images/memories/Image-94-.jpg",
       "/images/memories/Image-99-.jpg",
       "/images/memories/Image-100-.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfdc0uw",
+        "x": 17.9,
+        "y": 79.4,
+        "rotation": 0,
+        "scale": 0.7,
+        "type": "gif",
+        "label": "giphy-casal-35-TNikjJbYd2taKM9Wtm.gif",
+        "src": "/images/figurinhas/giphy-casal-35-TNikjJbYd2taKM9Wtm.gif"
+      }
     ]
   },
   {
@@ -672,7 +794,19 @@
       "/images/memories/Image---2026-11-12T091526.892.jpg",
       "/images/memories/Image---2026-11-12T091526.850.jpg"
     ],
-    "note": "Não estava bêbado o suficiente para dançar nesse dia."
+    "note": "Não estava bêbado o suficiente para dançar nesse dia.",
+    "stickers": [
+      {
+        "id": "s-mwfdczc8",
+        "x": 49.5,
+        "y": 78.5,
+        "rotation": 0,
+        "scale": 0.9,
+        "type": "gif",
+        "label": "giphy-K23dIa71bYCRPR6nAi.gif",
+        "src": "/images/figurinhas/giphy-K23dIa71bYCRPR6nAi.gif"
+      }
+    ]
   },
   {
     "id": "pagina-1794512149689",
@@ -685,6 +819,18 @@
       "/images/memories/Image---2026-11-12T091529.936.jpg",
       "/images/memories/Image---2026-11-12T091531.320.jpg",
       "/images/memories/Image---2026-11-12T091533.553.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfddomo",
+        "x": 68.8,
+        "y": 77.1,
+        "rotation": 0,
+        "scale": 0.7,
+        "type": "gif",
+        "label": "giphy-casal-31-oMGvpa1NHPqBhBP05s.gif",
+        "src": "/images/figurinhas/giphy-casal-31-oMGvpa1NHPqBhBP05s.gif"
+      }
     ]
   },
   {
@@ -713,6 +859,18 @@
       "/images/memories/Image---2026-11-12T091549.573.jpg",
       "/images/memories/Image---2026-11-12T091547.185.jpg",
       "/images/memories/Image---2026-11-12T091550.983.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfdea40",
+        "x": 61.2,
+        "y": 47.7,
+        "rotation": -3,
+        "scale": 0.65,
+        "type": "gif",
+        "label": "giphy-casal-23-U24bsjaw9WrxT3NesC.gif",
+        "src": "/images/figurinhas/giphy-casal-23-U24bsjaw9WrxT3NesC.gif"
+      }
     ]
   },
   {
@@ -725,6 +883,28 @@
     "images": [
       "/images/memories/Image---2026-11-12T091534.772.jpg",
       "/images/memories/Image---2026-11-12T091536.983.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfdf83j",
+        "x": 71.6,
+        "y": 73.8,
+        "rotation": 0,
+        "scale": 1,
+        "type": "gif",
+        "label": "giphy-casal-24-05Uqwg5SxO9wxzFJkI.gif",
+        "src": "/images/figurinhas/giphy-casal-24-05Uqwg5SxO9wxzFJkI.gif"
+      },
+      {
+        "id": "s-mwfdn8x1",
+        "x": 34.5,
+        "y": 72.8,
+        "rotation": 0,
+        "scale": 0.85,
+        "type": "gif",
+        "label": "giphy-casal-30-Fz2cfuHGhiVO.gif",
+        "src": "/images/figurinhas/giphy-casal-30-Fz2cfuHGhiVO.gif"
+      }
     ]
   },
   {
@@ -740,10 +920,23 @@
     "id": "pagina-1794595741504",
     "chapter": "44. ADMIRAÇÃO",
     "title": "FOTO FAVORITA",
-    "text": "Escreva aqui o texto desta página.",
-    "layout": "photo",
-    "note": "UMA GATA ",
-    "image": "/images/memories/aleatorio2.jpg"
+    "text": "Olha essa mulher maravilhosa, que corpão e cabelo bonito.",
+    "layout": "destaque",
+    "note": "Uma gata de vestido preto",
+    "image": "/images/memories/aleatorio2.jpg",
+    "imageAlt": "MINHA PRINCESA",
+    "stickers": [
+      {
+        "id": "s-mwfdm62d",
+        "x": 22.9,
+        "y": 72.9,
+        "rotation": -16,
+        "scale": 1,
+        "type": "gif",
+        "label": "giphy-casal-12-xWTNfEu9uAXBnFQIa5.gif",
+        "src": "/images/figurinhas/giphy-casal-12-xWTNfEu9uAXBnFQIa5.gif"
+      }
+    ]
   },
   {
     "id": "registro",
