@@ -125,28 +125,6 @@
     ]
   },
   {
-    "id": "detalhes-2",
-    "chapter": "07. O QUE É SÓ NOSSO",
-    "title": "OS PEQUENOS DETALHES II",
-    "text": "E ainda tem mais coisinhas que só a gente entende.",
-    "note": "São os pequenos detalhes que me fizeram apaixonar por você, os mesmos pequenos detalhes que me mantem apaixonado diariamente.",
-    "layout": "details",
-    "detailsList": [
-      {
-        "label": "Trilha sonora especializada",
-        "value": "Repertorio diversificado de diversas musicas, abertura de anime, rock, k-pop pra limpar a casa, musicas fofas da abb no carro."
-      },
-      {
-        "label": "Treino super focado",
-        "value": "Apesar de receber violência física na academia, adoro os momentos de ir treinar com você, ouvir musica e ver você treinado andar de moto no caminho."
-      },
-      {
-        "label": "Comida especial",
-        "value": "Passamos diversos momentos passeando e comendo, desde os lanches bons aos duvidoso, as pizzas chiques aos rodízios, dito isso a comida que mais gosto de comer é a feita por você."
-      }
-    ]
-  },
-  {
     "id": "pagina-1794431006863",
     "chapter": "08. MAIS FOTO",
     "title": "VICIO DESCOBERTO",
@@ -187,11 +165,33 @@
     "note": "abb no controle"
   },
   {
+    "id": "detalhes-2",
+    "chapter": "07. O QUE É SÓ NOSSO",
+    "title": "OS PEQUENOS DETALHES II",
+    "text": "E ainda tem mais coisinhas que só a gente entende.",
+    "note": "São os pequenos detalhes que me fizeram apaixonar por você, os mesmos pequenos detalhes que me mantem apaixonado diariamente.",
+    "layout": "details",
+    "detailsList": [
+      {
+        "label": "Trilha sonora especializada",
+        "value": "Repertorio diversificado de diversas musicas, abertura de anime, rock, k-pop pra limpar a casa, musicas fofas da abb no carro."
+      },
+      {
+        "label": "Treino super focado",
+        "value": "Apesar de receber violência física na academia, adoro os momentos de ir treinar com você, ouvir musica e ver você treinado andar de moto no caminho."
+      },
+      {
+        "label": "Comida especial",
+        "value": "Passamos diversos momentos passeando e comendo, desde os lanches bons aos duvidoso, as pizzas chiques aos rodízios, dito isso a comida que mais gosto de comer é a feita por você."
+      }
+    ]
+  },
+  {
     "id": "carta",
     "chapter": "11. COM TODA A MINHA ALMA",
     "title": "CARTA I",
     "text": "Se existe algo que eu quero que você saiba, é o quanto sou feliz por ter você na minha vida. Obrigado por dividir seus dias comigo, pela paciência, pelo apoio incondicional e por ser o meu porto seguro em qualquer momento.",
-    "note": "Você é a minha melhor escolha todos os dias.",
+    "note": "E que sorte a minha poder chamar tudo isso de nossa história.",
     "layout": "letter",
     "letterBody": "Meu amor,\n\nA cartinha dessa vez é digital, mas o sentimento segue o mesmo.\n\nQuando paro para refletir sobre os acontecimentos da minha vida nos últimos dois anos, vejo você em tudo: nas minhas memórias diárias, nos acontecimentos mais simples aos mais importantes, desde o café da manhã até a realização de um sonho, como morar com alguém em uma casa própria.\n\nAo longo desse ano, vivemos tantas coisas que, quando olho para trás, percebo o quanto construímos juntos. São pequenas conquistas, momentos especiais, descobertas e experiências que, de alguma forma, tornaram nossa história ainda mais bonita. Tenho muito orgulho de tudo o que estamos construindo e, principalmente, de poder compartilhar cada uma dessas etapas com você."
   },
@@ -410,10 +410,10 @@
     "id": "carta-2",
     "chapter": "28. COM TODA A MINHA ALMA",
     "title": "CARTA II",
-    "text": "Escreva aqui um resumo curto desta carta.",
-    "note": "Escreva aqui uma observação curta.",
+    "text": "Amar também é aprender a atravessar os dias difíceis sem esquecer tudo aquilo que nos faz querer ficar.",
+    "note": "Que nunca nos falte carinho para lembrar por que escolhemos compartilhar a vida um com o outro.",
     "layout": "letter",
-    "letterBody": "Meu amor,\n\nEscreva aqui a carta II.\n"
+    "letterBody": "Sei que nossa rotina nem sempre é leve. Temos nossas diferenças, discussões e momentos em que não conseguimos compreender um ao outro como gostaríamos. Ainda assim, sou muito feliz por ter você comigo e por poder compartilhar a vida real ao seu lado, não apenas os dias fáceis.\n\nAcredito que um dos maiores presentes de compartilhar a vida com alguém é justamente ter a oportunidade de aprender, amadurecer e melhorar juntos. Quero continuar aprendendo com você, entendendo nossas diferenças e reconhecendo onde podemos melhorar. Não quero que o desgaste da rotina nos faça esquecer a importância que temos um para o outro, porque nossa história merece carinho, atenção e dedicação, inclusive nos dias difíceis."
   },
   {
     "id": "pagina-1794509088674",
@@ -603,10 +603,10 @@
     "id": "carta-3",
     "chapter": "43. COM TODA A MINHA ALMA",
     "title": "CARTA III",
-    "text": "Escreva aqui um resumo curto desta carta.",
-    "note": "Escreva aqui uma observação curta.",
+    "text": "Entre todos os futuros que consigo imaginar, existe uma coisa que se repete em cada um deles: você ao meu lado. E é assim que espero que continue sendo, não importa quantos capítulos ainda tenhamos pela frente.",
+    "note": "Não preciso saber exatamente o que o futuro nos reserva. Só quero ter a certeza de que, em cada novo capítulo, ainda teremos um ao outro.",
     "layout": "letter",
-    "letterBody": "Meu amor,\n\nEscreva aqui a carta III.\n"
+    "letterBody": "Meu amor,\n\nE quando penso no futuro, tenho uma certeza: quero continuar vivendo tudo isso com você. Ainda temos lugares para conhecer, sonhos para realizar e histórias para construir. Já temos nosso próximo destino em dezembro, o Paraguai, e espero que seja apenas mais uma de tantas aventuras juntos.\n\nNão sei quais desafios encontraremos ou quantos planos precisaremos adaptar. Mas quero estar presente em cada etapa, torcendo por você, comemorando suas conquistas e construindo nossa vida juntos. Porque, no fim das contas, não importa quantas coisas mudem ao nosso redor, quero continuar encontrando em você aquele lugar onde me sinto em casa. E espero que você também encontre isso em mim."
   },
   {
     "id": "registro",
