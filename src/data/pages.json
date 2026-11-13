@@ -56,8 +56,8 @@
     "stickers": [
       {
         "id": "s-mwfbngl6",
-        "x": 33.2,
-        "y": 47.4,
+        "x": 34.7,
+        "y": 49.7,
         "rotation": 13,
         "scale": 0.4,
         "type": "gif",
@@ -138,10 +138,10 @@
     "stickers": [
       {
         "id": "s-mwfdsewz",
-        "x": 50.3,
-        "y": 74.7,
+        "x": 45.4,
+        "y": 82.3,
         "rotation": 0,
-        "scale": 1,
+        "scale": 0.7,
         "type": "gif",
         "label": "giphy-GYikUbu3p5UdyBhe4r.gif",
         "src": "/images/figurinhas/giphy-GYikUbu3p5UdyBhe4r.gif"
@@ -150,23 +150,23 @@
   },
   {
     "id": "pagina-1794431006863",
-    "chapter": "08. MAIS FOTO",
+    "chapter": "07. MAIS FOTO",
     "title": "VICIO DESCOBERTO",
     "text": "Nesse dia, nossa culinária explorou uma nova sensação: batata frita do rooftop com cheddar e um chopp delicioso.",
-    "layout": "zigzag",
+    "layout": "trio",
     "images": [
       "/images/memories/Image-2--2.jpg",
       "/images/memories/Image-1--2.jpg",
-      "/images/memories/Image-2.jpg"
+      "/images/memories/Image-04-.jpg"
     ],
     "note": "Um dos meus lugares favoritos para comer com você.",
     "stickers": [
       {
         "id": "s-mwfbqwfe",
-        "x": 64.6,
-        "y": 24.9,
+        "x": 6.1,
+        "y": 77.9,
         "rotation": 5,
-        "scale": 0.7,
+        "scale": 0.45,
         "type": "gif",
         "label": "giphy-o5Nc5TUTHBYxSSttNq.gif",
         "src": "/images/figurinhas/giphy-o5Nc5TUTHBYxSSttNq.gif"
@@ -175,7 +175,7 @@
   },
   {
     "id": "pagina-1794431017486",
-    "chapter": "09. MAIS FOTO",
+    "chapter": "08. MAIS FOTO",
     "title": "CLEBER CHEGOU",
     "text": "Os primeiros registros da nossa primeira adoção: Cleber araujo martins.\n",
     "layout": "zigzag",
@@ -201,7 +201,7 @@
   },
   {
     "id": "pagina-1794487849356",
-    "chapter": "10. MAIS FOTO",
+    "chapter": "09. MAIS FOTO",
     "title": "DISCO VOADOR",
     "text": "Deixando a abb no piloto do drone, houve essas fotos fofas que queria guardar.",
     "layout": "trioHorizontal",
@@ -226,7 +226,7 @@
   },
   {
     "id": "detalhes-2",
-    "chapter": "07. O QUE É SÓ NOSSO",
+    "chapter": "10. O QUE É SÓ NOSSO",
     "title": "OS PEQUENOS DETALHES II",
     "text": "E ainda tem mais coisinhas que só a gente entende.",
     "note": "São os pequenos detalhes que me fizeram apaixonar por você, os mesmos pequenos detalhes que me mantem apaixonado diariamente.",
@@ -248,20 +248,20 @@
     "stickers": [
       {
         "id": "s-mwfbuh4w",
-        "x": 20.3,
-        "y": 75.5,
+        "x": 18.1,
+        "y": 72.6,
         "rotation": 0,
-        "scale": 0.6,
+        "scale": 0.35,
         "type": "gif",
         "label": "6640-bubuicecream.png",
         "src": "/images/figurinhas/6640-bubuicecream.png"
       },
       {
         "id": "s-mwfbuty0",
-        "x": 76.1,
-        "y": 75.8,
+        "x": 75.4,
+        "y": 73.5,
         "rotation": 0,
-        "scale": 0.9,
+        "scale": 0.55,
         "type": "gif",
         "label": "giphy-casal-01-RuI6fGwzkSHvFjHP6T.gif",
         "src": "/images/figurinhas/giphy-casal-01-RuI6fGwzkSHvFjHP6T.gif"
@@ -479,14 +479,14 @@
         "src": "/images/figurinhas/giphy-WPtzVOKMymmZrJv8fO.gif"
       },
       {
-        "id": "s-mwfe0z4w",
-        "x": 76.1,
-        "y": 78.1,
+        "id": "s-mwfhwvvh",
+        "x": 71.7,
+        "y": 77.1,
         "rotation": 0,
         "scale": 1,
         "type": "gif",
-        "label": "giphy-ckAhX7LBZrhst2mG2j.gif",
-        "src": "/images/figurinhas/giphy-ckAhX7LBZrhst2mG2j.gif"
+        "label": "giphy-casal-33-pvTAtvvSfcAXIMI8V1.gif",
+        "src": "/images/figurinhas/giphy-casal-33-pvTAtvvSfcAXIMI8V1.gif"
       }
     ]
   },
@@ -962,7 +962,7 @@
   },
   {
     "id": "registro",
-    "chapter": "44. NOSSO REGISTRO",
+    "chapter": "45. NOSSO REGISTRO",
     "title": "Um momento para guardar",
     "text": "O livro está quase no fim, mas esta página ainda está em branco. Tire uma foto agora e ela fica guardada aqui, com a data de hoje.",
     "note": "Toda vez que você abrir o livro, este momento estará aqui.",
@@ -978,7 +978,7 @@
   },
   {
     "id": "capitulos",
-    "chapter": "45. O Futuro: Nossa promessa",
+    "chapter": "47. O Futuro: Nossa promessa",
     "title": "Ainda temos muitos capítulos",
     "text": "Se chegamos até aqui significa que o site funcionou direitinho kkkk. \nAinda temos tantos momentos para viver, sonhos para realizar e páginas em branco esperando por nós. E não consigo imaginar alguém melhor para continuar escrevendo tudo isso.",
     "note": "Toque no coração, abra nosso envelope e vamos deixar registrada uma pequena promessa para os próximos capítulos. ",
@@ -987,7 +987,7 @@
   },
   {
     "id": "trancada",
-    "chapter": "47. PARA O ANO QUE VEM",
+    "chapter": "48. PARA O ANO QUE VEM",
     "title": "Esta página ainda está fechada",
     "text": "Guardei uma última mensagem para o nosso próximo aniversário. Ela abre sozinha, na data certa.",
     "note": "Volte aqui quando o cadeado abrir.",

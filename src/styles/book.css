@@ -1946,15 +1946,19 @@
     height: 100px;
   }
   /* Modo leitura (tela cheia): 2 linhas de fotos ocupam o espaço que sobra na página */
+  .experience.is-reader .layout-trioVertical {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .experience.is-reader .photo-trio-vertical .collage-card:not(.is-empty) {
-    max-width: 50%;
+    max-width: 49%;
   }
   .experience.is-reader .photo-trio-vertical .collage-card img {
-    max-height: calc((80vh - 370px) / 2);
-    max-height: calc((80dvh - 370px) / 2);
+    max-height: calc((88vh - 330px) / 2);
+    max-height: calc((88dvh - 330px) / 2);
   }
   .experience.is-reader .photo-trio-vertical .collage-card.is-empty {
-    height: calc((80dvh - 370px) / 2);
+    height: calc((88dvh - 330px) / 2);
   }
 }
 
@@ -2039,12 +2043,28 @@
   }
   /* Modo leitura (tela cheia, a página fica bem mais alta): as fotos ocupam o espaço que sobra.
      O zigue-zague empilha ~2,4 fotos na altura. No modo livro a página é mais baixa, então fica como antes. */
+  .experience.is-reader .layout-zigzag,
+  .experience.is-reader .layout-details {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .experience.is-reader .photo-zigzag {
+    column-gap: 6px;
+    row-gap: 4px;
+  }
   .experience.is-reader .collage-card.zig-card img {
-    max-height: calc((80vh - 260px) / 2.1);
-    max-height: calc((80dvh - 260px) / 2.1);
+    max-height: calc((88vh - 250px) / 2.05);
+    max-height: calc((88dvh - 250px) / 2.05);
   }
   .experience.is-reader .collage-card.zig-card.is-empty {
-    height: calc((80dvh - 260px) / 2.1 + 10px);
+    height: calc((88dvh - 250px) / 2.05 + 10px);
+  }
+  .experience.is-reader .detail-card {
+    padding: 12px 12px;
+  }
+  .experience.is-reader .detail-label,
+  .experience.is-reader .detail-value {
+    font-size: 13px;
   }
 }
 

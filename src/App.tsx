@@ -173,7 +173,17 @@ export default function App() {
       sfx.close(); // batida suave do livro se fechando
     };
 
-    let guard = 0;
+    // Uma virada por página no celular (uma página por vez) e por folha no computador (duas por vez).
+    // O ritmo se ajusta para o fechamento durar ~3,5 s qualquer que seja o tamanho do livro.
+    const perFlip = spreadRef.current ? 2 : 1;
+    const flipsNeeded = Math.max(1, Math.ceil(lastIndex / perFlip));
+    const interval = Math.max(70, Math.min(150, Math.round(3500 / flipsNeeded)));
+    if (settings) settings.flippingTime = Math.min(260, interval * 1.7);
+
+    const startedAt = Date.now();
+    const maxMs = 12000; // limite de segurança, só para nunca ficar preso
+    let lastIndexSeen = lastIndex;
+    let stalls = 0;
     const step = () => {
       let index = 0;
       try {
@@ -182,13 +192,28 @@ export default function App() {
         finish();
         return;
       }
-      if (index <= 0 || guard++ > 25) {
-        // Chegou na capa (ou limite de segurança): deixa a última virada terminar
+      if (index <= 0) {
+        // Chegou na capa: deixa a última virada terminar
         rewindTimersRef.current.push(window.setTimeout(finish, 500));
         return;
       }
+      if (Date.now() - startedAt > maxMs || stalls > 8) {
+        // Não conseguiu folhear até o fim: vai direto à capa, sem deixar o livro parado no meio
+        try {
+          flip.turnToPage(0);
+          indexRef.current = 0;
+          setActivePage(0);
+          applyShift();
+        } catch {
+          // ignora
+        }
+        rewindTimersRef.current.push(window.setTimeout(finish, 200));
+        return;
+      }
+      stalls = index === lastIndexSeen ? stalls + 1 : 0;
+      lastIndexSeen = index;
       flip.flipPrev();
-      rewindTimersRef.current.push(window.setTimeout(step, 150));
+      rewindTimersRef.current.push(window.setTimeout(step, interval));
     };
     step();
   };
