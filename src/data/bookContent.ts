@@ -4,6 +4,7 @@ import type { StickerItem } from "./stickersConfig";
 export type PageLayout =
   | "intro"
   | "photo"
+  | "destaque" // 1 foto grande, centralizada, sem inclinação (destaque)
   | "collage"
   | "trio" // 3 fotos: 2 verticais lado a lado e 1 horizontal embaixo
   | "quad" // 4 fotos: 2 em cima e 2 embaixo

@@ -1,4 +1,4 @@
-import { forwardRef, useContext } from "react";
+import { forwardRef, useContext, useRef } from "react";
 import { motion, type Variants } from "motion/react";
 import { Sparkles, Image as ImageIcon } from "lucide-react";
 import type { PageData } from "../../data/bookContent";
@@ -35,6 +35,7 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
   // Em duas páginas (e fora da capa), a página à direita também está visível
   const isVisible = active.index === pageIndex || (active.spread && active.index >= 1 && active.index + 1 === pageIndex);
   const state = isVisible ? "show" : "hidden";
+  const letterRef = useRef<HTMLDivElement | null>(null); // caixa da carta (layout "letter"), que rola por dentro
 
   return (
     <PageIndexContext.Provider value={pageIndex}>
@@ -61,6 +62,13 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
               <ImageIcon size={14} className="caption-icon" />
               <span>onde tudo começou</span>
             </figcaption>
+          </figure>
+        )}
+
+        {/* Layout: Foto em destaque (grande e centralizada) */}
+        {page.layout === "destaque" && (
+          <figure className="photo-destaque">
+            {page.image ? <ZoomPhoto src={page.image} alt={page.imageAlt ?? "Lembrança especial"} /> : null}
           </figure>
         )}
 
@@ -229,10 +237,10 @@ export const BookPage = forwardRef<HTMLDivElement, Props>(({ page, pageIndex }, 
         {/* Layout: Carta Romântica Manuscrita */}
         {page.layout === "letter" && (
           <div className="letter-wrapper">
-            <div className="letter-paper">
+            <div className="letter-paper" ref={letterRef}>
               <p className="letter-body">
                 {/* Sem aspas: é uma carta de verdade. As quebras de linha e parágrafos vêm do texto (pre-line no CSS) */}
-                <HandwrittenText text={page.letterBody ?? ""} active={state === "show"} />
+                <HandwrittenText text={page.letterBody ?? ""} active={state === "show"} followScroll={letterRef} />
               </p>
               <div className="letter-signature">
                 <span>Com todo o meu amor,</span>

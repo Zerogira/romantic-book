@@ -105,8 +105,8 @@
   flex-direction: column;
   align-items: center;
   gap: 22px;
-  /* espaço para a carta que sobe acima do envelope */
-  margin-top: calc(var(--h) * 0.8);
+  /* espaço para a carta que sobe acima do envelope (ela sai por inteiro, com o rodapé das assinaturas) */
+  margin-top: calc(var(--h) * 0.95);
 }
 
 .env-envelope {
@@ -173,6 +173,12 @@
   z-index: 2;
 }
 
+/* Envelope aberto: a carta cresce para caber o rodapé das assinaturas e sobe por inteiro */
+.env-letter.is-open {
+  height: auto;
+  min-height: 92%;
+}
+
 .env-letter-label {
   font-size: 10px;
   letter-spacing: 0.2em;
@@ -192,6 +198,171 @@
   margin-top: 2px;
   font-size: 11px;
   color: #8c786c;
+}
+
+/* ---------- Assinaturas no rodapé da carta (Abb e Obb) ---------- */
+
+.env-signatures {
+  margin-top: auto;
+  padding-top: 6px;
+  display: flex;
+  gap: 14px;
+  /* Escondidas enquanto a carta ainda está dentro do envelope */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease 0.35s, visibility 0s linear 0.35s;
+}
+
+.env-letter.is-open .env-signatures {
+  opacity: 1;
+  visibility: visible;
+}
+
+.env-sig {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.env-sig-label {
+  font-family: "Caveat", cursive;
+  font-size: 18px;
+  line-height: 1;
+  color: #8c5d5e;
+}
+
+.env-sig-slot,
+.env-sig-img {
+  display: block;
+  width: 100%;
+  height: 44px;
+  border-bottom: 1.5px solid rgba(166, 111, 112, 0.55);
+}
+
+.env-sig-slot {
+  padding: 0;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  background: none;
+  font-family: "Caveat", cursive;
+  font-size: 16px;
+  text-align: left;
+  color: rgba(166, 111, 112, 0.6);
+  cursor: pointer;
+  animation: camPulse 1.4s ease-in-out infinite alternate;
+}
+
+.env-sig-slot:disabled {
+  animation: none;
+  cursor: default;
+}
+
+.env-sig-img {
+  object-fit: contain;
+  object-position: left bottom;
+}
+
+/* ---------- Folha para assinar com o dedo ---------- */
+
+.sig-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(70, 48, 54, 0.45);
+  backdrop-filter: blur(3px);
+}
+
+.sig-sheet {
+  width: min(100%, 440px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 18px 16px;
+  border-radius: 18px;
+  background: #fffdf9;
+  box-shadow: 0 24px 50px -12px rgba(60, 35, 42, 0.5);
+}
+
+.sig-title {
+  margin: 0;
+  font-family: "Caveat", cursive;
+  font-size: 28px;
+  font-weight: 600;
+  color: #7b4f57;
+}
+
+.sig-hint {
+  margin: -6px 0 0;
+  font-size: 12px;
+  color: #8c786c;
+}
+
+.sig-canvas-wrap {
+  position: relative;
+  height: min(240px, 38vh);
+  border: 1px dashed rgba(166, 111, 112, 0.5);
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* linha onde se assina */
+.sig-canvas-wrap::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 28%;
+  border-bottom: 1.5px solid rgba(166, 111, 112, 0.35);
+  pointer-events: none;
+}
+
+.sig-canvas {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* sem isso, o dedo rolaria a tela em vez de desenhar */
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.sig-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Caveat", cursive;
+  font-size: 28px;
+  color: rgba(166, 111, 112, 0.4);
+  pointer-events: none;
+}
+
+.sig-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.sig-btn {
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+.sig-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
 }
 
 /* Selo de cera */
@@ -237,5 +408,107 @@
 @media (max-height: 640px) {
   .env-scene {
     --w: min(70vw, 280px);
+  }
+}
+
+/* ---------- Cartão assinado na página (depois que os dois assinam) ---------- */
+
+.sealed-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 14px 12px;
+  border: 1px solid rgba(217, 189, 176, 0.7);
+  border-radius: 8px;
+  background: #fffdf9;
+  box-shadow: 0 6px 16px -8px rgba(77, 56, 45, 0.35);
+  transform: rotate(-1deg);
+  animation: sealedPop 0.55s cubic-bezier(0.2, 1.25, 0.3, 1);
+}
+
+/* Enquanto a carta voa até aqui, o cartão já ocupa o lugar, mas ainda não aparece */
+.sealed-card.is-hidden {
+  visibility: hidden;
+  animation: none;
+}
+
+@keyframes sealedPop {
+  0% { transform: rotate(-1deg) scale(0.94); }
+  100% { transform: rotate(-1deg) scale(1); }
+}
+
+.sealed-title {
+  margin: 0;
+  font-family: "Caveat", cursive;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: #8c5d5e;
+}
+
+.sealed-promise {
+  margin: 0;
+  font-family: "Caveat", cursive;
+  font-size: 17px;
+  line-height: 1.2;
+  color: #a66f70;
+}
+
+.sealed-signs {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.sealed-sig {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.sealed-sig img {
+  display: block;
+  width: 100%;
+  height: 38px;
+  object-fit: contain;
+  border-bottom: 1.5px solid rgba(166, 111, 112, 0.5);
+}
+
+.sealed-sig span {
+  font-family: "Caveat", cursive;
+  font-size: 15px;
+  color: #8c5d5e;
+}
+
+.sealed-date {
+  margin-top: 2px;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: #8c786c;
+}
+
+/* Celular: cartão mais compacto, para caber na página junto com o botão e a nota */
+@media (max-width: 640px) {
+  .sealed-card {
+    gap: 4px;
+    padding: 10px 12px 9px;
+  }
+  .sealed-title {
+    font-size: 19px;
+  }
+  .sealed-promise {
+    font-size: 15px;
+  }
+  .sealed-sig img {
+    height: 32px;
+  }
+  .sealed-date {
+    font-size: 10.5px;
   }
 }

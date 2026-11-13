@@ -1,5 +1,8 @@
 import { lazy, Suspense, useState } from "react";
 import { Heart } from "lucide-react";
+import { isSealed } from "../../lib/assinatura";
+import { SealedCard } from "./SealedCard";
+import { useAssinaturas } from "./useAssinaturas";
 import "../../styles/surprise.css";
 
 // A tela do envelope só é baixada quando alguém a abre
@@ -27,6 +30,11 @@ type Props = { message: string };
 export function SurpriseBlock({ message }: Props) {
   const [open, setOpen] = useState(false);
   const [seen, setSeen] = useState(readSeen);
+  // Assinaturas: ficam aqui para a página e a tela do envelope mostrarem as mesmas
+  const { signatures, sign } = useAssinaturas();
+  const sealed = isSealed(signatures);
+  // true enquanto a carta assinada voa até a página: o cartão já ocupa o lugar, mas ainda invisível
+  const [landing, setLanding] = useState(false);
 
   return (
     <>
@@ -40,17 +48,25 @@ export function SurpriseBlock({ message }: Props) {
         <span className="surprise-card-label">{seen ? "Abrir o envelope de novo" : "Toque no selo para abrir a surpresa"}</span>
       </button>
 
-      {seen && (
-        <div className="secret-message">
-          <p>“{message}”</p>
-          <small>Te amo infinitamente! ✨</small>
-        </div>
+      {sealed ? (
+        <SealedCard message={message} signatures={signatures} hidden={landing} />
+      ) : (
+        seen && (
+          <div className="secret-message">
+            <p>“{message}”</p>
+            <small>Te amo infinitamente! ✨</small>
+          </div>
+        )
       )}
 
       {open && (
         <Suspense fallback={null}>
           <SurpriseEnvelope
             message={message}
+            signatures={signatures}
+            onSign={sign}
+            onSealStart={() => setLanding(true)}
+            onSealLanded={() => setLanding(false)}
             onOpened={() => {
               writeSeen();
               setSeen(true);

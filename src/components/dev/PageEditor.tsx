@@ -11,6 +11,7 @@ import "../../styles/editor.css";
 const LAYOUT_LABELS: Record<PageLayout, string> = {
   intro: "Introdução (texto)",
   photo: "Foto única",
+  destaque: "Foto em destaque (grande, centralizada)",
   collage: "Colagem (até 2 fotos)",
   trio: "Trio (3 fotos: 2 em cima, 1 embaixo)",
   quad: "Quarteto (4 fotos: 2 em cima, 2 embaixo)",
@@ -346,6 +347,7 @@ export function PageEditor({ pages, initialPage = 0, onGoToPage, onClose, onSave
   const renderLayoutFields = (): ReactNode => {
     switch (page.layout) {
       case "photo":
+      case "destaque":
         return (
           <>
             {renderPhotoField("Foto", page.image, { kind: "image" })}

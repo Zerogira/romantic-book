@@ -1,7 +1,7 @@
-// Ferramenta do dia: confere e zera o que ela guarda no livro (foto e carta) no site publicado.
+// Ferramenta do dia: confere e zera o que ela guarda no livro (foto, carta e assinaturas) no site publicado.
 //
 //   npm run registro:status   mostra o que existe hoje e se o site está pronto para o dia
-//   npm run registro:reset    apaga a foto e a carta (pede confirmação; use --yes para pular)
+//   npm run registro:reset    apaga a foto, a carta e as assinaturas (pede confirmação; use --yes para pular)
 //
 // Também dá para clicar em ver-registro.bat e resetar-registro.bat, na raiz do projeto.
 //
@@ -39,9 +39,14 @@ async function getJson(path) {
 
 async function status() {
   console.log(`\nSite: ${site}\n`);
-  let photo, letter, locked;
+  let photo, letter, locked, signs;
   try {
-    [photo, letter, locked] = await Promise.all([getJson("/api/registro"), getJson("/api/carta"), getJson("/api/trancada")]);
+    [photo, letter, locked, signs] = await Promise.all([
+      getJson("/api/registro"),
+      getJson("/api/carta"),
+      getJson("/api/trancada"),
+      getJson("/api/assinatura"),
+    ]);
   } catch (err) {
     console.error("Não consegui falar com o site:", err.message);
     console.error("Confira a internet e o SITE_URL no .env.local. Se o deploy ainda não terminou, espere um pouco.");
@@ -52,6 +57,8 @@ async function status() {
   console.log(
     `Carta:   ${letter ? `EXISTE (escrita em ${fmtDate(letter.writtenAt)}, ${letter.text.length} caracteres)` : "vazia"}`
   );
+  const signed = [signs?.abb && "Abb", signs?.obb && "Obb"].filter(Boolean);
+  console.log(`Assinaturas: ${signed.length ? `EXISTEM (${signed.join(" e ")})` : "vazias"}`);
   if (!locked.configured) {
     console.log("Trancada: NÃO CONFIGURADA (defina LOCKED_UNLOCK_AT e LOCKED_MESSAGE no Vercel e faça um Redeploy)");
   } else if (locked.locked) {
@@ -61,11 +68,11 @@ async function status() {
     console.log(`Trancada: JÁ ABERTA desde ${fmtDate(locked.unlockAt)}. Confira a data em LOCKED_UNLOCK_AT.`);
   }
 
-  const ready = !photo && !letter && locked.configured && locked.locked;
+  const ready = !photo && !letter && signed.length === 0 && locked.configured && locked.locked;
   console.log(
     ready
-      ? "\nTudo pronto para o dia: foto e carta vazias, e a página trancada configurada."
-      : "\nAinda NÃO está pronto para o dia (veja os itens acima). Para zerar foto e carta: npm run registro:reset"
+      ? "\nTudo pronto para o dia: foto, carta e assinaturas vazias, e a página trancada configurada."
+      : "\nAinda NÃO está pronto para o dia (veja os itens acima). Para zerar foto, carta e assinaturas: npm run registro:reset"
   );
 }
 
@@ -76,7 +83,7 @@ async function reset() {
   }
 
   if (!skipConfirm) {
-    console.log(`\nIsto vai APAGAR a foto e a carta guardadas em ${site}.`);
+    console.log(`\nIsto vai APAGAR a foto, a carta e as assinaturas guardadas em ${site}.`);
     if (/localhost|127\.0\.0\.1/.test(site)) console.log("(é o site local de teste)");
     const rl = createInterface({ input: process.stdin, output: process.stdout });
     const answer = (await rl.question('Para continuar, digite SIM e aperte Enter: ')).trim().toLowerCase();
@@ -91,6 +98,7 @@ async function reset() {
   for (const [label, path] of [
     ["Foto", "/api/registro"],
     ["Carta", "/api/carta"],
+    ["Assinaturas", "/api/assinatura"],
   ]) {
     try {
       const res = await fetch(`${site}${path}`, { method: "DELETE", headers: { "x-admin-key": key } });

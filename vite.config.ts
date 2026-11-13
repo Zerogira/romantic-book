@@ -18,6 +18,7 @@ const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
 const PAGE_LAYOUTS = [
   "intro",
   "photo",
+  "destaque",
   "collage",
   "trio",
   "quad",
@@ -246,6 +247,46 @@ function albumDevApi(env: Record<string, string>): Plugin {
         }
       });
 
+      // ---- Assinaturas da cartinha (imita /api/assinatura) ----
+      const devAssinatura = path.join(DEV_REGISTRO_DIR, "assinatura.json");
+      type DevSignature = { image: string; signedAt: string };
+      const readDevAssinaturas = (): Record<"abb" | "obb", DevSignature | null> => {
+        try {
+          const data = JSON.parse(fs.readFileSync(devAssinatura, "utf8")) as Partial<Record<"abb" | "obb", DevSignature>>;
+          return { abb: data.abb ?? null, obb: data.obb ?? null };
+        } catch {
+          return { abb: null, obb: null };
+        }
+      };
+
+      server.middlewares.use("/api/assinatura", async (req, res) => {
+        try {
+          if (req.method === "GET") return sendJson(res, 200, readDevAssinaturas());
+          if (req.method === "DELETE") {
+            fs.rmSync(devAssinatura, { force: true });
+            return sendJson(res, 200, { removed: 1 });
+          }
+          if (req.method === "POST") {
+            const body = JSON.parse((await readBody(req, 1024 * 1024)).toString("utf8")) as { who?: unknown; image?: unknown };
+            const who = body.who === "abb" || body.who === "obb" ? body.who : null;
+            const image = typeof body.image === "string" ? body.image : "";
+            if (!who || image.length > 250_000 || !/^data:image\/png;base64,iVBORw0KGgo[A-Za-z0-9+/=]+$/.test(image)) {
+              return sendJson(res, 400, { error: "invalid_signature" });
+            }
+            const all = readDevAssinaturas();
+            const existing = all[who];
+            if (existing) return sendJson(res, 409, { error: "already_exists", who, ...existing });
+            fs.mkdirSync(DEV_REGISTRO_DIR, { recursive: true });
+            const signature = { image, signedAt: new Date().toISOString() };
+            fs.writeFileSync(devAssinatura, JSON.stringify({ ...all, [who]: signature }));
+            return sendJson(res, 200, { who, ...signature });
+          }
+          sendJson(res, 405, { error: "method_not_allowed" });
+        } catch (err) {
+          sendJson(res, 500, { error: String(err) });
+        }
+      });
+
       // ---- Página trancada (imita /api/trancada; usa LOCKED_* do .env.local, se houver) ----
       server.middlewares.use("/api/trancada", (req, res) => {
         if (req.method !== "GET") return sendJson(res, 405, { error: "method_not_allowed" });
@@ -255,6 +296,17 @@ function albumDevApi(env: Record<string, string>): Plugin {
         const base = { configured: true, unlockAt: new Date(unlockAtMs).toISOString(), now: new Date(nowMs).toISOString() };
         if (nowMs < unlockAtMs) return sendJson(res, 200, { ...base, locked: true });
         sendJson(res, 200, { ...base, locked: false, message: env.LOCKED_MESSAGE || "Mensagem de teste. Defina LOCKED_MESSAGE no .env.local." });
+      });
+
+      // ---- Reset do teste: o reset.bat grava um token em .dev-registro; quando ele muda, o navegador
+      //      apaga as cópias locais (foto, carta, assinaturas, envelope). Ver src/main.tsx ----
+      server.middlewares.use("/__dev-reset", (req, res) => {
+        let token = "0";
+        try {
+          token = fs.readFileSync(path.join(DEV_REGISTRO_DIR, "reset-token"), "utf8").trim() || "0";
+        } catch {}
+        res.setHeader("Cache-Control", "no-store");
+        sendJson(res, 200, { token });
       });
 
       // ---- Páginas do álbum ----

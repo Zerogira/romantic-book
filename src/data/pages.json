@@ -52,7 +52,19 @@
       "/images/memories/Image-1--1.jpg",
       "/images/memories/Image-1.jpg"
     ],
-    "layout": "trio"
+    "layout": "trio",
+    "stickers": [
+      {
+        "id": "s-mwfbngl6",
+        "x": 79.3,
+        "y": 18,
+        "rotation": 13,
+        "scale": 0.5,
+        "type": "gif",
+        "label": "4178-bubuwinterhopyellow.gif",
+        "src": "/images/figurinhas/4178-bubuwinterhopyellow.gif"
+      }
+    ]
   },
   {
     "id": "trajetoria",
@@ -135,7 +147,19 @@
       "/images/memories/Image-1--2.jpg",
       "/images/memories/Image-2.jpg"
     ],
-    "note": "Um dos meus lugares favoritos para comer com você."
+    "note": "Um dos meus lugares favoritos para comer com você.",
+    "stickers": [
+      {
+        "id": "s-mwfbqwfe",
+        "x": 64.6,
+        "y": 24.9,
+        "rotation": 5,
+        "scale": 0.7,
+        "type": "gif",
+        "label": "giphy-o5Nc5TUTHBYxSSttNq.gif",
+        "src": "/images/figurinhas/giphy-o5Nc5TUTHBYxSSttNq.gif"
+      }
+    ]
   },
   {
     "id": "pagina-1794431017486",
@@ -149,7 +173,19 @@
       "/images/memories/Image-2--3.jpg",
       "/images/memories/Image-3--1.jpg"
     ],
-    "note": "um pequeno passo para um coelho, um grande passo para nossa familia."
+    "note": "um pequeno passo para um coelho, um grande passo para nossa familia.",
+    "stickers": [
+      {
+        "id": "s-mwfbpqoh",
+        "x": 73.7,
+        "y": 25.6,
+        "rotation": 1,
+        "scale": 1,
+        "type": "gif",
+        "label": "giphy-casal-04-kyAWhE8v2bRgthEelX.gif",
+        "src": "/images/figurinhas/giphy-casal-04-kyAWhE8v2bRgthEelX.gif"
+      }
+    ]
   },
   {
     "id": "pagina-1794487849356",
@@ -162,7 +198,19 @@
       "/images/memories/Image---2026-11-12T091608.349.jpg",
       "/images/memories/Image---2026-11-12T091609.510.jpg"
     ],
-    "note": "abb no controle"
+    "note": "abb no controle",
+    "stickers": [
+      {
+        "id": "s-mwfbtrcx",
+        "x": 76.6,
+        "y": 72.6,
+        "rotation": 11,
+        "scale": 0.7,
+        "type": "gif",
+        "label": "giphy-KVJ9pEFRPJtQN5DA4m.gif",
+        "src": "/images/figurinhas/giphy-KVJ9pEFRPJtQN5DA4m.gif"
+      }
+    ]
   },
   {
     "id": "detalhes-2",
@@ -183,6 +231,28 @@
       {
         "label": "Comida especial",
         "value": "Passamos diversos momentos passeando e comendo, desde os lanches bons aos duvidoso, as pizzas chiques aos rodízios, dito isso a comida que mais gosto de comer é a feita por você."
+      }
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfbuh4w",
+        "x": 21.5,
+        "y": 69.1,
+        "rotation": 0,
+        "scale": 0.8,
+        "type": "gif",
+        "label": "6640-bubuicecream.png",
+        "src": "/images/figurinhas/6640-bubuicecream.png"
+      },
+      {
+        "id": "s-mwfbuty0",
+        "x": 73.9,
+        "y": 69,
+        "rotation": 0,
+        "scale": 1.25,
+        "type": "gif",
+        "label": "giphy-casal-01-RuI6fGwzkSHvFjHP6T.gif",
+        "src": "/images/figurinhas/giphy-casal-01-RuI6fGwzkSHvFjHP6T.gif"
       }
     ]
   },
@@ -212,7 +282,7 @@
   {
     "id": "pagina-1794488127611",
     "chapter": "13. MAIS FOTOS",
-    "title": "CASAMENTO JOAI II",
+    "title": "CASAMENTO JOAO II",
     "text": "Finalmente dançamos juntos e bebemos de tudo, fizemos paiaçadas, demos risada, vi você tao feliz, um dia incrível para se recordar.",
     "layout": "trio",
     "images": [
@@ -232,7 +302,19 @@
       "/images/memories/Image-19-.jpg",
       "/images/memories/Image-20-.jpg"
     ],
-    "note": "Agora só falta o dindin para passearmos bastante."
+    "note": "Agora só falta o dindin para passearmos bastante.",
+    "stickers": [
+      {
+        "id": "s-mwfc171r",
+        "x": 37.1,
+        "y": 73.1,
+        "rotation": 11,
+        "scale": 1,
+        "type": "gif",
+        "label": "giphy-casal-36-rs7kuE3ul3VjEidCM2.gif",
+        "src": "/images/figurinhas/giphy-casal-36-rs7kuE3ul3VjEidCM2.gif"
+      }
+    ]
   },
   {
     "id": "pagina-1794507135408",
@@ -245,6 +327,18 @@
       "/images/memories/Image-21-.jpg",
       "/images/memories/Image-22-.jpg",
       "/images/memories/Image-23-.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfc4ply",
+        "x": 77.7,
+        "y": 69.6,
+        "rotation": 10,
+        "scale": 0.8,
+        "type": "gif",
+        "label": "giphy-HKVLTzNgUNMzIyPuA6.gif",
+        "src": "/images/figurinhas/giphy-HKVLTzNgUNMzIyPuA6.gif"
+      }
     ]
   },
   {
@@ -272,6 +366,18 @@
       "/images/memories/aleatorio.jpg",
       "/images/memories/aleatorio6.jpg",
       "/images/memories/Image-95-.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfc5zf1",
+        "x": 54.7,
+        "y": 48,
+        "rotation": 0,
+        "scale": 0.6,
+        "type": "gif",
+        "label": "6192-bubupanda-secret.gif",
+        "src": "/images/figurinhas/6192-bubupanda-secret.gif"
+      }
     ]
   },
   {
@@ -284,6 +390,28 @@
     "images": [
       "/images/memories/Image-31-.jpg",
       "/images/memories/Image-30-.jpg"
+    ],
+    "stickers": [
+      {
+        "id": "s-mwfc7mgl",
+        "x": 71,
+        "y": 72.4,
+        "rotation": 0,
+        "scale": 1,
+        "type": "gif",
+        "label": "giphy-W2bYVDZohdPoEsZi1T.gif",
+        "src": "/images/figurinhas/giphy-W2bYVDZohdPoEsZi1T.gif"
+      },
+      {
+        "id": "s-mwfcf9ez",
+        "x": 26.4,
+        "y": 72,
+        "rotation": 0,
+        "scale": 1,
+        "type": "gif",
+        "label": "giphy-casal-32-mIDEERLdupA5nE5A3p.gif",
+        "src": "/images/figurinhas/giphy-casal-32-mIDEERLdupA5nE5A3p.gif"
+      }
     ]
   },
   {
@@ -609,6 +737,15 @@
     "letterBody": "Meu amor,\n\nE quando penso no futuro, tenho uma certeza: quero continuar vivendo tudo isso com você. Ainda temos lugares para conhecer, sonhos para realizar e histórias para construir. Já temos nosso próximo destino em dezembro, o Paraguai, e espero que seja apenas mais uma de tantas aventuras juntos.\n\nNão sei quais desafios encontraremos ou quantos planos precisaremos adaptar. Mas quero estar presente em cada etapa, torcendo por você, comemorando suas conquistas e construindo nossa vida juntos. Porque, no fim das contas, não importa quantas coisas mudem ao nosso redor, quero continuar encontrando em você aquele lugar onde me sinto em casa. E espero que você também encontre isso em mim."
   },
   {
+    "id": "pagina-1794595741504",
+    "chapter": "44. ADMIRAÇÃO",
+    "title": "FOTO FAVORITA",
+    "text": "Escreva aqui o texto desta página.",
+    "layout": "photo",
+    "note": "UMA GATA ",
+    "image": "/images/memories/aleatorio2.jpg"
+  },
+  {
     "id": "registro",
     "chapter": "44. NOSSO REGISTRO",
     "title": "Um momento para guardar",
@@ -617,21 +754,21 @@
     "layout": "registro"
   },
   {
-    "id": "capitulos",
-    "chapter": "45. O FUTURO",
-    "title": "Ainda temos muitos capítulos",
-    "text": "Esse foi apenas o primeiro capítulo. Ainda quero escrever muitos outros ao seu lado.",
-    "note": "Toque no coração abaixo para ver uma mensagem especial...",
-    "layout": "closure",
-    "secretMessage": "Prometo te escolher hoje, amanhã e em todos os próximos 365 dias que virão."
-  },
-  {
     "id": "resposta",
     "chapter": "46. SUA VEZ",
     "title": "Uma carta sua para mim",
     "text": "Agora quem escreve é você. Diga o que quiser: a carta fica guardada aqui, para eu ler e para você reler toda vez que abrirmos o livro.",
     "note": "Depois de guardada, ela não pode mais ser editada.",
     "layout": "resposta"
+  },
+  {
+    "id": "capitulos",
+    "chapter": "45. O Futuro: Nossa promessa",
+    "title": "Ainda temos muitos capítulos",
+    "text": "Se chegamos até aqui significa que o site funcionou direitinho kkkk. \nAinda temos tantos momentos para viver, sonhos para realizar e páginas em branco esperando por nós. E não consigo imaginar alguém melhor para continuar escrevendo tudo isso.",
+    "note": "Toque no coração, abra nosso envelope e vamos deixar registrada uma pequena promessa para os próximos capítulos. ",
+    "layout": "closure",
+    "secretMessage": "Prometo continuar escolhendo você, hoje, amanhã e em todos os capítulos que ainda virão. Te amo infinitamente! ❤️"
   },
   {
     "id": "trancada",

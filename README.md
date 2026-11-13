@@ -55,12 +55,12 @@ Cada push na branch `main` publica sozinho uma nova versão.
 
 ### Armazenamento e variáveis de ambiente
 
-A foto e a carta que ela escreve no final ficam no **Vercel Blob** (Storage → Create → Blob, conectado ao projeto; isso cria `BLOB_READ_WRITE_TOKEN`). Em Settings → Environment Variables:
+A foto, a carta que ela escreve no final e as assinaturas da cartinha da surpresa (Abb e Obb) ficam no **Vercel Blob** (Storage → Create → Blob, conectado ao projeto; isso cria `BLOB_READ_WRITE_TOKEN`). Em Settings → Environment Variables:
 
 | Variável | Para quê |
 | --- | --- |
 | `BLOB_READ_WRITE_TOKEN` | Criada ao conectar o Blob ao projeto. |
-| `ADMIN_KEY` | Senha para apagar a foto e a carta (reset). Precisa ser igual à do `.env.local`. |
+| `ADMIN_KEY` | Senha para apagar a foto, a carta e as assinaturas (reset). Precisa ser igual à do `.env.local`. |
 | `LOCKED_UNLOCK_AT` | Quando a página trancada abre, ex.: `2027-11-15T00:00:00-03:00`. |
 | `LOCKED_MESSAGE` | Texto da mensagem trancada (só é entregue depois da data). |
 
@@ -68,11 +68,11 @@ Depois de mudar variáveis, faça um **Redeploy**.
 
 ## Antes do grande dia: conferir e zerar
 
-Depois de testar a foto e a carta no site publicado, deixe tudo vazio para ela:
+Depois de testar a foto, a carta e as assinaturas no site publicado, deixe tudo vazio para ela:
 
 ```bash
 npm run registro:status   # mostra o que existe e se está pronto para o dia
-npm run registro:reset    # apaga a foto e a carta (pede para digitar SIM)
+npm run registro:reset    # apaga a foto, a carta e as assinaturas (pede para digitar SIM)
 ```
 
 No Windows, dá para dar dois cliques em `ver-registro.bat` e `resetar-registro.bat` (na raiz do projeto).
@@ -86,7 +86,9 @@ SITE_URL=https://nossoalbum.nagatins.com
 
 ## Testes locais (npm run dev)
 
-No modo de desenvolvimento a foto, a carta e a página trancada usam um servidor de teste local (os arquivos ficam em `.dev-registro/`, fora do GitHub). Para testar a página já aberta, coloque `LOCKED_UNLOCK_AT` (uma data no passado) e `LOCKED_MESSAGE` no `.env.local`. Os botões de edição (figurinhas e páginas) só existem nesse modo e não vão para o site publicado.
+No modo de desenvolvimento a foto, a carta, as assinaturas e a página trancada usam um servidor de teste local (os arquivos ficam em `.dev-registro/`, fora do GitHub). Para testar a página já aberta, coloque `LOCKED_UNLOCK_AT` (uma data no passado) e `LOCKED_MESSAGE` no `.env.local`. Os botões de edição (figurinhas e páginas) só existem nesse modo e não vão para o site publicado.
+
+Para repetir os testes do zero (foto, carta, assinaturas e o envelope da surpresa), dê dois cliques em `reset.bat` e recarregue a página do livro (F5). Ele só mexe no teste local; para zerar o site publicado, use `resetar-registro.bat`.
 
 ## Estrutura
 
